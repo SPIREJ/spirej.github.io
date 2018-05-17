@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Objective-C,动画," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="等风来，等花开❀~" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="CAShapeLayer普通CALayer在被初始化时是需要给一个frame值的,这个frame值一般都与给定view的bounds值一致,它本身是有形状的,而且是矩形.每个CAShapeLayer对象都代表着将要被渲染到屏幕上的形状(shape),CAShapeLayer在初始化时也需要给一个frame值,但是,它本身没有形状,它的形状来源于你给定的一个path,然后它去取CGPath值,它与C">
+<meta name="keywords" content="Objective-C,动画">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CAShapeLayer &amp; UIBezierPath &amp; CABasicAnimation">
+<meta property="og:url" content="http://yoursite.com/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation/index.html">
+<meta property="og:site_name" content="等风来，等花开❀~">
+<meta property="og:description" content="CAShapeLayer普通CALayer在被初始化时是需要给一个frame值的,这个frame值一般都与给定view的bounds值一致,它本身是有形状的,而且是矩形.每个CAShapeLayer对象都代表着将要被渲染到屏幕上的形状(shape),CAShapeLayer在初始化时也需要给一个frame值,但是,它本身没有形状,它的形状来源于你给定的一个path,然后它去取CGPath值,它与C">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1276164-cd35cad81961ab23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1276164-3950101908ae9c06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1276164-ae5278976c113bef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1276164-30817b1838eee1a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-02-24T04:57:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CAShapeLayer &amp; UIBezierPath &amp; CABasicAnimation">
+<meta name="twitter:description" content="CAShapeLayer普通CALayer在被初始化时是需要给一个frame值的,这个frame值一般都与给定view的bounds值一致,它本身是有形状的,而且是矩形.每个CAShapeLayer对象都代表着将要被渲染到屏幕上的形状(shape),CAShapeLayer在初始化时也需要给一个frame值,但是,它本身没有形状,它的形状来源于你给定的一个path,然后它去取CGPath值,它与C">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1276164-cd35cad81961ab23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation/"/>
+
+
+
+
+
+  <title>CAShapeLayer & UIBezierPath & CABasicAnimation | 等风来，等花开❀~</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">等风来，等花开❀~</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="valarMou">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="等风来，等花开❀~">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CAShapeLayer & UIBezierPath & CABasicAnimation</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-16T18:22:05+08:00">
+                2017-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation/" class="leancloud_visitors" data-flag-title="CAShapeLayer & UIBezierPath & CABasicAnimation">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,982
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="CAShapeLayer"><a href="#CAShapeLayer" class="headerlink" title="CAShapeLayer"></a>CAShapeLayer</h3><p>普通<code>CALayer</code>在被初始化时是需要给一个frame值的,这个frame值一般都与给定view的bounds值一致,它本身是有形状的,而且是矩形.<br>每个<code>CAShapeLayer</code>对象都代表着将要被渲染到屏幕上的形状(shape),CAShapeLayer在初始化时也需要给一个frame值,但是,它本身没有形状,它的形状来源于你给定的一个path,然后它去取<code>CGPath</code>值,它与CALayer有着很大的区别.</p>
+<p>并且，系统仅会渲染CAShapeLayer对象的形状，其他任何非CAShapeLayer的自由属性在渲染是都会被忽略。因此从某种意义上讲CAShapeLayer仅是形状的容器。虽然由于其实CALayer的子类，可以设置<code>contents</code>、<code>backgroundColor</code>等属性，但这些属性在渲染时也会被忽略。</p>
+<h4 id="但是，CAShapeLayer提供了自身的可设置性："><a href="#但是，CAShapeLayer提供了自身的可设置性：" class="headerlink" title="- 但是，CAShapeLayer提供了自身的可设置性："></a>- 但是，CAShapeLayer提供了自身的可设置性：</h4><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>path</td>
+<td>fillColor</td>
+<td>fillRule</td>
+<td>strokeColor</td>
+</tr>
+<tr>
+<td>strokeStart</td>
+<td>strokeEnd</td>
+<td>lineWidth</td>
+<td>miterLimit</td>
+</tr>
+<tr>
+<td>lineCap</td>
+<td>lineJoin</td>
+<td>lineDashPhase</td>
+<td>lineDashPattern</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<ul>
+<li><p>path<br>  动画路径，默认为NULL，不支持隐式动画。路径可以使用任何的具体子类的动画CAPropertyAnimation。如果此属性的值是不为NULL，则path使用指定的路径，而不是创建该层的合成后的alpha通道。它使用的是非零缠绕规则和当前颜色，不透明度和模糊半径填充。 </p>
+</li>
+<li><p>fillColor<br>  填充颜色，默认为不透明的黑色，若值为nil，则没有填充效果。<br>fillColor针对于闭合的图形，对于镂空图形只需设置画笔颜色<code>strokeColor</code>即可。</p>
+</li>
+</ul>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//闭合多边形</span><br><span class="line">- (void)drawTriangle &#123;</span><br><span class="line">    UIView *view = [<span class="keyword">self.view </span>viewWithTag:<span class="number">1026</span>]<span class="comment">;</span></span><br><span class="line">    </span><br><span class="line">    CAShapeLayer *triangle = [CAShapeLayer layer]<span class="comment">;</span></span><br><span class="line">    triangle.lineWidth = <span class="number">2</span><span class="comment">;</span></span><br><span class="line">    triangle.<span class="keyword">strokeColor </span>= [UIColor clearColor].CGColor<span class="comment">;</span></span><br><span class="line">    triangle.fillColor = [UIColor redColor].CGColor<span class="comment">;</span></span><br><span class="line">    [view.layer <span class="keyword">addSublayer:triangle];</span></span><br><span class="line"><span class="keyword"> </span>   </span><br><span class="line">    UIBezierPath *<span class="keyword">bezierPath </span>= [UIBezierPath <span class="keyword">bezierPath];</span></span><br><span class="line"><span class="keyword"> </span>   [<span class="keyword">bezierPath </span><span class="keyword">moveToPoint:CGPointMake(kDeviceWidth/2.0, </span><span class="number">50</span>)]<span class="comment">;</span></span><br><span class="line">    [<span class="keyword">bezierPath </span><span class="keyword">addLineToPoint:CGPointMake(kDeviceWidth/2.0-100, </span><span class="number">150</span>)]<span class="comment">;</span></span><br><span class="line">    [<span class="keyword">bezierPath </span><span class="keyword">addLineToPoint:CGPointMake(kDeviceWidth/2.0+100, </span><span class="number">150</span>)]<span class="comment">;</span></span><br><span class="line">    [<span class="keyword">bezierPath </span><span class="keyword">addLineToPoint:CGPointMake(kDeviceWidth/2.0, </span><span class="number">50</span>)]<span class="comment">;</span></span><br><span class="line">    </span><br><span class="line">    triangle.path = <span class="keyword">bezierPath.CGPath;</span></span><br><span class="line"><span class="keyword">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://upload-images.jianshu.io/upload_images/1276164-cd35cad81961ab23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="fillColor和strokeColor两种设置的效果"></p>
+<ul>
+<li><p>fillRule<br>  填充规则，默认是kCAFillRuleNonZero。<br>  kCAFillRuleNonZero：指定非零缠绕规则。计算每个左到右的路径+1或-1为每个从右到左的道路。如果所有交叉的总和为0，则点是路径之外，如果该和为非零，改点是在路径内与包含它的区域被填充。<br>  kCAFillRuleEvenOdd：指定奇偶缠绕规则。算路径交叉的总和，如果横跨的数目是偶数，改点在路径之外。如果横跨的数目是奇数，所述点是在路径内与包含它的区域应被填充。</p>
+</li>
+<li><p>strokeColor<br>  画笔颜色。</p>
+</li>
+<li><p>strokeStart<br>  和strokeEnd组合使用，默认值为1.0，取值范围0.0~1.0</p>
+</li>
+<li><p>strokeEnd<br>  和strokeStart组合使用，默认值为1.0，取值范围为0.0~1.0</p>
+</li>
+<li><p>lineWidth<br>  线宽。注意线宽有一个特点，线宽从你设置的起点往左右两边同时伸展。</p>
+</li>
+<li><p>miterLimit<br>  斜接样式，默认值为10.0</p>
+</li>
+<li><p>lineCap<br>  线端点样式，默认值为kCALineCapButt，还有kCALineCapRound，kCALineCapSquare<br><img src="http://upload-images.jianshu.io/upload_images/1276164-3950101908ae9c06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="线端点样式示例"></p>
+</li>
+<li><p>lineJoin<br>  拐角样式，默认值为kCALineJoinMiter（尖角），还有kCALineJoinRound（圆角），kCALineJoinBevel（平角）<br><img src="http://upload-images.jianshu.io/upload_images/1276164-ae5278976c113bef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="拐角样式示例"></p>
+</li>
+<li><p>lineDashPhase<br>  冲刺阶段应用到的形状的路径，默认是0.0</p>
+</li>
+<li><p>lineDashPattern<br>设置线的样式，默认为实线，该数组为一个NSNumber数组，数组中的数值依次表示虚线中，单个线的长度，和空白的长度，如:数组@[@10,@5] 表示 有长度为10的线，长度为5的空白，不断循环后组成的虚线。<br>当然数组的长度是不做限制的，你亦可以@[@2,@3,@4,@5],可以表示为长度为2的线+长度为3的空白+长度为4的线+长度为5的空白，不断循环直到线段结束。</p>
+</li>
+<li><p>mask<br>  mask本身就是个CALayer，mask属性用作裁剪功能。<br>mask只作为形状（shape）的样子，裁剪后的形状以mask为准，其他例如颜色等属性以原图为准。<br><img src="http://upload-images.jianshu.io/upload_images/1276164-30817b1838eee1a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="两种mask裁剪示例"></p>
+</li>
+</ul>
+<h4 id="CAShapeLayer有以下几点特点："><a href="#CAShapeLayer有以下几点特点：" class="headerlink" title="- CAShapeLayer有以下几点特点："></a>- CAShapeLayer有以下几点特点：</h4><ul>
+<li>它依附于一个<code>path</code>，必须给予path，即使path不完整也会自动首尾相接。</li>
+<li><code>strokeStart</code>及<code>strokeEnd</code>代表着在这个path中所占用的百分比。</li>
+<li>CAShapeLayer动画仅限于沿着边缘的动画效果，它不能直接实现填充效果，但可以间接实现填充效果。</li>
+</ul>
+<h3 id="UIBezierPath"><a href="#UIBezierPath" class="headerlink" title="UIBezierPath"></a>UIBezierPath</h3><p>使用<code>UIBezierPath</code>可以创建基于矢量的路径，此类是<code>Core Graphics</code>框架关于路径的封装。使用此类可以定义简单的形状，如椭圆、矩形或有多个直线和曲线组成的形状等。</p>
+<p><code>UIBezierPath</code>是<code>CGPathRef</code>数据类型的封装。如果是基于矢量形状的路径，都用直线或曲线去创建。我们使用直线段去创建矩形和多边形，使用曲线去创建圆弧、圆或其他复杂的曲线形状。</p>
+<ul>
+<li>最基本的初始化方法，用它创建的对象，我们可以根据我们的需要任意定制样式，可以话任何想画的图形。</li>
+</ul>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (instance<span class="keyword">type</span>)bezierPath;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>初始化一个矩形矩形贝塞尔曲线。</li>
+</ul>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (instance<span class="keyword">type</span>)bezierPathWithRect:(<span class="type">CGRect</span>)rect;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>根据一个矩形画内切曲线，通常用来画圆或椭圆（取决于传入的rect是正方形还是长方形）。</li>
+</ul>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (instance<span class="keyword">type</span>)bezierPathWithOvalInRect:(<span class="type">CGRect</span>)rect;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>画矩形，但是这个矩形可以画圆角。第一个参数是矩形，第二个参数是圆角大小。</li>
+</ul>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (instance<span class="keyword">type</span>)bezierPathWithRoundedRect:(<span class="type">CGRect</span>)rect cornerRadius:(<span class="type">CGFloat</span>)cornerRadius;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>画矩形，矩形可以圆角，可以指定某个角或其中多个角成为圆角。参数：<code>UIRectCornerTopLeft</code>，<code>UIRectCornerTopRight</code>，<code>UIRectCornerBottomLeft</code>，<code>UIRectCornerBottomRight</code>，<code>UIRectCornerAllCorners</code></li>
+</ul>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (instance<span class="keyword">type</span>)bezierPathWithRoundedRect:(<span class="type">CGRect</span>)rect byRoundingCorners:(<span class="type">UIRectCorner</span>)corners cornerRadii:(<span class="type">CGSize</span>)cornerRadii;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>画弧线，参数说明：<ul>
+<li>center 弧线中心点的坐标</li>
+<li>radius 弧线所在圆的半径</li>
+<li>startAngle 弧线开始的角度值</li>
+<li>endAngle 弧线结束的角度值</li>
+<li>clockwise 是否顺时针画弧线</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (instance<span class="keyword">type</span>)bezierPathWithArcCenter:(<span class="type">CGPoint</span>)center radius:(<span class="type">CGFloat</span>)radius startAngle:(<span class="type">CGFloat</span>)startAngle endAngle:(<span class="type">CGFloat</span>)endAngle clockwise:(<span class="type">BOOL</span>)clockwise;</span><br></pre></td></tr></table></figure>
+<h3 id="CABasicAnimation"><a href="#CABasicAnimation" class="headerlink" title="CABasicAnimation"></a>CABasicAnimation</h3><p><code>CABasicAnimation</code>类的使用方式就是关键帧动画，所谓关键帧动画，就是将Layer的属性作为<code>keyPath</code>来注册，指定动画的起始帧和结束帧，然后自动计算和实现中间的过渡动画的一种动画方式。</p>
+<p>CABasicAnimation自己只有三个property:</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span>(<span class="keyword">nullable</span>, <span class="keyword">strong</span>) <span class="keyword">id</span> fromValue;</span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nullable</span>, <span class="keyword">strong</span>) <span class="keyword">id</span> toValue;</span><br><span class="line"><span class="keyword">@property</span>(<span class="keyword">nullable</span>, <span class="keyword">strong</span>) <span class="keyword">id</span> byValue</span><br></pre></td></tr></table></figure>
+<p>当创建一个<code>CABasicAnimation</code>的时候，需要通过 <code>-setFromValue</code>和 <code>-setToValue</code> 来指定一个开始值和结束值。当你增加基础动画到层中的时候，它开始运行。当用属性做动画完成时，例如用位置属性做动画，层就会立刻返回到它的初始位置。</p>
+<h4 id="设定动画的属性说明"><a href="#设定动画的属性说明" class="headerlink" title="- 设定动画的属性说明"></a>- 设定动画的属性说明</h4><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>duration</td>
+<td>动画时长（单位：秒）</td>
+</tr>
+<tr>
+<td>repeatCount</td>
+<td>重复次数，永久重复的话设置为HUGE_VALF</td>
+</tr>
+<tr>
+<td>beginTime</td>
+<td>指定动画开始时间。从开始指定延迟几秒执行的话，请设置为「CACurrentMediaTime() + 秒数」的形式</td>
+</tr>
+<tr>
+<td>timingFunction</td>
+<td>设定动画的速度变化</td>
+</tr>
+<tr>
+<td>autoreverses</td>
+<td>动画结束时是否执行逆动画</td>
+</tr>
+<tr>
+<td>shadowColor</td>
+<td>阴影的颜色</td>
+</tr>
+<tr>
+<td>shadowOffset</td>
+<td>阴影的偏移量</td>
+</tr>
+<tr>
+<td>shadowOpacity</td>
+<td>阴影的透明度</td>
+</tr>
+<tr>
+<td>shadowRadius</td>
+<td>阴影的圆角</td>
+</tr>
+<tr>
+<td>fromValue</td>
+<td>所改变属性的起始值</td>
+</tr>
+<tr>
+<td>toValue</td>
+<td>所改变属性的结束时的值</td>
+</tr>
+<tr>
+<td>byValue</td>
+<td>所改变属性相同起始值得改变量</td>
+<td>;</td>
+</tr>
+</tbody>
+</table>
+<h4 id="常用的animationWithKeyPath值的总结"><a href="#常用的animationWithKeyPath值的总结" class="headerlink" title="- 常用的animationWithKeyPath值的总结"></a>- 常用的animationWithKeyPath值的总结</h4><table>
+<thead>
+<tr>
+<th>值</th>
+<th>说明</th>
+<th>使用形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>transform.scale</td>
+<td>比例转化</td>
+<td>@(0.8)</td>
+</tr>
+<tr>
+<td>transform.scale.x</td>
+<td>宽的比例</td>
+<td>@(0.8)</td>
+</tr>
+<tr>
+<td>transform.scale.y</td>
+<td>高的比例</td>
+<td>@(0.8)</td>
+</tr>
+<tr>
+<td>transform.rotation.x</td>
+<td>围绕x轴旋转</td>
+<td>@(M_PI)</td>
+</tr>
+<tr>
+<td>transform.rotation.y</td>
+<td>围绕y轴旋转</td>
+<td>@(M_PI)</td>
+</tr>
+<tr>
+<td>transform.rotation.z</td>
+<td>围绕z轴旋转</td>
+<td>@(M_PI)</td>
+</tr>
+<tr>
+<td>cornerRadius</td>
+<td>圆角的设置</td>
+<td>@(20)</td>
+</tr>
+<tr>
+<td>backgroundColor</td>
+<td>背景颜色的变化</td>
+<td>[UIColor orangeColor].CGColor;</td>
+</tr>
+<tr>
+<td>bounds</td>
+<td>大小，中心不变</td>
+<td>[NSValue valueWithCGRect:CGRectMake(100,100)];</td>
+</tr>
+<tr>
+<td>position</td>
+<td>位置(中心点的改变)</td>
+<td>[NSValue valueWithCGPoint:CGPointMake(100,100)];</td>
+</tr>
+<tr>
+<td>contents</td>
+<td>内容(比如UIImageView的图片)</td>
+<td>imageAnima.toValue = (id)[UIImage imageNamed:@“toIcon”].CGImage;</td>
+</tr>
+<tr>
+<td>opacity</td>
+<td>透明度</td>
+<td>@(0.8)</td>
+</tr>
+<tr>
+<td>contentsRect.size.width</td>
+<td>横向拉伸缩放</td>
+<td>@(0.5)最好在0~1之间</td>
+</tr>
+</tbody>
+</table>
+<h5 id="捕获动画开始时和终了时的事件"><a href="#捕获动画开始时和终了时的事件" class="headerlink" title="- 捕获动画开始时和终了时的事件"></a>- 捕获动画开始时和终了时的事件</h5><p>设置委托对象，实现委托方法。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * 动画开始时 </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="selector-tag">-</span> (void)<span class="selector-tag">animationDidStart</span><span class="selector-pseudo">:(CAAnimation</span> *)<span class="selector-tag">theAnimation</span> &#123;</span><br><span class="line">	<span class="selector-tag">NSLog</span>(@<span class="string">"begin"</span>);  </span><br><span class="line">&#125;  </span><br><span class="line">   </span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * 动画结束时 </span></span><br><span class="line"><span class="comment"> */</span>  </span><br><span class="line"><span class="selector-tag">-</span> (void)<span class="selector-tag">animationDidStop</span><span class="selector-pseudo">:(CAAnimation</span> *)<span class="selector-tag">theAnimation</span> <span class="selector-tag">finished</span><span class="selector-pseudo">:(BOOL)flag</span> &#123;  </span><br><span class="line">    <span class="selector-tag">NSLog</span>(@<span class="string">"end"</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p><code>CAShapeLayer</code>和<code>UIBezierPath</code>规定一个形状，<code>CABasicAnimation</code>为其添加动画。下一篇我将写具体的实例。最后，非常感谢您阅读全文。</p>
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=347128&auto=1&height=66"></iframe>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+        
+        <div>
+
+<div style="text-align:center;color: #ccc;font-size:14px;">~~~~~~~~~~~~~本文结束<i class="fa fa-heart"></i>感谢您的阅读~~~~~~~~~~~~~</div>
+
+</div>
+
+        
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Objective-C/" rel="tag"># Objective-C</a>
+          
+            <a href="/tags/动画/" rel="tag"># 动画</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/05/一个程序员的12个新年愿望/" rel="next" title="一个程序员的12个新年愿望">
+                <i class="fa fa-chevron-left"></i> 一个程序员的12个新年愿望
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/24/使用CAShapeLayer&UIBezierPath画图/" rel="prev" title="使用CAShapeLayer & UIBezierPath画图">
+                使用CAShapeLayer & UIBezierPath画图 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="valarMou" />
+            
+              <p class="site-author-name" itemprop="name">valarMou</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CAShapeLayer"><span class="nav-number">1.</span> <span class="nav-text">CAShapeLayer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#但是，CAShapeLayer提供了自身的可设置性："><span class="nav-number">1.1.</span> <span class="nav-text">- 但是，CAShapeLayer提供了自身的可设置性：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CAShapeLayer有以下几点特点："><span class="nav-number">1.2.</span> <span class="nav-text">- CAShapeLayer有以下几点特点：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UIBezierPath"><span class="nav-number">2.</span> <span class="nav-text">UIBezierPath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CABasicAnimation"><span class="nav-number">3.</span> <span class="nav-text">CABasicAnimation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设定动画的属性说明"><span class="nav-number">3.1.</span> <span class="nav-text">- 设定动画的属性说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的animationWithKeyPath值的总结"><span class="nav-number">3.2.</span> <span class="nav-text">- 常用的animationWithKeyPath值的总结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#捕获动画开始时和终了时的事件"><span class="nav-number">3.2.1.</span> <span class="nav-text">- 捕获动画开始时和终了时的事件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">4.</span> <span class="nav-text">结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">valarMou</span>
+
+  
+</div>
+
+
+<!--
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+-->
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("NQ57m47YrUBAiPJIKI96sQk5-gzGzoHsz", "MnPaSxKcnEkivma8DHk2UGmd");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>;
+<script>
+$("body").backstretch("https://背景图.jpg");
+</script>
+
+</body>
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
