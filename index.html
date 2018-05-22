@@ -268,7 +268,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/18/iOS多线程详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/18/iOS多线程之GCD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ぱゐずだιονε゜">
@@ -287,7 +287,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/18/iOS多线程详解/" itemprop="url">iOS多线程详解</a></h1>
+                <a class="post-title-link" href="/2018/05/18/iOS多线程之GCD/" itemprop="url">iOS多线程之GCD</a></h1>
         
 
         <div class="post-meta">
@@ -322,8 +322,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS开发/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS开发</span>
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
                   </a>
                 </span>
 
@@ -339,7 +339,7 @@
 
           
           
-             <span id="/2018/05/18/iOS多线程详解/" class="leancloud_visitors" data-flag-title="iOS多线程详解">
+             <span id="/2018/05/18/iOS多线程之GCD/" class="leancloud_visitors" data-flag-title="iOS多线程之GCD">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -402,8 +402,7 @@
 
       
         
-          
-            <h2 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h2><blockquote>
+          <h2 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h2><blockquote>
 <p>本文用来介绍 iOS 多线程中 GCD的相关知识以及使用方法。通过本文，您将了解到：</p>
 <ol>
 <li>GCD 简介</li>
@@ -414,240 +413,399 @@
 <li>GCD 的其他方法（栅栏方法：dispatch_barrier_async、延时执行方法：dispatch_after、一次性代码（只执行一次）：dispatch_once、快速迭代方法：dispatch_apply、队列组：dispatch_group、信号量：dispatch_semaphore</li>
 </ol>
 </blockquote>
-<h3 id="1-GCD简介"><a href="#1-GCD简介" class="headerlink" title="1. GCD简介"></a>1. GCD简介</h3><p>什么是 GCD 呢？我们先来看看百度百科的解释简单了解下概念</p>
-<blockquote>
-<p>引自百度百科<br>Grand Central Dispatch(GCD) 是 Apple 开发的一个多核编程的较新的解决方法。它主要用于优化应用程序以支持多核处理器以及其他对称多处理系统。它是一个在线程池模式的基础上执行的并发任务。在 Mac OS X 10.6 雪豹中首次推出，也可在 iOS 4 及以上版本使用。</p>
-</blockquote>
-<p><strong>为什么要用 GCD 呢？</strong></p>
-<p>因为 GCD 有很多好处啊，具体如下：</p>
-<ul>
-<li>GCD 可用于多核的并行运算</li>
-<li>GCD 会自动利用更多的 CPU 内核（比如双核、四核）</li>
-<li>GCD 会自动管理线程的生命周期（创建线程、调度任务、销毁线程）</li>
-<li>程序员只需要告诉 GCD 想要执行什么任务，不需要编写任何线程管理代码</li>
-<li>既然 GCD 有这么多的好处，那么下面我们就来系统的学习一下 GCD 的使用方法。</li>
-</ul>
-<h3 id="2-GCD任务和队列"><a href="#2-GCD任务和队列" class="headerlink" title="2. GCD任务和队列"></a>2. GCD任务和队列</h3><p>学习 GCD 之前，先来了解 GCD 中两个核心概念：<strong>任务</strong>和<strong>队列</strong>。</p>
-<p><strong>任务</strong>：就是执行操作的意思，换句话说就是你在线程中执行的那段代码。在 GCD 中是放在 block 中的。执行任务有两种方式：<strong>同步执行（sync）</strong>和<strong>异步执行（async）</strong>。两者的主要区别是：<strong>是否等待队列的任务执行结束，以及是否具备开启新线程的能力</strong>。</p>
-<ul>
-<li><strong>同步执行（sync）</strong>：<ul>
-<li>同步添加任务到指定的队列中，在添加的任务执行结束之前，会一直等待，直到队列里面的任务完成之后再继续执行。</li>
-<li>只能在当前线程中执行任务，不具备开启新线程的能力。</li>
-</ul>
-</li>
-<li><strong>异步执行（async）</strong>：<ul>
-<li>异步添加任务到指定的队列中，它不会做任何等待，可以继续执行任务。</li>
-<li>可以在新的线程中执行任务，具备开启新线程的能力。</li>
-</ul>
-</li>
-</ul>
-<p>举个简单例子：你要打电话给小明和小白。<br>同步执行就是，你打电话给小明的时候，不能同时打给小白，等到给小明打完了，才能打给小白（等待任务执行结束）。而且只能用当前的电话（不具备开启新线程的能力）。<br>而异步执行就是，你打电话给小明的时候，不等和小明通话结束，还能直接给小白打电话，不用等着和小明通话结束再打（不用等待任务执行结束）。除了当前电话，你还可以使用其他所能使用的电话（具备开启新线程的能力）。</p>
-<blockquote>
-<p>注意：异步执行（async）虽然具有开启新线程的能力，但是并不一定开启新线程。这跟任务所指定的队列类型有关（下面会讲）。</p>
-</blockquote>
-<p><strong>队列（Dispatch Queue）</strong>：这里的队列指执行任务的等待队列，即用来存放任务的队列。队列是一种特殊的线性表，采用 FIFO（先进先出）的原则，即新任务总是被插入到队列的末尾，而读取任务的时候总是从队列的头部开始读取。每读取一个任务，则从队列中释放一个任务。队列的结构可参考下图：<br><img src="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-DispatchQueue.png" alt="image"><br>在 GCD 中有两种队列：<strong>串行队列和并发队列</strong>。两者都符合 FIFO（先进先出）的原则。两者的主要区别是：<strong>执行顺序不同，以及开启线程数不同</strong>。</p>
-<ul>
-<li><strong>串行队列（Serial Dispatch Queue）</strong>：<ul>
-<li>每次只有一个任务被执行。让任务一个接着一个地执行。一个任务执行完毕后，再执行下一个任务。</li>
-<li>只开启一个新线程（或者不开启新线程，在当前线程执行任务）。</li>
-</ul>
-</li>
-<li><strong>并发队列（Concurrent Dispatch Queue）</strong>：<ul>
-<li>可以让多个任务并发（同时）执行。</li>
-<li>可以开启多个线程，并且同时执行任务。<blockquote>
-<p>注意：并发队列的并发功能只有在异步（dispatch_async）函数下才有效。</p>
-</blockquote>
-</li>
-</ul>
-</li>
-</ul>
-<p>两者具体区别如下两图所示。<br><img src="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-SerialDispatchQueue.png" alt="image"><br><img src="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-ConcurrentDispatchQueue.png" alt="image"></p>
-<h3 id="3-GCD的使用步骤"><a href="#3-GCD的使用步骤" class="headerlink" title="3. GCD的使用步骤"></a>3. GCD的使用步骤</h3><p>GCD 的使用步骤其实很简单，只有两步。</p>
-<blockquote>
-<ol>
-<li>创建一个队列（串行队列或并发队列）</li>
-<li>将任务追加到任务的等待队列中，然后系统就会根据任务类型执行任务（同步执行或异步执行）</li>
-</ol>
-</blockquote>
-<p>下边来看看队列的创建方法/获取方法，以及任务的创建方法。</p>
-<h4 id="3-1-队列的创建方法-获取方法"><a href="#3-1-队列的创建方法-获取方法" class="headerlink" title="3.1 队列的创建方法/获取方法"></a>3.1 队列的创建方法/获取方法</h4><p>可以使用<code>dispatch_queue_create</code>来创建队列，需要传入两个参数，第一个参数表示队列的唯一标识符，用于 DEBUG，可为空，Dispatch Queue 的名称推荐使用应用程序 ID 这种逆序全程域名；第二个参数用来识别是串行队列还是并发队列。<code>DISPATCH_QUEUE_SERIAL</code> 表示串行队列，<code>DISPATCH_QUEUE_CONCURRENT</code> 表示并发队列。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 串行队列的创建方法</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_queue_create(<span class="string">"net.bujige.testQueue"</span>, DISPATCH_QUEUE_SERIAL);</span><br><span class="line"><span class="comment">// 并发队列的创建方法</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_queue_create(<span class="string">"net.bujige.testQueue"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>对于串行队列，GCD 提供了的一种特殊的串行队列：<strong>主队列（Main Dispatch Queue）</strong>。<ul>
-<li>所有放在主队列中的任务，都会放到主线程中执行。</li>
-<li>可使用<code>dispatch_get_main_queue()</code>获得主队列。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 主队列的获取方法</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_get_main_queue();</span><br></pre></td></tr></table></figure>
-<ul>
-<li>对于并发队列，GCD 默认提供了全局并发队列（Global Dispatch Queue）。<ul>
-<li>可以使用dispatch_get_global_queue来获取。需要传入两个参数。第一个参数表示队列优先级，一般用DISPATCH_QUEUE_PRIORITY_DEFAULT。第二个参数暂时没用，用0即可。</li>
-</ul>
-</li>
-</ul>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 全局并发队列的获取方法</span></span><br><span class="line"><span class="keyword">dispatch_queue_t</span> <span class="built_in">queue</span> = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="3-2-任务的创建方法"><a href="#3-2-任务的创建方法" class="headerlink" title="3.2 任务的创建方法"></a>3.2 任务的创建方法</h4><p>GCD 提供了同步执行任务的创建方法<code>dispatch_sync</code>和异步执行任务创建方法<code>dispatch_async</code>。</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 同步执行任务创建方法</span></span><br><span class="line"><span class="selector-tag">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">    <span class="comment">// 这里放同步执行任务代码</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// 异步执行任务创建方法</span></span><br><span class="line"><span class="selector-tag">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">    <span class="comment">// 这里放异步执行任务代码</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>虽然使用 GCD 只需两步，但是既然我们有两种队列（串行队列/并发队列），两种任务执行方式（同步执行/异步执行），那么我们就有了四种不同的组合方式。这四种不同的组合方式是：</p>
-<blockquote>
-<ol>
-<li>同步执行 + 并发队列</li>
-<li>异步执行 + 并发队列</li>
-<li>同步执行 + 串行队列</li>
-<li>异步执行 + 串行队列</li>
-</ol>
-</blockquote>
-<p>实际上，刚才还说了两种特殊队列：<strong>全局并发队列、主队列</strong>。全局并发队列可以作为普通并发队列来使用。但是主队列因为有点特殊，所以我们就又多了两种组合方式。这样就有六种不同的组合方式了。</p>
-<blockquote>
-<ol>
-<li>同步执行 + 主队列</li>
-<li>异步执行 + 主队列</li>
-</ol>
-</blockquote>
-<p>那么这几种不同组合方式各有什么区别呢，这里为了方便，先上结果，再来讲解。</p>
-<table>
-<thead>
-<tr>
-<th>区别</th>
-<th>并发队列</th>
-<th>串行队列</th>
-<th>主队列</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>同步(sync)</td>
-<td>没有开启新线程，串行执行任务</td>
-<td>没有开启新线程，串行执行任务</td>
-<td>主线程调用：死锁卡住不执行 其他线程调用：没有开启新线程，串行执行任务</td>
-</tr>
-<tr>
-<td>异步(async)</td>
-<td>有开启新线程，并发执行任务</td>
-<td>有开启新线程(1条)，串行执行任务</td>
-<td>没有开启新线程，串行执行任务</td>
-</tr>
-</tbody>
-</table>
-<h3 id="4-GCD的基本使用"><a href="#4-GCD的基本使用" class="headerlink" title="4. GCD的基本使用"></a>4. GCD的基本使用</h3><p>先来讲讲并发队列的两种执行方式。</p>
-<h4 id="4-1-同步执行-并发队列"><a href="#4-1-同步执行-并发队列" class="headerlink" title="4.1 同步执行 + 并发队列"></a>4.1 同步执行 + 并发队列</h4><ul>
-<li>在当前线程中执行任务，不会开启新线程，执行完一个任务，再执行下一个任务</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 同步执行 + 并发队列</span></span><br><span class="line"><span class="comment"> * 特点：在当前线程中执行任务，不会开启新线程，执行完一个任务，再执行下一个任务。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)syncConcurrent &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"currentThread---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);  <span class="comment">// 打印当前线程</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"syncConcurrent---begin"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"net.bujige.testQueue"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务2</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务3</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"3---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"syncConcurrent---end"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">34</span>:<span class="number">55.095932</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19892</span>:<span class="number">4996930</span>] currentThread—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">34</span>:<span class="number">55.096086</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19892</span>:<span class="number">4996930</span>] syncConcurrent—begin</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">34</span>:<span class="number">57.097589</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19892</span>:<span class="number">4996930</span>] <span class="number">1</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">34:59.099100</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19892</span>:<span class="number">4996930</span>] <span class="number">1</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">35</span>:<span class="number">01.099843</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19892</span>:<span class="number">4996930</span>] <span class="number">2</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">35:03.101171</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19892</span>:<span class="number">4996930</span>] <span class="number">2</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">35:05.101750</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19892</span>:<span class="number">4996930</span>] <span class="number">3</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">35:07.102414</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19892</span>:<span class="number">4996930</span>] <span class="number">3</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">35:07.102575</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19892</span>:<span class="number">4996930</span>] syncConcurrent—end</span><br></pre></td></tr></table></figure>
-<p>从同步执行 + 并发队列中可看到：</p>
-<ul>
-<li>所有任务都是在当前线程（主线程）中执行的，没有开启新的线程（同步执行不具备开启新线程的能力）。</li>
-<li>所有任务都在打印的syncConcurrent—begin和syncConcurrent—end之间执行的（同步任务需要等待队列的任务执行结束）。</li>
-<li>任务按顺序执行的。按顺序执行的原因：虽然并发队列可以开启多个线程，并且同时执行多个任务。但是因为本身不能创建新线程，只有当前线程这一个线程（同步任务不具备开启新线程的能力），所以也就不存在并发。而且当前线程只有等待当前队列中正在执行的任务执行完毕之后，才能继续接着执行下面的操作（同步任务需要等待队列的任务执行结束）。所以任务只能一个接一个按顺序执行，不能同时被执行。</li>
-</ul>
-<h4 id="4-2-异步执行-并发队列"><a href="#4-2-异步执行-并发队列" class="headerlink" title="4.2 异步执行 + 并发队列"></a>4.2 异步执行 + 并发队列</h4><ul>
-<li>可以开启多个线程，任务交替（同时）执行</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 异步执行 + 并发队列</span></span><br><span class="line"><span class="comment"> * 特点：可以开启多个线程，任务交替（同时）执行。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)asyncConcurrent &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"currentThread---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);  <span class="comment">// 打印当前线程</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"asyncConcurrent---begin"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"net.bujige.testQueue"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务2</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务3</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"3---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"asyncConcurrent---end"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">36</span>:<span class="number">41.769269</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19929</span>:<span class="number">5005237</span>] currentThread—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">36</span>:<span class="number">41.769496</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19929</span>:<span class="number">5005237</span>] asyncConcurrent—begin</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">36</span>:<span class="number">41.769725</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19929</span>:<span class="number">5005237</span>] asyncConcurrent—end</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">36</span>:<span class="number">43.774442</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19929</span>:<span class="number">5005566</span>] <span class="number">2</span>—&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">36</span>:<span class="number">43.774440</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19929</span>:<span class="number">5005567</span>] <span class="number">3</span>—&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">36</span>:<span class="number">43.774440</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19929</span>:<span class="number">5005565</span>] <span class="number">1</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">36</span>:<span class="number">45.779286</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19929</span>:<span class="number">5005567</span>] <span class="number">3</span>—&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">36</span>:<span class="number">45.779302</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19929</span>:<span class="number">5005565</span>] <span class="number">1</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">36</span>:<span class="number">45.779286</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19929</span>:<span class="number">5005566</span>] <span class="number">2</span>—&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br></pre></td></tr></table></figure>
-<p>在异步执行 + 并发队列中可以看出：</p>
-<ul>
-<li>除了当前线程（主线程），系统又开启了3个线程，并且任务是交替/同时执行的。（异步执行具备开启新线程的能力。且并发队列可开启多个线程，同时执行多个任务）。</li>
-<li>所有任务是在打印的syncConcurrent—begin和syncConcurrent—end之后才执行的。说明当前线程没有等待，而是直接开启了新线程，在新线程中执行任务（异步执行不做等待，可以继续执行任务）。</li>
-</ul>
-<p><strong>接下来再来讲讲串行队列的两种执行方式</strong>。</p>
-<h5 id="4-3-同步执行-串行队列"><a href="#4-3-同步执行-串行队列" class="headerlink" title="4.3 同步执行 + 串行队列"></a>4.3 同步执行 + 串行队列</h5><ul>
-<li>不会开启新线程，在当前线程执行任务。任务是串行的，执行完一个任务，再执行下一个任务。</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 同步执行 + 串行队列</span></span><br><span class="line"><span class="comment"> * 特点：不会开启新线程，在当前线程执行任务。任务是串行的，执行完一个任务，再执行下一个任务。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)syncSerial &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"currentThread---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);  <span class="comment">// 打印当前线程</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"syncSerial---begin"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"net.bujige.testQueue"</span>, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务2</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务3</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"3---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"syncSerial---end"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输出结果为：</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">37.876811</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19975</span>:<span class="number">5017162</span>] currentThread—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">37.876998</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19975</span>:<span class="number">5017162</span>] syncSerial—begin</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">39.878316</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19975</span>:<span class="number">5017162</span>] <span class="number">1</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">41.879829</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19975</span>:<span class="number">5017162</span>] <span class="number">1</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">43.880660</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19975</span>:<span class="number">5017162</span>] <span class="number">2</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">45.881265</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19975</span>:<span class="number">5017162</span>] <span class="number">2</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">47.882257</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19975</span>:<span class="number">5017162</span>] <span class="number">3</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">39</span>:<span class="number">49.883008</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19975</span>:<span class="number">5017162</span>] <span class="number">3</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">39:49.883253</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">19975</span>:<span class="number">5017162</span>] syncSerial—end</span><br></pre></td></tr></table></figure>
-<p>在同步执行 + 串行队列可以看到：</p>
-<ul>
-<li>所有任务都是在当前线程（主线程）中执行的，并没有开启新的线程（同步执行不具备开启新线程的能力）。</li>
-<li>所有任务都在打印的syncConcurrent—begin和syncConcurrent—end之间执行（同步任务需要等待队列的任务执行结束）。</li>
-<li>任务是按顺序执行的（串行队列每次只有一个任务被执行，任务一个接一个按顺序执行）。</li>
-</ul>
-<h4 id="4-4-异步执行-串行队列"><a href="#4-4-异步执行-串行队列" class="headerlink" title="4.4 异步执行 + 串行队列"></a>4.4 异步执行 + 串行队列</h4><ul>
-<li>会开启新线程，但是因为任务是串行的，执行完一个任务，再执行下一个任务</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 异步执行 + 串行队列</span></span><br><span class="line"><span class="comment"> * 特点：会开启新线程，但是因为任务是串行的，执行完一个任务，再执行下一个任务。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)asyncSerial &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"currentThread---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);  <span class="comment">// 打印当前线程</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"asyncSerial---begin"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"net.bujige.testQueue"</span>, DISPATCH_QUEUE_SERIAL);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务2</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务3</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"3---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"asyncSerial---end"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输出结果为：</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">41</span>:<span class="number">17.029999</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20008</span>:<span class="number">5024757</span>] currentThread—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">41:17.030212</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20008</span>:<span class="number">5024757</span>] asyncSerial—begin</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">41</span>:<span class="number">17.030364</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20008</span>:<span class="number">5024757</span>] asyncSerial—end</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">41</span>:<span class="number">19.035379</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20008</span>:<span class="number">5024950</span>] <span class="number">1</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">41:21.037140</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20008</span>:<span class="number">5024950</span>] <span class="number">1</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">41:23.042220</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20008</span>:<span class="number">5024950</span>] <span class="number">2</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">41</span>:<span class="number">25.042971</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20008</span>:<span class="number">5024950</span>] <span class="number">2</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">41</span>:<span class="number">27.047690</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20008</span>:<span class="number">5024950</span>] <span class="number">3</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">41</span>:<span class="number">29.052327</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20008</span>:<span class="number">5024950</span>] <span class="number">3</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br></pre></td></tr></table></figure>
-<p>在异步执行 + 串行队列可以看到：</p>
-<ul>
-<li>开启了一条新线程（异步执行具备开启新线程的能力，串行队列只开启一个线程）。</li>
-<li>所有任务是在打印的syncConcurrent—begin和syncConcurrent—end之后才开始执行的（异步执行不会做任何等待，可以继续执行任务）。</li>
-<li>任务是按顺序执行的（串行队列每次只有一个任务被执行，任务一个接一个按顺序执行）。</li>
-</ul>
-<p>下边讲讲刚才我们提到过的特殊队列：<strong>主队列</strong>。</p>
-<ul>
-<li>主队列：GCD自带的一种特殊的串行队列<ul>
-<li>所有放在主队列中的任务，都会放到主线程中执行</li>
-<li>可使用dispatch_get_main_queue()获得主队列</li>
-</ul>
-</li>
-</ul>
-<p><strong>我们再来看看主队列的两种组合方式。</strong></p>
-<h4 id="4-5-同步执行-主队列"><a href="#4-5-同步执行-主队列" class="headerlink" title="4.5 同步执行 + 主队列"></a>4.5 同步执行 + 主队列</h4><ul>
-<li>同步执行 + 主队列在不同线程中调用结果也是不一样，在主线程中调用会出现死锁，而在其他线程中则不会。</li>
-</ul>
-<h5 id="4-5-1-在主线程中调用同步执行-主队列"><a href="#4-5-1-在主线程中调用同步执行-主队列" class="headerlink" title="4.5.1 在主线程中调用同步执行 + 主队列"></a>4.5.1 在主线程中调用同步执行 + 主队列</h5><ul>
-<li>互相等待卡住不可行</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 同步执行 + 主队列</span></span><br><span class="line"><span class="comment"> * 特点(主线程调用)：互等卡主不执行。</span></span><br><span class="line"><span class="comment"> * 特点(其他线程调用)：不会开启新线程，执行完一个任务，再执行下一个任务。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)syncMain &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"currentThread---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);  <span class="comment">// 打印当前线程</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"syncMain---begin"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_get_main_queue();</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务2</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_sync</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务3</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"3---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"syncMain---end"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输出结果</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">42</span>:<span class="number">36.842892</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20041</span>:<span class="number">5030982</span>] currentThread—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">42</span>:<span class="number">36.843050</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20041</span>:<span class="number">5030982</span>] syncMain—begin</span><br><span class="line">(lldb)</span><br></pre></td></tr></table></figure>
-<p>在<code>同步执行 + 主队列</code>可以惊奇的发现：</p>
-<ul>
-<li>在主线程中使用<code>同步执行 + 主队列</code>，追加到主线程的任务1、任务2、任务3都不再执行了，而且<code>syncMain---end</code>也没有打印，在XCode 9上还会报崩溃。这是为什么呢？</li>
-</ul>
-<p>这是因为我们在主线程中执行<code>syncMain</code>方法，相当于把<code>syncMain</code>任务放到了主线程的队列中。而<code>同步执行</code>会等待当前队列中的任务执行完毕，才会接着执行。那么当我们把<code>任务1</code>追加到主队列中，<code>任务1</code>就在等待主线程处理完<code>syncMain</code>任务。而<code>syncMain</code>任务需要等待<code>任务1</code>执行完毕，才能接着执行。</p>
-<p>那么，现在的情况就是<code>syncMain</code>任务和<code>任务1</code>都在等对方执行完毕。这样大家互相等待，所以就卡住了，所以我们的任务执行不了，而且<code>syncMain---end</code>也没有打印。</p>
-<p><strong>要是如果不在主线程中调用，而在其他线程中调用会如何呢？</strong></p>
-<h5 id="4-5-2-在其他线程中调用同步执行-主队列"><a href="#4-5-2-在其他线程中调用同步执行-主队列" class="headerlink" title="4.5.2 在其他线程中调用同步执行 + 主队列"></a>4.5.2 在其他线程中调用同步执行 + 主队列</h5><ul>
-<li>不会开启新线程，执行完一个任务，再执行下一个任务</li>
-</ul>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用 NSThread 的 detachNewThreadSelector 方法会创建线程，并自动启动线程执行 selector 任务</span></span><br><span class="line">[NSThread <span class="string">detachNewThreadSelector:</span><span class="meta">@selector</span>(syncMain) <span class="string">toTarget:</span>self <span class="string">withObject:</span>nil];</span><br></pre></td></tr></table></figure>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">19.377321</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20083</span>:<span class="number">5040347</span>] currentThread—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">19.377494</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20083</span>:<span class="number">5040347</span>] syncMain—begin</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">21.384716</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20083</span>:<span class="number">5040132</span>] <span class="number">1</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">23.386091</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20083</span>:<span class="number">5040132</span>] <span class="number">1</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">25.387687</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20083</span>:<span class="number">5040132</span>] <span class="number">2</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">27.388648</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20083</span>:<span class="number">5040132</span>] <span class="number">2</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">29.390459</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20083</span>:<span class="number">5040132</span>] <span class="number">3</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">31.391965</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20083</span>:<span class="number">5040132</span>] <span class="number">3</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">44</span>:<span class="number">31.392513</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20083</span>:<span class="number">5040347</span>] syncMain—end</span><br></pre></td></tr></table></figure>
-<p>在其他线程中使用<code>同步执行 + 主队列</code>可看到：</p>
-<ul>
-<li>所有任务都是在主线程（非当前线程）中执行的，没有开启新的线程（所有放在主队列中的任务，都会放到主线程中执行）。</li>
-<li>所有任务都在打印的syncConcurrent—begin和syncConcurrent—end之间执行（同步任务需要等待队列的任务执行结束）。</li>
-<li>任务是按顺序执行的（主队列是串行队列，每次只有一个任务被执行，任务一个接一个按顺序执行）。</li>
-</ul>
-<p><strong>为什么现在就不会卡住了呢？</strong></p>
-<p>因为<code>syncMain</code> 任务放到了其他线程里，而<code>任务1</code>、<code>任务2</code>、<code>任务3</code>都在追加到主队列中，这三个任务都会在主线程中执行。<code>syncMain</code>任务在其他线程中执行到追加<code>任务1</code>到主队列中，因为主队列现在没有正在执行的任务，所以，会直接执行主队列的<code>任务1</code>，等<code>任务1</code>执行完毕，再接着执行<code>任务2</code>、<code>任务3</code>。所以这里不会卡住线程。</p>
-<h3 id="4-6-异步执行-主队列"><a href="#4-6-异步执行-主队列" class="headerlink" title="4.6 异步执行 + 主队列"></a>4.6 异步执行 + 主队列</h3><ul>
-<li>只在主线程中执行任务，执行完一个任务，再执行下一个任务。</li>
-</ul>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 异步执行 + 主队列</span></span><br><span class="line"><span class="comment"> * 特点：只在主线程中执行任务，执行完一个任务，再执行下一个任务</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)asyncMain &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"currentThread---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);  <span class="comment">// 打印当前线程</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"asyncMain---begin"</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_get_main_queue();</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务2</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务3</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"3---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"asyncMain---end"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">45</span>:<span class="number">49.981505</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20111</span>:<span class="number">5046708</span>] currentThread—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">45</span>:<span class="number">49.981935</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20111</span>:<span class="number">5046708</span>] asyncMain—begin</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">45</span>:<span class="number">49.982352</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20111</span>:<span class="number">5046708</span>] asyncMain—end</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">45</span>:<span class="number">51.991096</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20111</span>:<span class="number">5046708</span>] <span class="number">1</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">45</span>:<span class="number">53.991959</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20111</span>:<span class="number">5046708</span>] <span class="number">1</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">45</span>:<span class="number">55.992937</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20111</span>:<span class="number">5046708</span>] <span class="number">2</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">45</span>:<span class="number">57.993649</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20111</span>:<span class="number">5046708</span>] <span class="number">2</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">45</span>:<span class="number">59.994928</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20111</span>:<span class="number">5046708</span>] <span class="number">3</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">46</span>:<span class="number">01.995589</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20111</span>:<span class="number">5046708</span>] <span class="number">3</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br></pre></td></tr></table></figure>
-<p>在<code>异步执行 + 主队列</code>可以看到：</p>
-<ul>
-<li>所有任务都是在当前线程（主线程）中执行的，并没有开启新的线程（虽然异步执行具备开启线程的能力，但因为是主队列，所以所有任务都在主线程中）。</li>
-<li>所有任务是在打印的syncConcurrent—begin和syncConcurrent—end之后才开始执行的（异步执行不会做任何等待，可以继续执行任务）。</li>
-<li>任务是按顺序执行的（因为主队列是串行队列，每次只有一个任务被执行，任务一个接一个按顺序执行）。<br>弄懂了难理解、绕来绕去的<strong>队列+任务</strong>之后，我们来学习一个简单的东西：<strong>5. GCD 线程间的通信。</strong></li>
-</ul>
-<h3 id="5-GCD-线程间的通信"><a href="#5-GCD-线程间的通信" class="headerlink" title="5. GCD 线程间的通信"></a>5. GCD 线程间的通信</h3><p>在iOS开发过程中，我们一般在主线程里边进行UI刷新，例如：点击、滚动、拖拽等事件。我们通常把一些耗时的操作放在其他线程，比如说图片下载、文件上传等耗时操作。而当我们有时候在其他线程完成了耗时操作时，需要回到主线程，那么就用到了线程之间的通讯。</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 线程间通信</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)communication &#123;</span><br><span class="line">    <span class="comment">// 获取全局并发队列</span></span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, <span class="number">0</span>); </span><br><span class="line">    <span class="comment">// 获取主队列</span></span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> mainQueue = dispatch_get_main_queue(); </span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 异步追加任务</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 回到主线程</span></span><br><span class="line">        <span class="built_in">dispatch_async</span>(mainQueue, ^&#123;</span><br><span class="line">            <span class="comment">// 追加在主线程中执行的任务</span></span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">47</span>:<span class="number">03.462394</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20154</span>:<span class="number">5053282</span>] <span class="number">1</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">47</span>:<span class="number">05.465912</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20154</span>:<span class="number">5053282</span>] <span class="number">1</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">47</span>:<span class="number">07.466657</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20154</span>:<span class="number">5052953</span>] <span class="number">2</span>—&#123;number = <span class="number">1</span>, name = main&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>可以看到在其他线程中先执行任务，执行完了之后回到主线程执行主线程的相应操作。</li>
-</ul>
-<h3 id="6-GCD的其他方法"><a href="#6-GCD的其他方法" class="headerlink" title="6. GCD的其他方法"></a>6. GCD的其他方法</h3><h4 id="6-1-GCD-栅栏方法：dispatch-barrier-async"><a href="#6-1-GCD-栅栏方法：dispatch-barrier-async" class="headerlink" title="6.1 GCD 栅栏方法：dispatch_barrier_async"></a>6.1 GCD 栅栏方法：dispatch_barrier_async</h4><ul>
-<li>我们有时需要异步执行两组操作，而且第一组操作执行完之后，才能开始执行第二组操作。这样我们就需要一个相当于<code>栅栏</code>一样的一个方法将两组异步执行的操作组给分割起来，当然这里的操作组里可以包含一个或多个任务。这就需要用到<code>dispatch_barrier_async</code>方法在两个操作组间形成栅栏。</li>
-</ul>
-<p><code>dispatch_barrier_async</code>函数会等待前边追加到并发队列中的任务全部执行完毕之后，再将指定的任务追加到该异步队列中。然后在<code>dispatch_barrier_async</code>函数追加的任务执行完毕之后，异步队列才恢复为一般动作，接着追加任务到该异步队列并开始执行。具体如下图所示：</p>
-<p><img src="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-barrier.png" alt="image"></p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 栅栏方法 dispatch_barrier_async</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)barrier &#123;</span><br><span class="line">    <span class="built_in">dispatch_queue_t</span> queue = dispatch_queue_create(<span class="string">"net.bujige.testQueue"</span>, DISPATCH_QUEUE_CONCURRENT);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务1</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务2</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    dispatch_barrier_async(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务 barrier</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"barrier---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);<span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务3</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"3---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="built_in">dispatch_async</span>(queue, ^&#123;</span><br><span class="line">        <span class="comment">// 追加任务4</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; ++i) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];              <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"4---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);      <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">18.297745</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20188</span>:<span class="number">5059274</span>] <span class="number">1</span>—&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">18.297745</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20188</span>:<span class="number">5059273</span>] <span class="number">2</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">48:20.301139</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20188</span>:<span class="number">5059274</span>] <span class="number">1</span>—&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">48:20.301139</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20188</span>:<span class="number">5059273</span>] <span class="number">2</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">22.306290</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20188</span>:<span class="number">5059274</span>] barrier—&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">24.311655</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20188</span>:<span class="number">5059274</span>] barrier—&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">26.316943</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20188</span>:<span class="number">5059273</span>] <span class="number">4</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">26.316956</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20188</span>:<span class="number">5059274</span>] <span class="number">3</span>—&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">28.320660</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20188</span>:<span class="number">5059273</span>] <span class="number">4</span>—&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">48</span>:<span class="number">28.320649</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20188</span>:<span class="number">5059274</span>] <span class="number">3</span>—&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br></pre></td></tr></table></figure>
-<p>在<code>dispatch_barrier_async</code>执行结果中可以看出：</p>
-<ul>
-<li>在执行完栅栏前面的操作之后，才执行栅栏操作，最后再执行栅栏后边的操作。</li>
-</ul>
-<h4 id="6-2-GCD-延时执行方法：dispatch-after"><a href="#6-2-GCD-延时执行方法：dispatch-after" class="headerlink" title="6.2 GCD 延时执行方法：dispatch_after"></a>6.2 GCD 延时执行方法：dispatch_after</h4><p>我们经常会遇到这样的需求：在指定时间（例如3秒）之后执行某个任务。可以用 GCD 的<code>dispatch_after</code>函数来实现。</p>
-<p><strong>需要注意的是</strong>:<code>dispatch_after</code>函数并不是在指定时间之后才开始执行处理，而是在指定时间之后将任务追加到主队列中。严格来说，这个时间并不是绝对准确的，但想要大致延迟执行任务，<code>dispatch_after</code>函数是很有效的。</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 延时执行方法 dispatch_after</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)after &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"currentThread---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);  <span class="comment">// 打印当前线程</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"asyncMain---begin"</span>);</span><br><span class="line">    </span><br><span class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">2.0</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="comment">// 2.0秒后异步追加任务代码到主队列，并开始执行</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"after---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);  <span class="comment">// 打印当前线程</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">53</span>:<span class="number">08.713784</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20282</span>:<span class="number">5080295</span>] currentThread—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">53</span>:<span class="number">08.713962</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20282</span>:<span class="number">5080295</span>] asyncMain—begin</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">53</span>:<span class="number">10.714283</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20282</span>:<span class="number">5080295</span>] after—&#123;number = <span class="number">1</span>, name = main&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看出：在打印 <code>asyncMain---begin</code> 之后大约 <strong>2.0</strong> 秒的时间，打印了 <code>after---&lt;NSThread: 0x60000006ee00&gt;{number = 1, name = main}</code></p>
-<p>感谢：<br>(<a href="https://bujige.net/blog/iOS-Complete-learning-GCD.html" target="_blank" rel="noopener">https://bujige.net/blog/iOS-Complete-learning-GCD.html</a>)</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/18/iOS多线程之GCD/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+        
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/15/iOS多线程之pthread、NSThread/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ぱゐずだιονε゜">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="等风来，等花开❀~">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/15/iOS多线程之pthread、NSThread/" itemprop="url">iOS多线程之pthread、NSThread</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T22:32:42+08:00">
+                2018-05-15
+              </time>
+            
+
+            
+
+            
+          </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/15/iOS多线程之pthread、NSThread/" class="leancloud_visitors" data-flag-title="iOS多线程之pthread、NSThread">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,564 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  15 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>本文用来介绍 iOS 多线程中，pthread、NSThread 的使用方法及实现。<br>第一部分：pthread 的使用、其他相关方法。<br>第二部分：NSThread 的使用、线程相关用法、线程状态控制方法、线程之间的通信、线程安全和线程同步，以及线程的状态转换相关知识。</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/15/iOS多线程之pthread、NSThread/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+        
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/iOS多线程之RunLoop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ぱゐずだιονε゜">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="等风来，等花开❀~">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/10/iOS多线程之RunLoop/" itemprop="url">iOS多线程之RunLoop</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T22:32:42+08:00">
+                2018-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/10/iOS多线程之RunLoop/" class="leancloud_visitors" data-flag-title="iOS多线程之RunLoop">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4,401 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  17 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="1-RunLoop简介"><a href="#1-RunLoop简介" class="headerlink" title="1. RunLoop简介"></a>1. RunLoop简介</h2>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/10/iOS多线程之RunLoop/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -752,8 +910,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔~</span>
+                  <a href="/categories/诗意生活/" itemprop="url" rel="index">
+                    <span itemprop="name">诗意生活</span>
                   </a>
                 </span>
 
@@ -944,8 +1102,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/swift/" itemprop="url" rel="index">
-                    <span itemprop="name">swift</span>
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
                   </a>
                 </span>
 
@@ -1138,8 +1296,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/swift/" itemprop="url" rel="index">
-                    <span itemprop="name">swift</span>
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
                   </a>
                 </span>
 
@@ -1278,198 +1436,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/04/06/归期不遇2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ぱゐずだιονε゜">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="等风来，等花开❀~">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/06/归期不遇2/" itemprop="url">归期不遇2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-06T17:06:20+08:00">
-                2017-04-06
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔~</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/04/06/归期不遇2/" class="leancloud_visitors" data-flag-title="归期不遇2">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  10 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1 min
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>只想先把这首歌放在这~<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/06/归期不遇2/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-        
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/20/归期不遇/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1524,8 +1490,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔~</span>
+                  <a href="/categories/诗意生活/" itemprop="url" rel="index">
+                    <span itemprop="name">诗意生活</span>
                   </a>
                 </span>
 
@@ -1604,14 +1570,17 @@
 
       
         
-          <h4 id="临时出发"><a href="#临时出发" class="headerlink" title="临时出发"></a>临时出发</h4><p>此刻我坐在从北京开往西安的火车上，由于临时出发没买到卧铺只有硬座将就一下，说“将就”可能对我来说还太牵强了，想起以前站过的火车，想起当年逃票的光辉历史，想起为了省点钱不买卧铺的日子，想起去武汉站13小时的信念……此刻，我觉得人活着还是不能缺了信念的。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/03/20/归期不遇/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <a id="more"></a>
+<h4 id="临时出发"><a href="#临时出发" class="headerlink" title="临时出发"></a>临时出发</h4><p>此刻我坐在从北京开往西安的火车上，由于临时出发没买到卧铺只有硬座将就一下，说“将就”可能对我来说还太牵强了，想起以前站过的火车，想起当年逃票的光辉历史，想起为了省点钱不买卧铺的日子，想起去武汉站13小时的信念……此刻，我觉得人活着还是不能缺了信念的。</p>
+<h4 id="信念是什么？"><a href="#信念是什么？" class="headerlink" title="信念是什么？"></a>信念是什么？</h4><p>但是，关于信念到底是一种什么东西我又摸不清的，可能在我这就是一个你真心爱的人，一个你觉得舒适的城，一份你不讨厌的工作，一个可以实现的目标或者是你应尽的义务，比如作为子女应该像父母无私无怨养育你一样亲近父母，善待朋友，真诚待人不虚伪不造作。一个人真正有信念的时候，那时候他是强大的，拥有强大的内心力量和精神力量。</p>
+<h4 id="向左向右？"><a href="#向左向右？" class="headerlink" title="向左向右？"></a>向左向右？</h4><p>有朋友面临毕业再为工作犯愁，大多数人都是这么走过来的，我觉得毕业的时候分几类人，其他的外界条件就都不考虑了，一类人完全明确自己想要做什么不担心做不好，一类人想做这个也想做那个但是担心自己做不做得好，还有一类人不知道自己想要做什么也觉得自己做不好。很不幸当年我就是属于最后一类，后来我发现大多数人毕业的时候都有焦虑症，我把这统称为“毕业综合症”。这绝对不是病，我们要离开一个熟悉的环境熟悉的人去探知不确定的未来，有焦虑有排斥有不舍，这种不舍在将来的几年内会更浓烈呢。总之，再没开始探险之前，未知的前方总是充满传奇的色彩和迷样的精彩，所以在向左还是向右的十字路口，不要害怕迈出哪一步是错误的还是正确的，因为不管是向左还是向右，最终都会在一个路口会和，迎来你想要的生活。</p>
+<h4 id="曾很潇洒"><a href="#曾很潇洒" class="headerlink" title="曾很潇洒"></a>曾很潇洒</h4><p>和朋友聊到毕业时的情景，又想到去年另一位朋友告诉我 当年我说“那不是我想要的生活”，然后毅然决然就北漂了很帅气，觉得我是个很有主见的人。时隔两年听到别人这么赞美我很是高兴，没想到我也曾如此潇洒过。不可否认，虽然是面相长得年轻了点，但小时候的经历，二年级就自己报名以及一路走来坎坎坷坷的我向来是知道如何生存，如何独立的。说实话我并不是一个有很多正能力的人，也偶尔（可能是经常）负能量爆棚，所以我才一直积极乐观的生活，也害怕给身边的人带去负能量，我一直相信着自己，经历那么多不是被打败的，而是真正的强大起来。我相信人生没有如果只有后果和结果，我从不后悔自己做的每个决定和每件事。</p>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p>现在不止春节的时候父母才会讲我的终生大事了，已经成为每次通话的不可少话题了，好像无论聊什么都能聊到这的样子，每次大概是这样“都二十六七的人了，还不打算说媳妇儿…”。讲真，一个人的生活我也过了好多年了，谁不想找一个爱的人在一起互相慰藉，然而人生总是有很多不如意，比如在你不懂爱的年纪遇到爱你的人，不懂爱的年纪遇到你爱的，懂爱的年纪遇到你爱的不爱你的，懂爱的年纪遇不到你爱的也遇不到爱你的，最美好的年纪没有能力保护最想要保护的，有能力的时候已经淡然。父母总认为自己的孩子是最好的，也认为现在年轻人那么多，然而他们并不知其实现在人与人之间的交集早已经不如他们那个年代了，而且对于我这类人来说，喜欢一个人是多么的不容易的一件事。</p>
+<figure class="highlight julia"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (someone == <span class="literal">I</span> loved) &#123;</span><br><span class="line">	<span class="keyword">do</span> everything;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">	<span class="literal">I</span> would like to sleeping alone;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可能这就是所谓的以前喜欢一个人，现在喜欢一个人吧。</p>
+
+          
         
       
     </div>
@@ -1716,8 +1685,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
                   </a>
                 </span>
 
@@ -1915,8 +1884,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
                   </a>
                 </span>
 
@@ -2138,8 +2107,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔~</span>
+                  <a href="/categories/诗意生活/" itemprop="url" rel="index">
+                    <span itemprop="name">诗意生活</span>
                   </a>
                 </span>
 
@@ -2280,204 +2249,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/28/纪念狗正八/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="ぱゐずだιονε゜">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="等风来，等花开❀~">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/01/28/纪念狗正八/" itemprop="url">纪念狗正八</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-28T22:02:13+08:00">
-                2017-01-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔~</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/01/28/纪念狗正八/" class="leancloud_visitors" data-flag-title="纪念狗正八">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  1,585 字
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  5 min
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在青春中，爱情只是其中的一部分，甚至在青春的爱情里，闪光的不是结局，而是那青涩懵懂的过程。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1276164-bc83b67a349af60f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="请回答1988"></p>
-<p>狗正八，一张苦瓜脸，首尔大学补刀专业毕业，性情冷漠。</p>
-<p>但是狗正八，真的很man，因为他是狗正八，是珍惜所有人的狗正八。为了爸爸开心可以做不喜欢的（goldstar）见面礼，为了妈妈开心可以做听话的“二女儿”，为了哥哥去飞行学院；为了朋友伸出拳头，为了维系伙伴关系不跨越界限一直逃避，在这个青春懵懂的年纪，已经是如此成熟的狗正八！</p>
-<p>很可惜，狗正八和德善永远是一个人进，一个人退，他们从未相向而行。正如他经过的时候，她低下了头，错过了一秒就错过了一生。</p>
-<p>可能在狗正八的世界里，暗恋，已经是对自己的圆满了，我爱你，与你无关。</p>
-<p>正如我一直相信他能和德善走在一起一样，直到最后的错过，雨中的独白，错过的时机，自我剖析的悔恨，狗正八的爱情在独白中已经交代，他已经完全退出了，而后餐厅借戒指的表白，可能是对自己青春的一种交代，一种释怀，对自己暗恋画上一个句号。然后还是开心的叫着特工队、喜东东、崔大师。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/01/28/纪念狗正八/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <div>
-        
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2543,7 +2314,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2554,7 +2325,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
