@@ -100,7 +100,7 @@
 <meta property="og:image" content="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-SerialDispatchQueue.png">
 <meta property="og:image" content="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-ConcurrentDispatchQueue.png">
 <meta property="og:image" content="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-barrier.png">
-<meta property="og:updated_time" content="2018-05-22T14:37:17.262Z">
+<meta property="og:updated_time" content="2018-05-22T15:18:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS多线程之GCD">
 <meta name="twitter:description" content="GCD 本文用来介绍 iOS 多线程中 GCD的相关知识以及使用方法。通过本文，您将了解到：  GCD 简介 GCD 任务和队列 GCD 的使用步骤 GCD 的基本使用（6种不同组合区别） GCD 线程间的通信 GCD 的其他方法（栅栏方法：dispatch_barrier_async、延时执行方法：dispatch_after、一次性代码（只执行一次）：dispatch_once、快速迭代方法：">
@@ -371,7 +371,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  7,444 字
+                  7,457 字
                 </span>
               
 
@@ -651,7 +651,7 @@
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 延时执行方法 dispatch_after</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)after &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"currentThread---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);  <span class="comment">// 打印当前线程</span></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"asyncMain---begin"</span>);</span><br><span class="line">    </span><br><span class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(<span class="number">2.0</span> * <span class="built_in">NSEC_PER_SEC</span>)), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        <span class="comment">// 2.0秒后异步追加任务代码到主队列，并开始执行</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"after---%@"</span>,[<span class="built_in">NSThread</span> currentThread]);  <span class="comment">// 打印当前线程</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输出结果：</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">53</span>:<span class="number">08.713784</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20282</span>:<span class="number">5080295</span>] currentThread—&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">53</span>:<span class="number">08.713962</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20282</span>:<span class="number">5080295</span>] asyncMain—begin</span><br><span class="line"><span class="number">2018-02-23</span> <span class="number">20</span>:<span class="number">53</span>:<span class="number">10.714283</span>+<span class="number">0800</span> YSC-GCD-demo[<span class="number">20282</span>:<span class="number">5080295</span>] after—&#123;number = <span class="number">1</span>, name = main&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看出：在打印 <code>asyncMain---begin</code> 之后大约 <strong>2.0</strong> 秒的时间，打印了 <code>after---&lt;NSThread: 0x60000006ee00&gt;{number = 1, name = main}</code></p>
-<p>感谢：<br>(<a href="https://bujige.net/blog/iOS-Complete-learning-GCD.html" target="_blank" rel="noopener">https://bujige.net/blog/iOS-Complete-learning-GCD.html</a>)</p>
+<p>本文系转载，如有侵权，告知我删除。感谢原文：<br><a href="https://bujige.net/blog/iOS-Complete-learning-GCD.html" target="_blank" rel="noopener">iOS多线程GCD详解</a></p>
 
       
     </div>
