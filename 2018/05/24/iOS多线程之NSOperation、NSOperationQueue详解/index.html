@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,多线程,NSOperationQueue," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="等风来，等花开❀~" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="本文用来介绍iOS多线程中的NSOperation、NSOperationQueue的相关知识及使用方法。通过本文，您将了解到：NSOperation、NSOperationQueue简介、操作和操作队列、使用步骤和基本使用方法、控制串行/并发执行、NSOperation操作依赖和优先级、线程间的通信、线程同步和线程安全，以及NSOperation、NSOperationQueue常用属性和方法">
+<meta name="keywords" content="iOS,多线程,NSOperationQueue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS多线程之NSOperation、NSOperationQueue详解">
+<meta property="og:url" content="http://yoursite.com/2018/05/24/iOS多线程之NSOperation、NSOperationQueue详解/index.html">
+<meta property="og:site_name" content="等风来，等花开❀~">
+<meta property="og:description" content="本文用来介绍iOS多线程中的NSOperation、NSOperationQueue的相关知识及使用方法。通过本文，您将了解到：NSOperation、NSOperationQueue简介、操作和操作队列、使用步骤和基本使用方法、控制串行/并发执行、NSOperation操作依赖和优先级、线程间的通信、线程同步和线程安全，以及NSOperation、NSOperationQueue常用属性和方法">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-648123.jpg">
+<meta property="og:updated_time" content="2018-06-05T07:37:39.541Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS多线程之NSOperation、NSOperationQueue详解">
+<meta name="twitter:description" content="本文用来介绍iOS多线程中的NSOperation、NSOperationQueue的相关知识及使用方法。通过本文，您将了解到：NSOperation、NSOperationQueue简介、操作和操作队列、使用步骤和基本使用方法、控制串行/并发执行、NSOperation操作依赖和优先级、线程间的通信、线程同步和线程安全，以及NSOperation、NSOperationQueue常用属性和方法">
+<meta name="twitter:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-648123.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/24/iOS多线程之NSOperation、NSOperationQueue详解/"/>
+
+
+
+
+
+  <title>iOS多线程之NSOperation、NSOperationQueue详解 | 等风来，等花开❀~</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">等风来，等花开❀~</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/24/iOS多线程之NSOperation、NSOperationQueue详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ぱゐずだιονε゜">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="等风来，等花开❀~">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iOS多线程之NSOperation、NSOperationQueue详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T20:33:42+08:00">
+                2018-05-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/05/24/iOS多线程之NSOperation、NSOperationQueue详解/" class="leancloud_visitors" data-flag-title="iOS多线程之NSOperation、NSOperationQueue详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  9,155 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  42 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-648123.jpg" alt=""></p>
+<p>本文用来介绍iOS多线程中的NSOperation、NSOperationQueue的相关知识及使用方法。<br>通过本文，您将了解到：<br><strong>NSOperation、NSOperationQueue简介、操作和操作队列、使用步骤和基本使用方法、控制串行/并发执行、NSOperation操作依赖和优先级、线程间的通信、线程同步和线程安全，以及NSOperation、NSOperationQueue常用属性和方法归纳。</strong></p>
+<a id="more"></a>
+<h2 id="1-NSOperation、NSOperationQueue简介"><a href="#1-NSOperation、NSOperationQueue简介" class="headerlink" title="1. NSOperation、NSOperationQueue简介"></a>1. NSOperation、NSOperationQueue简介</h2><p>NSOperation、NSOperationQueue是苹果提供给我们的一套多线程解决方案。实际上NSOperation、NSOperationQueue是基于GCD更高一层的封装，完全面向对象。但是比GCD更简单易用、代码可读性也更高。</p>
+<p><strong>为什么要使用NSOperation、NSOperationQueue?</strong></p>
+<ol>
+<li>可添加完成的代码块，在操作完成之后执行</li>
+<li>添加操作之间的依赖关系，方便的控制执行顺序</li>
+<li>设定操作执行的优先级</li>
+<li>可以很方便的取消一个操作的执行</li>
+<li>使用KVO观察对操作执行状态的更改：isExecuteing、isFinished、isCancelled</li>
+</ol>
+<h2 id="2-NSOperation、NSOperationQueue操作和操作队列"><a href="#2-NSOperation、NSOperationQueue操作和操作队列" class="headerlink" title="2. NSOperation、NSOperationQueue操作和操作队列"></a>2. NSOperation、NSOperationQueue操作和操作队列</h2><p>既然是基于 GCD 的更高一层的封装。那么，GCD 中的一些概念同样适用于 NSOperation、NSOperationQueue。在 NSOperation、NSOperationQueue 中也有类似的<code>任务（操作）</code>和<code>队列（操作队列）</code>的概念。</p>
+<ul>
+<li><p><strong>操作（Operation）：</strong></p>
+<ul>
+<li>执行操作的意思，换句话说就是你在线程中执行的那段代码。</li>
+<li>在 GCD 中是放在 block 中的。在 NSOperation 中，我们使用 NSOperation 子类 NSInvocationOperation、NSBlockOperation，或者自定义子类来封装操作。</li>
+</ul>
+</li>
+<li><p><strong>操作队列（Operation Queues）：</strong></p>
+<ul>
+<li>这里的队列指操作队列，即用来存放操作的队列。不同于 GCD 中的调度队列 FIFO（先进先出）的原则。NSOperationQueue 对于添加到队列中的操作，首先进入准备就绪的状态（就绪状态取决于操作之间的依赖关系），然后进入就绪状态的操作的开始执行顺序（非结束执行顺序）由操作之间相对的优先级决定（优先级是操作对象自身的属性）。</li>
+<li>操作队列通过设置最大并发操作数（maxConcurrentOperationCount）来控制并发、串行。</li>
+<li>NSOperationQueue 为我们提供了两种不同类型的队列：主队列和自定义队列。主队列运行在主线程之上，而自定义队列在后台执行。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-NSOperation、NSOperationQueue-使用步骤"><a href="#3-NSOperation、NSOperationQueue-使用步骤" class="headerlink" title="3. NSOperation、NSOperationQueue 使用步骤"></a>3. NSOperation、NSOperationQueue 使用步骤</h2><p>NSOperation需要配合NSOperationQueue来实现多线程。因为默认情况下，NSOperation单独使用时系统同步执行操作，配合NSOperationQueue能更好的实现异步执行。</p>
+<p>NSOperation实现多线程的使用步骤分为三步：</p>
+<ol>
+<li>创建操作：先将需要执行的操作封装到一个NSOperation对象中</li>
+<li>创建队列：创建NSOperationQueue对象</li>
+<li>将操作加入到队列中：将NSOperation对象添加到NSOperationQueue对象中</li>
+</ol>
+<p>之后呢，系统就会自动将NSOperationQueue中的NSOperation取出来，在新线程中执行操作。</p>
+<h2 id="4-NSOperation、NSOperationQueue基本使用"><a href="#4-NSOperation、NSOperationQueue基本使用" class="headerlink" title="4. NSOperation、NSOperationQueue基本使用"></a>4. NSOperation、NSOperationQueue基本使用</h2><h3 id="4-1-创建操作"><a href="#4-1-创建操作" class="headerlink" title="4.1 创建操作"></a>4.1 创建操作</h3><p>NSOperation是个抽象类，不能用来封装操作。我们只能是用它的子类来封装操作。我们有三种方式来封装操作。</p>
+<ol>
+<li>使用子类NSInvocationOperation</li>
+<li>使用子类NSBlockOperation</li>
+<li>自定义继承自NSOperation的子类，通过实现内部相应的方法来封装操作</li>
+</ol>
+<p>在不使用NSOperationQueue，单独使用NSOperation的情况下系统同步执行操作，下面我们学习一下操作的三种创建方式。</p>
+<h4 id="4-1-1-使用子类NSInvocationOperation"><a href="#4-1-1-使用子类NSInvocationOperation" class="headerlink" title="4.1.1 使用子类NSInvocationOperation"></a>4.1.1 使用子类NSInvocationOperation</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用子类 NSInvocationOperation</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)useInvocationOperation &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1.创建 NSInvocationOperation 对象</span></span><br><span class="line">    <span class="built_in">NSInvocationOperation</span> *op = [[<span class="built_in">NSInvocationOperation</span> alloc] initWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(task1) object:<span class="literal">nil</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.调用 start 方法开始执行操作</span></span><br><span class="line">    [op start];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 任务1</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)task1 &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">        [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018-05-24</span> <span class="number">14</span>:<span class="number">20</span>:<span class="number">59.367361</span>+<span class="number">0800</span> test[<span class="number">6371:138119</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">04000260280</span>&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">14</span>:<span class="number">21</span>:<span class="number">01.368783</span>+<span class="number">0800</span> test[<span class="number">6371:138119</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">04000260280</span>&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到：在没有使用NSOperationQueue、在主线程中单独使用子类NSInvocationOperation执行一个操作的情况下，操作是在主线程执行的，并没有开启新线程。</p>
+<p>如果是在其他线程中执行操作，则打印结果为其他线程。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在其他线程使用子类 NSInvocationOperation</span></span><br><span class="line">[NSThread <span class="string">detachNewThreadSelector:</span><span class="meta">@selector</span>(useInvocationOperation) <span class="string">toTarget:</span>self <span class="string">withObject:</span>nil];</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018-05-24</span> <span class="number">14</span>:<span class="number">30</span>:<span class="number">42.406393</span>+<span class="number">0800</span> test[<span class="number">6509:146542</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">00000277300</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">14</span>:<span class="number">30</span>:<span class="number">44.409801</span>+<span class="number">0800</span> test[<span class="number">6509:146542</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">00000277300</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-1-2-使用子类NSBlockOperation"><a href="#4-1-2-使用子类NSBlockOperation" class="headerlink" title="4.1.2 使用子类NSBlockOperation"></a>4.1.2 使用子类NSBlockOperation</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用子类 NSBlockOperation</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)useBlockOperation &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1.创建 NSBlockOperation 对象</span></span><br><span class="line">    <span class="built_in">NSBlockOperation</span> *op = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.调用 start 方法开始执行操作</span></span><br><span class="line">    [op start];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">04</span>:<span class="number">53.603988</span>+<span class="number">0800</span> test[<span class="number">7767:222327</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00006e400</span>&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">04</span>:<span class="number">55.604878</span>+<span class="number">0800</span> test[<span class="number">7767:222327</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00006e400</span>&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到：在没有使用NSOperationQueue、在主线程中单独使用NSBlockOperation执行一个操作的情况下，操作是在当前线程执行的，并没有开启新线程。</p>
+<blockquote>
+<p>注意：和上边<code>NSInvocationOperation</code>使用一样。因为代码是在主线程中调用的，所以打印结果为主线程。如果在其他线程中执行操作，则打印结果为其他线程。</p>
+</blockquote>
+<p>但是，NSBlockOperation还提供了一个方法<code>addExecutionBlock:</code>，通过<code>addExecutionBlock:</code>就可以为NSBlockOperation添加额外的操作。这些操作（包括blockOperationWithBlock中的操作）可以在不同的线程中同时（并发）执行。只有当所有相关的操作已经完成执行时，才视为完成。</p>
+<p>如果添加多操作的话，<code>blockOperationWithBlock:</code>中的操作也可能会在其他线程（非当前线程）中执行，这是由系统决定的，并不是说添加到<code>blockOperationWithBlock:</code>中的操作一定会在当前线程中执行。（可以用<code>addExecutionBlock:</code>多添加几个操作试试）。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用子类 NSBlockOperation</span></span><br><span class="line"><span class="comment"> * 调用方法 AddExecutionBlock:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)useBlockOperationAddExecutionBlock &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1.创建 NSBlockOperation 对象</span></span><br><span class="line">    <span class="built_in">NSBlockOperation</span> *op = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.添加额外的操作</span></span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">1</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"3---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">1</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"4---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"5---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">1</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"6---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">1</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"7---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">1</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"8---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"9---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">1</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"10---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"11---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [op addExecutionBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">1</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"12---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    <span class="comment">// 3.调用 start 方法开始执行操作</span></span><br><span class="line">    [op start];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">12.815707</span>+<span class="number">0800</span> test[<span class="number">8360:253503</span>] <span class="number">4</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b380</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">12.815707</span>+<span class="number">0800</span> test[<span class="number">8360:253501</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">40002688c0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">13.815373</span>+<span class="number">0800</span> test[<span class="number">8360:253500</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b340</span>&gt;&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">13.815386</span>+<span class="number">0800</span> test[<span class="number">8360:253436</span>] <span class="number">3</span>---&lt;NSThread: <span class="number">0</span>x600000068ec0&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">13.816409</span>+<span class="number">0800</span> test[<span class="number">8360:253503</span>] <span class="number">4</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b380</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">13.816410</span>+<span class="number">0800</span> test[<span class="number">8360:253501</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">40002688c0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">14.816860</span>+<span class="number">0800</span> test[<span class="number">8360:253501</span>] <span class="number">6</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">40002688c0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">15.816932</span>+<span class="number">0800</span> test[<span class="number">8360:253500</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b340</span>&gt;&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">15.816994</span>+<span class="number">0800</span> test[<span class="number">8360:253503</span>] <span class="number">5</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b380</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">15.817005</span>+<span class="number">0800</span> test[<span class="number">8360:253436</span>] <span class="number">3</span>---&lt;NSThread: <span class="number">0</span>x600000068ec0&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">15.817349</span>+<span class="number">0800</span> test[<span class="number">8360:253501</span>] <span class="number">6</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">40002688c0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">16.818352</span>+<span class="number">0800</span> test[<span class="number">8360:253436</span>] <span class="number">8</span>---&lt;NSThread: <span class="number">0</span>x600000068ec0&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">16.818352</span>+<span class="number">0800</span> test[<span class="number">8360:253500</span>] <span class="number">7</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b340</span>&gt;&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">17.817353</span>+<span class="number">0800</span> test[<span class="number">8360:253503</span>] <span class="number">5</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b380</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">17.817703</span>+<span class="number">0800</span> test[<span class="number">8360:253501</span>] <span class="number">9</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">40002688c0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">17.819481</span>+<span class="number">0800</span> test[<span class="number">8360:253500</span>] <span class="number">7</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b340</span>&gt;&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">17.819481</span>+<span class="number">0800</span> test[<span class="number">8360:253436</span>] <span class="number">8</span>---&lt;NSThread: <span class="number">0</span>x600000068ec0&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44:18.819172</span>+<span class="number">0800</span> test[<span class="number">8360:253503</span>] <span class="number">10</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b380</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">18.820352</span>+<span class="number">0800</span> test[<span class="number">8360:253500</span>] <span class="number">12</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b340</span>&gt;&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">19.818892</span>+<span class="number">0800</span> test[<span class="number">8360:253501</span>] <span class="number">9</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">40002688c0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">19.820372</span>+<span class="number">0800</span> test[<span class="number">8360:253503</span>] <span class="number">10</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b380</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">19.821269</span>+<span class="number">0800</span> test[<span class="number">8360:253436</span>] <span class="number">11</span>---&lt;NSThread: <span class="number">0</span>x600000068ec0&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">19.821381</span>+<span class="number">0800</span> test[<span class="number">8360:253500</span>] <span class="number">12</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b340</span>&gt;&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">21.822326</span>+<span class="number">0800</span> test[<span class="number">8360:253436</span>] <span class="number">11</span>---&lt;NSThread: <span class="number">0</span>x600000068ec0&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出：使用子类<code>NSBlockOperation</code>，并调用方法<code>addExecutionBlock:</code>的情况下，<code>blockOperationWithBlock:</code>方法中的操作和<code>addExecutionBlock:</code>中的操作是<strong>在不同的线程中异步执行</strong>的。而且，这次执行结果中<code>blockOperationWithBlock:</code>方法中的操作也不是在当前线程（主线程）中执行的。从而印证了<code>blockOperationWithBlock:</code>中的操作也可能会在其他线程（非当前线程）中执行。</p>
+<p>一般情况下，如果一个NSBlockOperation对象封装了多个操作。NSBlockOperation是否开启新线程，取决于操作的个数。如果添加的操作的个数足够多，就会自动开启新线程。当然开启的线程数是由系统来决定的。</p>
+<h4 id="4-1-3-使用自定义继承自NSOperation的子类"><a href="#4-1-3-使用自定义继承自NSOperation的子类" class="headerlink" title="4.1.3 使用自定义继承自NSOperation的子类"></a>4.1.3 使用自定义继承自NSOperation的子类</h4><p>如果使用子类<code>NSInvocationOperation</code>、<code>NSBlockOperation</code>不能满足日常需求，我们可以使用自定义继承自NSOperation的子类。可以通过重写<code>main</code>或者<code>star</code>方法来定义自己的NSOperation对象。<br>重写main方法比较简单，我们不需要管理操作的状态属性<code>isExecuting</code>和<code>isFinished</code>。当<code>main</code>执行完返回的时候，这个操作就结束了。</p>
+<p>先定义一个继承自NSOperation的子类，重写<code>main</code>方法。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// YSCOperation.h 文件</span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">YSCOperation</span> : <span class="title">NSOperation</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// YSCOperation.m 文件</span></span><br><span class="line"><span class="meta">#import <span class="meta-string">"YSCOperation.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">YSCOperation</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)main &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">self</span>.isCancelled) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>];</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>, [<span class="built_in">NSThread</span> currentThread]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>然后使用的时候导入头文件YSCOperation.h。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用自定义继承自 NSOperation 的子类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)useCustomOperation &#123;</span><br><span class="line">    <span class="comment">// 1.创建 YSCOperation 对象</span></span><br><span class="line">    YSCOperation *op = [[YSCOperation alloc] init];</span><br><span class="line">    <span class="comment">// 2.调用 start 方法开始执行操作</span></span><br><span class="line">    [<span class="meta">op start</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">19.821381</span>+<span class="number">0800</span> test[<span class="number">8360:253500</span>] <span class="number">12</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027b340</span>&gt;&#123;number = <span class="number">5</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-05-24</span> <span class="number">16</span>:<span class="number">44</span>:<span class="number">21.822326</span>+<span class="number">0800</span> test[<span class="number">8360:253436</span>] <span class="number">11</span>---&lt;NSThread: <span class="number">0</span>x600000068ec0&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出：在没有使用NSOperationQueue、在主线程单独使用自定义继承在NSoperation的子类的情况下，是在主线程执行操作，并没有开启新线程。</p>
+<p>下边我们来讲讲NSOperationQueue的创建</p>
+<h3 id="4-2-创建队列"><a href="#4-2-创建队列" class="headerlink" title="4.2 创建队列"></a>4.2 创建队列</h3><p>NSOperationQueue一共有两种队列：主队列、自定义队列。其中自定义队列同时包含了串行、并发功能。下边是主队列、自定义队列的基本创建方法和特点。</p>
+<ul>
+<li>主队列<ul>
+<li>凡是添加到主队列中的操作，都会放到主线程中执行。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 主队列获取方法</span></span><br><span class="line"><span class="built_in">NSOperationQueue</span> *queue = [<span class="built_in">NSOperationQueue</span> mainQueue];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>自定义队列（非主队列）<ul>
+<li>添加到这种队列中的操作，就会自动放到子线程中执行。</li>
+<li>同事包含了：串行、并发功能</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 自定义队列创建方法</span></span><br><span class="line"><span class="built_in">NSOperationQueue</span> *queue = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-将操作加入到主队列"><a href="#4-3-将操作加入到主队列" class="headerlink" title="4.3 将操作加入到主队列"></a>4.3 将操作加入到主队列</h3><p>上边我们说到NSOperation需要配合NSOperationQueue来实现多线程。</p>
+<p>那么我们需要将创建好的操作加入到队列中去。总共有两种方法：</p>
+<ol>
+<li><ul>
+<li>(void)addOperation:(NSOperation *)op;<ul>
+<li>需要先创建操作，再将创建好的操作加入到创建好的队列中去。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 使用 addOperationWithBlock: 将操作加入到操作队列中</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)addOperationWithBlockToQueue &#123;</span><br><span class="line">    <span class="comment">// 1.创建队列</span></span><br><span class="line">    <span class="built_in">NSOperationQueue</span> *queue = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.使用 addOperationWithBlock: 添加操作到队列中</span></span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"3---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果:</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">19:51.179870</span>+<span class="number">0800</span> test[<span class="number">1341:30827</span>] <span class="number">4</span>---&lt;NSThread: <span class="number">0</span>x604000463ec0&gt;&#123;number = <span class="number">6</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">19:51.179925</span>+<span class="number">0800</span> test[<span class="number">1341:30826</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">04000463f00</span>&gt;&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">19:51.179931</span>+<span class="number">0800</span> test[<span class="number">1341:30835</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">04000274740</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">19:51.180024</span>+<span class="number">0800</span> test[<span class="number">1341:30825</span>] <span class="number">3</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">04000463e80</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">19:53.185475</span>+<span class="number">0800</span> test[<span class="number">1341:30826</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">04000463f00</span>&gt;&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">19:53.185480</span>+<span class="number">0800</span> test[<span class="number">1341:30827</span>] <span class="number">4</span>---&lt;NSThread: <span class="number">0</span>x604000463ec0&gt;&#123;number = <span class="number">6</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">19:53.185475</span>+<span class="number">0800</span> test[<span class="number">1341:30835</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">04000274740</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">19:53.185578</span>+<span class="number">0800</span> test[<span class="number">1341:30825</span>] <span class="number">3</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">04000463e80</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看出：使用<code>addOperationWithBlock:</code>将操作加入到操作队列后能够开启新线程，进行并发执行。</p>
+<h2 id="5-NSOperationQueue控制串行执行、并发执行"><a href="#5-NSOperationQueue控制串行执行、并发执行" class="headerlink" title="5. NSOperationQueue控制串行执行、并发执行"></a>5. NSOperationQueue控制串行执行、并发执行</h2><p>之前我们说过，NSOperationQueue创建的自定义队列同事具有串行。并发功能，上面我们演示了并发功能，那么他的串行功能是如何实现的呢？</p>
+<p>这里有个关键属性<code>maxConcurrentOperationCount</code>控制的不是并发线程的数量，而是一个队列中同时能并发执行的最大操作数。并且一个操作也并非只能在一个线程中运行。</p>
+<ul>
+<li>最大并发操作数：<code>maxConcurrentOperationCount</code><ul>
+<li><code>maxConcurrentOperationCount</code>默认情况下为<em>-1</em>，表示不进行限制，可进行并发执行。</li>
+<li><code>maxConcurrentOperationCount</code>为<em>1</em>时，队列为串行队列。只能串行执行。</li>
+<li><code>maxConcurrentOperationCount</code><em>大于1</em>时，队列为并发队列。操作并发执行，当然这个值不应超过系统限制，即使自己设置一个很大的值，系统也会自动调整为<code>min{自己设定的值, 系统设定的默认最大值};</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 设置 MaxConcurrentOperationCount（最大并发操作数）</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)setMaxConcurrentOperationCount &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1.创建队列</span></span><br><span class="line">    <span class="built_in">NSOperationQueue</span> *queue = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.设置最大并发操作数</span></span><br><span class="line">    queue.maxConcurrentOperationCount = <span class="number">1</span>; <span class="comment">// 串行队列</span></span><br><span class="line"><span class="comment">// queue.maxConcurrentOperationCount = 2; // 并发队列</span></span><br><span class="line"><span class="comment">// queue.maxConcurrentOperationCount = 8; // 并发队列</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.添加操作</span></span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"3---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"4---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最大操作并发数为1时输出结果：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">50</span>:<span class="number">43.406467</span>+<span class="number">0800</span> test[<span class="number">2376:62463</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">00002740c0</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">50</span>:<span class="number">45.411312</span>+<span class="number">0800</span> test[<span class="number">2376:62463</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">00002740c0</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">50:47.414252</span>+<span class="number">0800</span> test[<span class="number">2376:62460</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">00002757c0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">50:49.415113</span>+<span class="number">0800</span> test[<span class="number">2376:62460</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">00002757c0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">50</span>:<span class="number">51.420317</span>+<span class="number">0800</span> test[<span class="number">2376:62463</span>] <span class="number">3</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">00002740c0</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">50:53.421105</span>+<span class="number">0800</span> test[<span class="number">2376:62463</span>] <span class="number">3</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">00002740c0</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">50:55.422231</span>+<span class="number">0800</span> test[<span class="number">2376:62460</span>] <span class="number">4</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">00002757c0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">50</span>:<span class="number">57.425648</span>+<span class="number">0800</span> test[<span class="number">2376:62460</span>] <span class="number">4</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">00002757c0</span>&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<p>最大并发操作数为2时输出结果：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">53</span>:<span class="number">10.540363</span>+<span class="number">0800</span> test[<span class="number">2407:65980</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x604000271ec0&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">53</span>:<span class="number">10.540361</span>+<span class="number">0800</span> test[<span class="number">2407:65981</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027f440</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">53</span>:<span class="number">12.543560</span>+<span class="number">0800</span> test[<span class="number">2407:65981</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x600<span class="number">00027f440</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">53</span>:<span class="number">12.543578</span>+<span class="number">0800</span> test[<span class="number">2407:65980</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x604000271ec0&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">53:14.546254</span>+<span class="number">0800</span> test[<span class="number">2407:65982</span>] <span class="number">4</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">04000271a00</span>&gt;&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">53:14.546254</span>+<span class="number">0800</span> test[<span class="number">2407:65983</span>] <span class="number">3</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">00004692c0</span>&gt;&#123;number = <span class="number">6</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">53</span>:<span class="number">16.550397</span>+<span class="number">0800</span> test[<span class="number">2407:65982</span>] <span class="number">4</span>---&lt;NSThread: <span class="number">0</span>x6<span class="number">04000271a00</span>&gt;&#123;number = <span class="number">5</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">10</span>:<span class="number">53</span>:<span class="number">16.550420</span>+<span class="number">0800</span> test[<span class="number">2407:65983</span>] <span class="number">3</span>---&lt;NSThread: <span class="number">0</span>x60<span class="number">00004692c0</span>&gt;&#123;number = <span class="number">6</span>, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以看出：当最大并发操作数为1时，操作是按顺序串行执行的，并且一个操作完成之后，下一个操作才开始执行。当最大操作并发数为2时，操作是并发执行的，可以同时执行两个操作。而开启线程量是由系统决定的，不需要我们来管理。</li>
+</ul>
+<p>这样看来，是比GCD简单了许多！</p>
+<h2 id="6-NSOperation操作依赖"><a href="#6-NSOperation操作依赖" class="headerlink" title="6. NSOperation操作依赖"></a>6. NSOperation操作依赖</h2><p>NSOperation、NSOperationQueue最吸引人的地方是它能添加操作之间的依赖关系。通过操作依赖，我们可以很方便的控制操作之间的执行先后顺序。NSOperation提供了3个接口供我们管理和查看依赖。</p>
+<ul>
+<li><code>- (void)addDependency:(NSOperation *)op;</code>添加依赖，使当前操作依赖于操作op的完成；</li>
+<li><code>- (void)removeDependency:(NSOperation *)op;</code>移除依赖，取消当前操作对象对操作op的依赖；</li>
+<li><code>@property (readonly, copy) NSArray&lt;NSOperation *&gt; *dependencies;</code>在当前操作开始执行之前完成执行的所有操作对象数组；</li>
+</ul>
+<p>当然我们常用到的还是添加依赖操作。现在考虑这样的需求，比如说有A、B两个操作，其中A操作执行完，B操作才能执行。</p>
+<p>如果使用依赖来处理的话，那么久需要让操作B依赖于操作A。具体代码如下：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 操作依赖</span></span><br><span class="line"><span class="comment"> * 使用方法：addDependency:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)addDependency &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1.创建队列</span></span><br><span class="line">    <span class="built_in">NSOperationQueue</span> *queue = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.创建操作</span></span><br><span class="line">    <span class="built_in">NSBlockOperation</span> *op1 = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">    <span class="built_in">NSBlockOperation</span> *op2 = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.添加依赖</span></span><br><span class="line">    [op2 addDependency:op1]; <span class="comment">// 让op2 依赖于 op1，则先执行op1，在执行op2</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 4.添加操作到队列中</span></span><br><span class="line">    [queue addOperation:op1];</span><br><span class="line">    [queue addOperation:op2];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018-05-28</span> <span class="number">11</span>:<span class="number">41</span>:<span class="number">15.838781</span>+<span class="number">0800</span> test[<span class="number">2933:116467</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x<span class="number">60000027d200</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">11</span>:<span class="number">41</span>:<span class="number">17.842654</span>+<span class="number">0800</span> test[<span class="number">2933:116467</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x<span class="number">60000027d200</span>&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">11</span>:<span class="number">41:19.848179</span>+<span class="number">0800</span> test[<span class="number">2933:116468</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x60000027bd80&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">11</span>:<span class="number">41</span>:<span class="number">21.849031</span>+<span class="number">0800</span> test[<span class="number">2933:116468</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x60000027bd80&gt;&#123;number = <span class="number">4</span>, name = (null)&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以看到：通过添加操作依赖，无论运行几次，其结果都是op1先执行，op2后执行。</li>
+</ul>
+<h2 id="7-NSOperation优先级"><a href="#7-NSOperation优先级" class="headerlink" title="7. NSOperation优先级"></a>7. NSOperation优先级</h2><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">property</span><span class="title"> </span>NSOperationQueuePriority queuePriority;</span><br></pre></td></tr></table></figure>
+<p>NSOperation提供了<code>queuePriority</code>（优先级）属性，<code>queuePriority</code>属性适用于<em>同一操作队列中</em>的操作，不适用于不同操作队列中的操作。默认情况下，所有新创建的操作对象优先级都是<code>NSOperationQueuePriorityNormal</code>。但是我们可以通过<code>setQueuePriority:</code>方法来改变当前操作在同一队列中的执行优先级。</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// 优先级的取值</span><br><span class="line">typedef <span class="type">NS_ENUM</span>(<span class="type">NSInteger</span>, <span class="type">NSOperationQueuePriority</span>) &#123;</span><br><span class="line">    <span class="type">NSOperationQueuePriorityVeryLow</span> = -8L,</span><br><span class="line">    <span class="type">NSOperationQueuePriorityLow</span> = -4L,</span><br><span class="line">    <span class="type">NSOperationQueuePriorityNormal</span> = 0,</span><br><span class="line">    <span class="type">NSOperationQueuePriorityHigh</span> = 4,</span><br><span class="line">    <span class="type">NSOperationQueuePriorityVeryHigh</span> = 8</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>上边我们说过：对于添加到队列中的操作，首先进入准备就绪的状态（就绪状态取决于操作之间的依赖关系），然后进入就绪状态的操作的<strong>开始执行顺序</strong>（非结束执行顺序）由操作之间相对的优先级决定（优先级是操作对象自身的属性）。</p>
+<p><strong>那么，什么样的操作才是进入就绪状态的操作呢？</strong></p>
+<ul>
+<li>当一个操作的所有依赖都已经完成时，操作对象通常会进入准备就绪状态，等待执行。</li>
+</ul>
+<p>举个例子：现在有4个优先级都是NSOperationQueuePriorityNormal(默认级别)的操作：op1、op2、op3、op4。其中op3依赖于op2，op2依赖于op1，即优先级：op1 &gt; op2 &gt; op3 。现在讲这4个操作添加到队列中并发执行。</p>
+<ul>
+<li>因为op1和op4都没有需要依赖的操作，所以在op1，op4执行之前，就是出于准备就绪状态的操作。</li>
+<li>而op3和op2都有依赖的操作（op3依赖于op2，op2依赖于op1），所以op3和op2都不是准备就绪状态下的操作。</li>
+</ul>
+<p>理解了进入就绪状态的操作，那么我们就理解了<code>queuePriority</code>属性的作用对象。</p>
+<ul>
+<li><code>queuePriority</code>属性决定了<strong>进入准备就绪状态下的操作</strong>之间的开始执行顺序。并且，优先级不能取代依赖关系。</li>
+<li>如果一个队列中既包含高优先级操作，又包含低优先级操作，并且两个操作都已经准备就绪，那么队列先执行高优先级操作。比如上例中，如果 op1 和 op4 是不同优先级的操作，那么就会先执行优先级高的操作。</li>
+<li>如果，一个队列中既包含了准备就绪状态的操作，又包含了未准备就绪的操作，未准备就绪的操作优先级比准备就绪的操作优先级高。那么，虽然准备就绪的操作优先级低，也会优先执行。优先级不能取代依赖关系。如果要控制操作间的启动顺序，则必须使用依赖关系。</li>
+</ul>
+<h2 id="8-NSOperation、NSOperationQueue线程间的通信"><a href="#8-NSOperation、NSOperationQueue线程间的通信" class="headerlink" title="8.NSOperation、NSOperationQueue线程间的通信"></a>8.NSOperation、NSOperationQueue线程间的通信</h2><p>在iOS开发过程中，我们一般在主线程里边进行UI刷新，例如：点击、滚动、拖拽等事件。我们通常把一些耗时操作放在其他线程，比如说图片下载、文件上传等耗时操作。而当我们有时候在其他线程完成了耗时操作时，需要回到主线程，那么久用到了线程之间的通讯。</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 线程间通信</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)communication &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 1.创建队列</span></span><br><span class="line">    <span class="built_in">NSOperationQueue</span> *queue = [[<span class="built_in">NSOperationQueue</span> alloc]init];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 2.添加操作</span></span><br><span class="line">    [queue addOperationWithBlock:^&#123;</span><br><span class="line">        <span class="comment">// 异步进行耗时操作</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"1---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 回到主线程</span></span><br><span class="line">        [[<span class="built_in">NSOperationQueue</span> mainQueue] addOperationWithBlock:^&#123;</span><br><span class="line">            <span class="comment">// 进行一些 UI 刷新等操作</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">2</span>; i++) &#123;</span><br><span class="line">                [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">2</span>]; <span class="comment">// 模拟耗时操作</span></span><br><span class="line">                <span class="built_in">NSLog</span>(<span class="string">@"2---%@"</span>, [<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;];</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2018-05-28</span> <span class="number">14</span>:<span class="number">45:18.184142</span>+<span class="number">0800</span> test[<span class="number">3570:202499</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x60400027cc80&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">14</span>:<span class="number">45:20.189357</span>+<span class="number">0800</span> test[<span class="number">3570:202499</span>] <span class="number">1</span>---&lt;NSThread: <span class="number">0</span>x60400027cc80&gt;&#123;number = <span class="number">3</span>, name = (null)&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">14</span>:<span class="number">45:22.190944</span>+<span class="number">0800</span> test[<span class="number">3570:202450</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x604000075ac0&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br><span class="line"><span class="number">2018-05-28</span> <span class="number">14</span>:<span class="number">45:24.191504</span>+<span class="number">0800</span> test[<span class="number">3570:202450</span>] <span class="number">2</span>---&lt;NSThread: <span class="number">0</span>x604000075ac0&gt;&#123;number = <span class="number">1</span>, name = main&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到：通过线程间的通信，现在其他线程中执行操作，等操作执行完了之后再回到主线程执行主线程的相应操作。</p>
+<h2 id="9-NSOperation、NSOperationQueue线程同步和线程安全"><a href="#9-NSOperation、NSOperationQueue线程同步和线程安全" class="headerlink" title="9. NSOperation、NSOperationQueue线程同步和线程安全"></a>9. NSOperation、NSOperationQueue线程同步和线程安全</h2><ul>
+<li><p><strong>线程安全</strong>：如果你的代码所在的进程中有多个线程在同时运行，而这些线程可能会同时运行这段代码。如果每次运行结果和单线程运行的结果是一样的，而且其他的变量的值也和预期的是一样的，就是线程安全的。<br>若每个线程中对全局变量、静态变量只有读操作，而无写操作，一般来说，这个全局变量是线程安全的；若有多个线程同时执行写操作（更改变量），一般都需要考虑线程同步，否则的话就可能影响线程安全。</p>
+</li>
+<li><p><strong>线程同步</strong>：可理解为线程 A 和 线程 B 一块配合，A 执行到一定程度时要依靠线程 B 的某个结果，于是停下来，示意 B 运行；B 依言执行，再将结果给 A；A 再继续操作。</p>
+</li>
+</ul>
+<p>举个简单例子就是：两个人在一起聊天。两个人不能同时说话，避免听不清(操作冲突)。等一个人说完(一个线程结束操作)，另一个再说(另一个线程再开始操作)。</p>
+<p>下面，我们模拟火车票售卖的方式，实现 NSOperation 线程安全和解决线程同步问题。<br>场景：总共有50张火车票，有两个售卖火车票的窗口，一个是北京火车票售卖窗口，另一个是上海火车票售卖窗口。两个窗口同时售卖火车票，卖完为止。</p>
+<h3 id="9-1-NSOperation、NSOperationQueue非线程安全"><a href="#9-1-NSOperation、NSOperationQueue非线程安全" class="headerlink" title="9.1 NSOperation、NSOperationQueue非线程安全"></a>9.1 NSOperation、NSOperationQueue非线程安全</h3><p>先来看看不考虑线程安全的代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 非线程安全：不使用 NSLock</span></span><br><span class="line"><span class="comment"> * 初始化火车票数量、卖票窗口(非线程安全)、并开始卖票</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)initTicketStatusNotSave &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"currentThread---%@"</span>,[<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span>.ticketSurplusCount = <span class="number">50</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 1.创建 queue1,queue1 代表北京火车票售卖窗口</span></span><br><span class="line">    <span class="built_in">NSOperationQueue</span> *queue1 = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line">    queue1.maxConcurrentOperationCount = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2.创建 queue2,queue2 代表上海火车票售卖窗口</span></span><br><span class="line">    <span class="built_in">NSOperationQueue</span> *queue2 = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line">    queue2.maxConcurrentOperationCount = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3.创建卖票操作 op1</span></span><br><span class="line">    __<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line">    <span class="built_in">NSBlockOperation</span> *op1 = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^&#123;</span><br><span class="line">        [weakSelf saleTicketNotSafe];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 4.创建卖票操作 op2</span></span><br><span class="line">    <span class="built_in">NSBlockOperation</span> *op2 = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^&#123;</span><br><span class="line">        [weakSelf saleTicketNotSafe];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 5.添加操作，开始卖票</span></span><br><span class="line">    [queue1 addOperation:op1];</span><br><span class="line">    [queue2 addOperation:op2];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 售卖火车票(非线程安全)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)saleTicketNotSafe &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>.ticketSurplusCount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">//如果还有票，继续售卖</span></span><br><span class="line">            <span class="keyword">self</span>.ticketSurplusCount--;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"剩余票数:%ld 窗口:%@"</span>, (<span class="keyword">long</span>)<span class="keyword">self</span>.ticketSurplusCount, [<span class="built_in">NSThread</span> currentThread]]);</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">0.2</span>];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"所有火车票均已售完"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印结果：</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:00.910264<span class="string">+0800</span> test[4059:270790] currentThread---&lt;NSThread: 0x604000078040&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:00.911024<span class="string">+0800</span> test[4059:270854] 剩余票数:48 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:00.911059<span class="string">+0800</span> test[4059:270856] 剩余票数:49 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:01.113769<span class="string">+0800</span> test[4059:270854] 剩余票数:47 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:01.113769<span class="string">+0800</span> test[4059:270856] 剩余票数:47 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:01.315197<span class="string">+0800</span> test[4059:270854] 剩余票数:46 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:01.315245<span class="string">+0800</span> test[4059:270856] 剩余票数:45 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:01.516986<span class="string">+0800</span> test[4059:270856] 剩余票数:44 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:01.516986<span class="string">+0800</span> test[4059:270854] 剩余票数:44 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:01.720397<span class="string">+0800</span> test[4059:270854] 剩余票数:43 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:01.720438<span class="string">+0800</span> test[4059:270856] 剩余票数:42 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:01.923211<span class="string">+0800</span> test[4059:270856] 剩余票数:41 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:01.923234<span class="string">+0800</span> test[4059:270854] 剩余票数:40 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:02.127978<span class="string">+0800</span> test[4059:270856] 剩余票数:39 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:05.783073<span class="string">+0800</span> test[4059:270856] 剩余票数:9 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:05.783073<span class="string">+0800</span> test[4059:270854] 剩余票数:9 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:05.986099<span class="string">+0800</span> test[4059:270856] 剩余票数:8 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:05.986118<span class="string">+0800</span> test[4059:270854] 剩余票数:7 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:06.190088<span class="string">+0800</span> test[4059:270856] 剩余票数:6 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:06.190117<span class="string">+0800</span> test[4059:270854] 剩余票数:5 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:06.394938<span class="string">+0800</span> test[4059:270854] 剩余票数:4 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:06.394961<span class="string">+0800</span> test[4059:270856] 剩余票数:4 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:06.596928<span class="string">+0800</span> test[4059:270854] 剩余票数:3 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:06.597015<span class="string">+0800</span> test[4059:270856] 剩余票数:3 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:06.800513<span class="string">+0800</span> test[4059:270856] 剩余票数:2 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:06.800513<span class="string">+0800</span> test[4059:270854] 剩余票数:1 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:07.004409<span class="string">+0800</span> test[4059:270854] 剩余票数:0 窗口:&lt;NSThread: 0x600000468500&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:07.004409<span class="string">+0800</span> test[4059:270856] 剩余票数:0 窗口:&lt;NSThread: 0x604000274940&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:07.206585<span class="string">+0800</span> test[4059:270854] 所有火车票均已售完</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:52:07.206626<span class="string">+0800</span> test[4059:270856] 所有火车票均已售完</span><br></pre></td></tr></table></figure>
+<p>可以看到：在不考虑线程安全，不适用NSLock情况下，得到票数是错乱的，这样显然不符合我们的需求，所以我们需要考虑线程安全问题。</p>
+<h3 id="9-2-NSOperation、NSOperationQueue线程安全"><a href="#9-2-NSOperation、NSOperationQueue线程安全" class="headerlink" title="9.2 NSOperation、NSOperationQueue线程安全"></a>9.2 NSOperation、NSOperationQueue线程安全</h3><p>线程安全解决方案：可以给线程加锁，在一个线程执行该操作的时候，不允许其他线程进行操作。iOS 实现线程加锁有很多种方式。@synchronized、 NSLock、NSRecursiveLock、NSCondition、NSConditionLock、pthread_mutex、dispatch_semaphore、OSSpinLock、atomic(property) set/get等等各种方式。这里我们使用 NSLock 对象来解决线程同步问题。NSLock 对象可以通过进入锁时调用 lock 方法，解锁时调用 unlock 方法来保证线程安全。</p>
+<p>考虑线程安全的代码：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 线程安全：使用 NSLock 加锁</span></span><br><span class="line"><span class="comment"> * 初始化火车票数量、卖票窗口(线程安全)、并开始卖票</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)initTicketStatusSave &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"currentThread---%@"</span>,[<span class="built_in">NSThread</span> currentThread]); <span class="comment">// 打印当前线程</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span>.ticketSurplusCount = <span class="number">50</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">self</span>.lock = [[<span class="built_in">NSLock</span> alloc] init];  <span class="comment">// 初始化 NSLock 对象</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 1.创建 queue1,queue1 代表北京火车票售卖窗口</span></span><br><span class="line">    <span class="built_in">NSOperationQueue</span> *queue1 = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line">    queue1.maxConcurrentOperationCount = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2.创建 queue2,queue2 代表上海火车票售卖窗口</span></span><br><span class="line">    <span class="built_in">NSOperationQueue</span> *queue2 = [[<span class="built_in">NSOperationQueue</span> alloc] init];</span><br><span class="line">    queue2.maxConcurrentOperationCount = <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3.创建卖票操作 op1</span></span><br><span class="line">    __<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line">    <span class="built_in">NSBlockOperation</span> *op1 = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^&#123;</span><br><span class="line">        [weakSelf saleTicketSafe];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 4.创建卖票操作 op2</span></span><br><span class="line">    <span class="built_in">NSBlockOperation</span> *op2 = [<span class="built_in">NSBlockOperation</span> blockOperationWithBlock:^&#123;</span><br><span class="line">        [weakSelf saleTicketSafe];</span><br><span class="line">    &#125;];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 5.添加操作，开始卖票</span></span><br><span class="line">    [queue1 addOperation:op1];</span><br><span class="line">    [queue2 addOperation:op2];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 售卖火车票(线程安全)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">- (<span class="keyword">void</span>)saleTicketSafe &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 加锁</span></span><br><span class="line">        [<span class="keyword">self</span>.lock lock];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>.ticketSurplusCount &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">//如果还有票，继续售卖</span></span><br><span class="line">            <span class="keyword">self</span>.ticketSurplusCount--;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"剩余票数:%ld 窗口:%@"</span>, (<span class="keyword">long</span>)<span class="keyword">self</span>.ticketSurplusCount, [<span class="built_in">NSThread</span> currentThread]]);</span><br><span class="line">            [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="number">0.2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 解锁</span></span><br><span class="line">        [<span class="keyword">self</span>.lock unlock];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">self</span>.ticketSurplusCount &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">NSLog</span>(<span class="string">@"所有火车票均已售完"</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印结果：</p>
+<figure class="highlight subunit"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:07.278045<span class="string">+0800</span> test[4089:273593] currentThread---&lt;NSThread: 0x600000067b80&gt;&#123;number = 1, name = main&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:07.278940<span class="string">+0800</span> test[4089:273667] 剩余票数:49 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:07.483256<span class="string">+0800</span> test[4089:273665] 剩余票数:48 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:07.685471<span class="string">+0800</span> test[4089:273667] 剩余票数:47 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:07.887504<span class="string">+0800</span> test[4089:273665] 剩余票数:46 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:08.087948<span class="string">+0800</span> test[4089:273667] 剩余票数:45 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:08.292016<span class="string">+0800</span> test[4089:273665] 剩余票数:44 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:08.493725<span class="string">+0800</span> test[4089:273667] 剩余票数:43 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:08.698786<span class="string">+0800</span> test[4089:273665] 剩余票数:42 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:08.901019<span class="string">+0800</span> test[4089:273667] 剩余票数:41 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:09.104019<span class="string">+0800</span> test[4089:273665] 剩余票数:40 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:09.305152<span class="string">+0800</span> test[4089:273667] 剩余票数:39 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:09.510415<span class="string">+0800</span> test[4089:273665] 剩余票数:38 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:15.215177<span class="string">+0800</span> test[4089:273665] 剩余票数:10 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:15.420174<span class="string">+0800</span> test[4089:273667] 剩余票数:9 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:15.624998<span class="string">+0800</span> test[4089:273665] 剩余票数:8 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:15.828335<span class="string">+0800</span> test[4089:273667] 剩余票数:7 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:16.033039<span class="string">+0800</span> test[4089:273665] 剩余票数:6 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:16.237666<span class="string">+0800</span> test[4089:273667] 剩余票数:5 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:16.438533<span class="string">+0800</span> test[4089:273665] 剩余票数:4 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:16.643922<span class="string">+0800</span> test[4089:273667] 剩余票数:3 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:16.848878<span class="string">+0800</span> test[4089:273665] 剩余票数:2 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:17.053019<span class="string">+0800</span> test[4089:273667] 剩余票数:1 窗口:&lt;NSThread: 0x60000026da00&gt;&#123;number = 3, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:17.257527<span class="string">+0800</span> test[4089:273665] 剩余票数:0 窗口:&lt;NSThread: 0x6000002674c0&gt;&#123;number = 4, name = (null)&#125;</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:17.462667<span class="string">+0800</span> test[4089:273667] 所有火车票均已售完</span><br><span class="line">2018<span class="string">-05</span><span class="string">-28</span> 15:54:17.462668<span class="string">+0800</span> test[4089:273665] 所有火车票均已售完</span><br></pre></td></tr></table></figure>
+<h2 id="10-NSOperation、NSOperationQueue常用属性和方法归纳"><a href="#10-NSOperation、NSOperationQueue常用属性和方法归纳" class="headerlink" title="10. NSOperation、NSOperationQueue常用属性和方法归纳"></a>10. NSOperation、NSOperationQueue常用属性和方法归纳</h2><h3 id="10-1-NSOperation的常用属性和方法"><a href="#10-1-NSOperation的常用属性和方法" class="headerlink" title="10.1 NSOperation的常用属性和方法"></a>10.1 NSOperation的常用属性和方法</h3><ol>
+<li><p>取消操作方法</p>
+<ul>
+<li><code>- (void)cancel;</code>可以取消操作，实质上是标记isCancelled状态。</li>
+</ul>
+</li>
+<li><p>判断操作状态方法</p>
+<ul>
+<li><code>- (BOOL)isFinished;</code>判断操作是否已经结束。</li>
+<li><code>- (BOOL)isCancelled;</code>判断操作是否已经标记为取消。</li>
+<li><code>- (BOOL)isExecuting;</code>判断操作是否正在运行。</li>
+<li><code>- (BOOL)isReady;</code>判断操作是否处于准备就绪状态，这个值和操作的依赖关系相关。</li>
+</ul>
+</li>
+<li><p>操作同步</p>
+<ul>
+<li><code>- (void)waitUntilFinished;</code>阻塞当前线程，直到该操作结束。可用于线程执行顺序的同步。</li>
+<li><code>- (void)setCompletionBlock:(void(^)(void))block;</code> <code>completionBlock</code>会在当前操作执行完毕时执行completionBlock。</li>
+<li><code>- (void)addDependency:(NSOperation *)op;</code>添加依赖，使当前操作依赖于操作op的完成。</li>
+<li><code>- (void)removeDependency:(NSOperation *)op;</code>移除依赖，取消当前操作对操作op的依赖。</li>
+<li><code>@property(readonly, copy) NSArray&lt;NSOperation *&gt; *dependencies;</code>在当前操作开始执行之前完成执行的所有操作对象数组。</li>
+</ul>
+</li>
+</ol>
+<h3 id="10-2-NSOperationQueue的常用属性和方法"><a href="#10-2-NSOperationQueue的常用属性和方法" class="headerlink" title="10.2 NSOperationQueue的常用属性和方法"></a>10.2 NSOperationQueue的常用属性和方法</h3><ol>
+<li><p>取消/暂停/恢复操作</p>
+<ul>
+<li><code>- (void)cancelAllOperations;</code>可以取消队列的所有操作</li>
+<li><code>- (BOOL)isSuspended;</code>判断队列是否处于暂停状态。YES为暂停状态，NO为恢复状态。</li>
+<li><code>- (void)setSuspended:(BOOL)b;</code>可设置操作的暂停和恢复，YES代表暂停队列，NO代表恢复队列。</li>
+</ul>
+</li>
+<li><p>操作同步</p>
+<ul>
+<li><code>- (void)waitUntilAllOperationsAreFinished;</code>阻塞当前线程，直到队列中的操作全部执行完毕。</li>
+</ul>
+</li>
+<li><p>添加/获取操作</p>
+<ul>
+<li><code>- (void)addOperationWithBlock:(void(^)(void))block;</code>向队列中添加一个NSBlockOperation类型操作对象。</li>
+<li><code>- (void)addOperations:(NSArray *)ops waitUntilFinished:(BOOL)wait;</code>向队列中添加操作数组，wait标志是否阻塞当前线程直到所有操作结束。</li>
+<li><code>- (NSArray *)operations;</code>当前在队列中的操作数组（某个操作执行结束后会自动从这个数组清除）。</li>
+<li><code>- (NSUInteger)operationCount;</code>当前队列中的操作数。</li>
+</ul>
+</li>
+<li><p>获取队列</p>
+<ul>
+<li><code>+ (id)currentQueue;</code>获取当前队列，如果当前线程不是在NSOperationQueue上运行则返回nil。</li>
+<li><code>+ (id)mainQueue;</code>获取主队列。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>注意：</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>这里的暂停和取消（包括操作的取消和队列的取消）并不代表可以将当前的操作立即取消，而是当当前的操作执行完毕之后不再执行新的操作。</li>
+<li>暂停和取消的区别就在于：暂停操作之后还可以恢复操作，继续向下执行；而取消操作之后，所有的操作就清空了，无法再接着执行剩下的操作。</li>
+</ol>
+</blockquote>
+<p>本文系转载，如有侵权，告知我删除。感谢原文:<a href="https://bujige.net/blog/iOS-Complete-learning-NSOperation.html" target="_blank" rel="noopener">iOS多线程：『NSOperation、NSOperationQueue』详尽总结</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+        
+        <div>
+
+<div style="text-align:center;color: #ccc;font-size:14px;">~~~~~~~~~~~~~本文结束<i class="fa fa-heart"></i>感谢您的阅读~~~~~~~~~~~~~</div>
+
+</div>
+
+        
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/多线程/" rel="tag"># 多线程</a>
+          
+            <a href="/tags/NSOperationQueue/" rel="tag"># NSOperationQueue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/18/iOS多线程之GCD/" rel="next" title="iOS多线程之GCD">
+                <i class="fa fa-chevron-left"></i> iOS多线程之GCD
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/28/SDWebImage源码工作流分析/" rel="prev" title="SDWebImage源码工作流分析">
+                SDWebImage源码工作流分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="ぱゐずだιονε゜" />
+            
+              <p class="site-author-name" itemprop="name">ぱゐずだιονε゜</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-NSOperation、NSOperationQueue简介"><span class="nav-text">1. NSOperation、NSOperationQueue简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-NSOperation、NSOperationQueue操作和操作队列"><span class="nav-text">2. NSOperation、NSOperationQueue操作和操作队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-NSOperation、NSOperationQueue-使用步骤"><span class="nav-text">3. NSOperation、NSOperationQueue 使用步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-NSOperation、NSOperationQueue基本使用"><span class="nav-text">4. NSOperation、NSOperationQueue基本使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-创建操作"><span class="nav-text">4.1 创建操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-1-使用子类NSInvocationOperation"><span class="nav-text">4.1.1 使用子类NSInvocationOperation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-2-使用子类NSBlockOperation"><span class="nav-text">4.1.2 使用子类NSBlockOperation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-3-使用自定义继承自NSOperation的子类"><span class="nav-text">4.1.3 使用自定义继承自NSOperation的子类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-创建队列"><span class="nav-text">4.2 创建队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-将操作加入到主队列"><span class="nav-text">4.3 将操作加入到主队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-NSOperationQueue控制串行执行、并发执行"><span class="nav-text">5. NSOperationQueue控制串行执行、并发执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-NSOperation操作依赖"><span class="nav-text">6. NSOperation操作依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-NSOperation优先级"><span class="nav-text">7. NSOperation优先级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-NSOperation、NSOperationQueue线程间的通信"><span class="nav-text">8.NSOperation、NSOperationQueue线程间的通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-NSOperation、NSOperationQueue线程同步和线程安全"><span class="nav-text">9. NSOperation、NSOperationQueue线程同步和线程安全</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-1-NSOperation、NSOperationQueue非线程安全"><span class="nav-text">9.1 NSOperation、NSOperationQueue非线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-NSOperation、NSOperationQueue线程安全"><span class="nav-text">9.2 NSOperation、NSOperationQueue线程安全</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-NSOperation、NSOperationQueue常用属性和方法归纳"><span class="nav-text">10. NSOperation、NSOperationQueue常用属性和方法归纳</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1-NSOperation的常用属性和方法"><span class="nav-text">10.1 NSOperation的常用属性和方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-2-NSOperationQueue的常用属性和方法"><span class="nav-text">10.2 NSOperationQueue的常用属性和方法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ぱゐずだιονε゜</span>
+
+  
+</div>
+
+
+<!--
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+-->
+
+
+
+  <!-- <span class="post-meta-divider">|</span> -->
+
+
+
+  <!-- <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v</div> -->
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("NQ57m47YrUBAiPJIKI96sQk5-gzGzoHsz", "MnPaSxKcnEkivma8DHk2UGmd");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>;
+<script>
+$("body").backstretch("https://背景图.jpg");
+</script>
+
+</body>
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
