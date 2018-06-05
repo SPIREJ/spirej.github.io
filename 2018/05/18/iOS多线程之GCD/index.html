@@ -88,23 +88,24 @@
 
 
 
-<meta name="description" content="GCD 本文用来介绍 iOS 多线程中 GCD的相关知识以及使用方法。通过本文，您将了解到：  GCD 简介 GCD 任务和队列 GCD 的使用步骤 GCD 的基本使用（6种不同组合区别） GCD 线程间的通信 GCD 的其他方法（栅栏方法：dispatch_barrier_async、延时执行方法：dispatch_after、一次性代码（只执行一次）：dispatch_once、快速迭代方法：">
+<meta name="description" content="GCD  本文用来介绍 iOS 多线程中 GCD的相关知识以及使用方法。通过本文，您将了解到：  GCD 简介 GCD 任务和队列 GCD 的使用步骤 GCD 的基本使用（6种不同组合区别） GCD 线程间的通信 GCD 的其他方法（栅栏方法：dispatch_barrier_async、延时执行方法：dispatch_after、一次性代码（只执行一次）：dispatch_once、快速迭代方法">
 <meta name="keywords" content="iOS,多线程,GCD">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS多线程之GCD">
 <meta property="og:url" content="http://yoursite.com/2018/05/18/iOS多线程之GCD/index.html">
 <meta property="og:site_name" content="等风来，等花开❀~">
-<meta property="og:description" content="GCD 本文用来介绍 iOS 多线程中 GCD的相关知识以及使用方法。通过本文，您将了解到：  GCD 简介 GCD 任务和队列 GCD 的使用步骤 GCD 的基本使用（6种不同组合区别） GCD 线程间的通信 GCD 的其他方法（栅栏方法：dispatch_barrier_async、延时执行方法：dispatch_after、一次性代码（只执行一次）：dispatch_once、快速迭代方法：">
+<meta property="og:description" content="GCD  本文用来介绍 iOS 多线程中 GCD的相关知识以及使用方法。通过本文，您将了解到：  GCD 简介 GCD 任务和队列 GCD 的使用步骤 GCD 的基本使用（6种不同组合区别） GCD 线程间的通信 GCD 的其他方法（栅栏方法：dispatch_barrier_async、延时执行方法：dispatch_after、一次性代码（只执行一次）：dispatch_once、快速迭代方法">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-660834.jpg">
 <meta property="og:image" content="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-DispatchQueue.png">
 <meta property="og:image" content="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-SerialDispatchQueue.png">
 <meta property="og:image" content="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-ConcurrentDispatchQueue.png">
 <meta property="og:image" content="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-barrier.png">
-<meta property="og:updated_time" content="2018-05-22T15:18:55.000Z">
+<meta property="og:updated_time" content="2018-06-05T06:32:42.653Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS多线程之GCD">
-<meta name="twitter:description" content="GCD 本文用来介绍 iOS 多线程中 GCD的相关知识以及使用方法。通过本文，您将了解到：  GCD 简介 GCD 任务和队列 GCD 的使用步骤 GCD 的基本使用（6种不同组合区别） GCD 线程间的通信 GCD 的其他方法（栅栏方法：dispatch_barrier_async、延时执行方法：dispatch_after、一次性代码（只执行一次）：dispatch_once、快速迭代方法：">
-<meta name="twitter:image" content="https://ysc-demo-1254961422.file.myqcloud.com/YSC-GCD-demo-DispatchQueue.png">
+<meta name="twitter:description" content="GCD  本文用来介绍 iOS 多线程中 GCD的相关知识以及使用方法。通过本文，您将了解到：  GCD 简介 GCD 任务和队列 GCD 的使用步骤 GCD 的基本使用（6种不同组合区别） GCD 线程间的通信 GCD 的其他方法（栅栏方法：dispatch_barrier_async、延时执行方法：dispatch_after、一次性代码（只执行一次）：dispatch_once、快速迭代方法">
+<meta name="twitter:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-660834.jpg">
 
 
 
@@ -408,7 +409,8 @@
       
 
       
-        <h2 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h2><blockquote>
+        <h2 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h2><p><img src="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-660834.jpg" alt=""></p>
+<blockquote>
 <p>本文用来介绍 iOS 多线程中 GCD的相关知识以及使用方法。通过本文，您将了解到：</p>
 <ol>
 <li>GCD 简介</li>

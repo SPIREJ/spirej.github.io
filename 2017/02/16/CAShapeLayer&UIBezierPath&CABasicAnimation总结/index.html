@@ -88,23 +88,24 @@
 
 
 
-<meta name="description" content="CAShapeLayer普通CALayer在被初始化时是需要给一个frame值的,这个frame值一般都与给定view的bounds值一致,它本身是有形状的,而且是矩形.每个CAShapeLayer对象都代表着将要被渲染到屏幕上的形状(shape),CAShapeLayer在初始化时也需要给一个frame值,但是,它本身没有形状,它的形状来源于你给定的一个path,然后它去取CGPath值,它与C">
+<meta name="description" content="CAShapeLayer CAShapeLayer常用属性及可设置说明 CAShapeLayer特点   UIBezierPath UIBezierPath几种初始化方式说明   CABasicAnimation CABasicAnimation是什么？ CABasicAnimation设定动画的属性说明 CABasicAnimation常用的KeyPath值总结">
 <meta name="keywords" content="Objective-C,动画">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CAShapeLayer &amp; UIBezierPath &amp; CABasicAnimation">
-<meta property="og:url" content="http://yoursite.com/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation/index.html">
+<meta property="og:title" content="CAShapeLayer &amp; UIBezierPath &amp; CABasicAnimation总结">
+<meta property="og:url" content="http://yoursite.com/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation总结/index.html">
 <meta property="og:site_name" content="等风来，等花开❀~">
-<meta property="og:description" content="CAShapeLayer普通CALayer在被初始化时是需要给一个frame值的,这个frame值一般都与给定view的bounds值一致,它本身是有形状的,而且是矩形.每个CAShapeLayer对象都代表着将要被渲染到屏幕上的形状(shape),CAShapeLayer在初始化时也需要给一个frame值,但是,它本身没有形状,它的形状来源于你给定的一个path,然后它去取CGPath值,它与C">
+<meta property="og:description" content="CAShapeLayer CAShapeLayer常用属性及可设置说明 CAShapeLayer特点   UIBezierPath UIBezierPath几种初始化方式说明   CABasicAnimation CABasicAnimation是什么？ CABasicAnimation设定动画的属性说明 CABasicAnimation常用的KeyPath值总结">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-660824.jpg">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1276164-cd35cad81961ab23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1276164-3950101908ae9c06.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1276164-ae5278976c113bef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1276164-30817b1838eee1a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2018-05-22T14:40:04.000Z">
+<meta property="og:updated_time" content="2018-06-05T07:13:46.612Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CAShapeLayer &amp; UIBezierPath &amp; CABasicAnimation">
-<meta name="twitter:description" content="CAShapeLayer普通CALayer在被初始化时是需要给一个frame值的,这个frame值一般都与给定view的bounds值一致,它本身是有形状的,而且是矩形.每个CAShapeLayer对象都代表着将要被渲染到屏幕上的形状(shape),CAShapeLayer在初始化时也需要给一个frame值,但是,它本身没有形状,它的形状来源于你给定的一个path,然后它去取CGPath值,它与C">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1276164-cd35cad81961ab23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="CAShapeLayer &amp; UIBezierPath &amp; CABasicAnimation总结">
+<meta name="twitter:description" content="CAShapeLayer CAShapeLayer常用属性及可设置说明 CAShapeLayer特点   UIBezierPath UIBezierPath几种初始化方式说明   CABasicAnimation CABasicAnimation是什么？ CABasicAnimation设定动画的属性说明 CABasicAnimation常用的KeyPath值总结">
+<meta name="twitter:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-660824.jpg">
 
 
 
@@ -134,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation总结/"/>
 
 
 
 
 
-  <title>CAShapeLayer & UIBezierPath & CABasicAnimation | 等风来，等花开❀~</title>
+  <title>CAShapeLayer & UIBezierPath & CABasicAnimation总结 | 等风来，等花开❀~</title>
   
 
 
@@ -277,7 +278,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ぱゐずだιονε゜">
@@ -294,7 +295,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CAShapeLayer & UIBezierPath & CABasicAnimation</h1>
+          <h1 class="post-title" itemprop="name headline">CAShapeLayer & UIBezierPath & CABasicAnimation总结</h1>
         
 
         <div class="post-meta">
@@ -346,7 +347,7 @@
 
           
           
-             <span id="/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation/" class="leancloud_visitors" data-flag-title="CAShapeLayer & UIBezierPath & CABasicAnimation">
+             <span id="/2017/02/16/CAShapeLayer&UIBezierPath&CABasicAnimation总结/" class="leancloud_visitors" data-flag-title="CAShapeLayer & UIBezierPath & CABasicAnimation总结">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -371,7 +372,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,982 字
+                  2,030 字
                 </span>
               
 
@@ -408,7 +409,26 @@
       
 
       
-        <h3 id="CAShapeLayer"><a href="#CAShapeLayer" class="headerlink" title="CAShapeLayer"></a>CAShapeLayer</h3><p>普通<code>CALayer</code>在被初始化时是需要给一个frame值的,这个frame值一般都与给定view的bounds值一致,它本身是有形状的,而且是矩形.<br>每个<code>CAShapeLayer</code>对象都代表着将要被渲染到屏幕上的形状(shape),CAShapeLayer在初始化时也需要给一个frame值,但是,它本身没有形状,它的形状来源于你给定的一个path,然后它去取<code>CGPath</code>值,它与CALayer有着很大的区别.</p>
+        <p><img src="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-660824.jpg" alt=""></p>
+<ul>
+<li><strong>CAShapeLayer</strong><ul>
+<li>CAShapeLayer常用属性及可设置说明</li>
+<li>CAShapeLayer特点</li>
+</ul>
+</li>
+<li><strong>UIBezierPath</strong><ul>
+<li>UIBezierPath几种初始化方式说明</li>
+</ul>
+</li>
+<li><strong>CABasicAnimation</strong><ul>
+<li>CABasicAnimation是什么？</li>
+<li>CABasicAnimation设定动画的属性说明</li>
+<li>CABasicAnimation常用的KeyPath值总结</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<h3 id="CAShapeLayer"><a href="#CAShapeLayer" class="headerlink" title="CAShapeLayer"></a>CAShapeLayer</h3><p>普通<code>CALayer</code>在被初始化时是需要给一个frame值的,这个frame值一般都与给定view的bounds值一致,它本身是有形状的,而且是矩形.<br>每个<code>CAShapeLayer</code>对象都代表着将要被渲染到屏幕上的形状(shape),CAShapeLayer在初始化时也需要给一个frame值,但是,它本身没有形状,它的形状来源于你给定的一个path,然后它去取<code>CGPath</code>值,它与CALayer有着很大的区别.</p>
 <p>并且，系统仅会渲染CAShapeLayer对象的形状，其他任何非CAShapeLayer的自由属性在渲染是都会被忽略。因此从某种意义上讲CAShapeLayer仅是形状的容器。虽然由于其实CALayer的子类，可以设置<code>contents</code>、<code>backgroundColor</code>等属性，但这些属性在渲染时也会被忽略。</p>
 <h4 id="但是，CAShapeLayer提供了自身的可设置性："><a href="#但是，CAShapeLayer提供了自身的可设置性：" class="headerlink" title="- 但是，CAShapeLayer提供了自身的可设置性："></a>- 但是，CAShapeLayer提供了自身的可设置性：</h4><table>
 <thead>
@@ -440,7 +460,6 @@
 </tr>
 </tbody>
 </table>
-<a id="more"></a>
 <ul>
 <li><p>path<br>  动画路径，默认为NULL，不支持隐式动画。路径可以使用任何的具体子类的动画CAPropertyAnimation。如果此属性的值是不为NULL，则path使用指定的路径，而不是创建该层的合成后的alpha通道。它使用的是非零缠绕规则和当前颜色，不透明度和模糊半径填充。 </p>
 </li>

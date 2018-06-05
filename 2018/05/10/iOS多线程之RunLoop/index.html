@@ -88,14 +88,15 @@
 
 
 
-<meta name="description" content="1. RunLoop简介">
+<meta name="description" content="本篇包括以下内容：  RunLoop简介 RunLoop相关类 RunLoop原理 RunLoop实战应用">
 <meta name="keywords" content="iOS,多线程,RunLoop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS多线程之RunLoop">
 <meta property="og:url" content="http://yoursite.com/2018/05/10/iOS多线程之RunLoop/index.html">
 <meta property="og:site_name" content="等风来，等花开❀~">
-<meta property="og:description" content="1. RunLoop简介">
+<meta property="og:description" content="本篇包括以下内容：  RunLoop简介 RunLoop相关类 RunLoop原理 RunLoop实战应用">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-659241.jpg">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1877784-6ab632fc118e31f3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://blog.ibireme.com/wp-content/uploads/2015/05/RunLoop_0.png">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1877784-f801715c95de19f4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
@@ -105,11 +106,11 @@
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1877784-8253c4b57f1b674e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1877784-b4777f945878a0b9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1877784-13880540c8c89552.gif?imageMogr2/auto-orient/strip">
-<meta property="og:updated_time" content="2018-05-22T14:35:32.000Z">
+<meta property="og:updated_time" content="2018-06-05T06:46:24.008Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS多线程之RunLoop">
-<meta name="twitter:description" content="1. RunLoop简介">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1877784-6ab632fc118e31f3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:description" content="本篇包括以下内容：  RunLoop简介 RunLoop相关类 RunLoop原理 RunLoop实战应用">
+<meta name="twitter:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-659241.jpg">
 
 
 
@@ -376,7 +377,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  4,401 字
+                  4,424 字
                 </span>
               
 
@@ -413,8 +414,16 @@
       
 
       
-        <h2 id="1-RunLoop简介"><a href="#1-RunLoop简介" class="headerlink" title="1. RunLoop简介"></a>1. RunLoop简介</h2><a id="more"></a>
-<h3 id="1-1-什么是RunLoop？"><a href="#1-1-什么是RunLoop？" class="headerlink" title="1.1 什么是RunLoop？"></a>1.1 什么是RunLoop？</h3><p>可以理解为字面意思：Run表示运行，Loop表示循环。结合在一起就是运行的循环的意思。哈哈，我更愿意翻译为『跑圈』。直观理解就像是不停的跑圈。</p>
+        <p><img src="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-659241.jpg" alt=""></p>
+<p><strong>本篇包括以下内容：</strong></p>
+<ul>
+<li>RunLoop简介</li>
+<li>RunLoop相关类</li>
+<li>RunLoop原理</li>
+<li>RunLoop实战应用</li>
+</ul>
+<a id="more"></a>
+<h2 id="1-RunLoop简介"><a href="#1-RunLoop简介" class="headerlink" title="1. RunLoop简介"></a>1. RunLoop简介</h2><h3 id="1-1-什么是RunLoop？"><a href="#1-1-什么是RunLoop？" class="headerlink" title="1.1 什么是RunLoop？"></a>1.1 什么是RunLoop？</h3><p>可以理解为字面意思：Run表示运行，Loop表示循环。结合在一起就是运行的循环的意思。哈哈，我更愿意翻译为『跑圈』。直观理解就像是不停的跑圈。</p>
 <p>RunLoop实际上是一个对象，这个对象在循环中用来处理程序运行过程中出现的各种事件（比如说触摸事件、UI刷新事件、定时器事件、Selector事件），从而保持程序的持续运行；而且在没有事件处理的时候，会进入睡眠模式，从而节省CPU资源，提高程序性能。</p>
 <h3 id="1-2-RunLoop和线程"><a href="#1-2-RunLoop和线程" class="headerlink" title="1.2 RunLoop和线程"></a>1.2 RunLoop和线程</h3><p>RunLoop和线程是息息相关的，我们知道线程的作用是用来执行特定的一个或多个任务，但是在默认情况下，线程执行完之后就会退出，就不能再执行任务了。这时我们就需要采用一种方式来让线程能够处理任务，并不退出。所以，我们就有了RunLoop。</p>
 <p>一条线程对应一个RunLoop对象，每条线程都有唯一一个与之对应的RunLoop对象。<br>我们只能在当前线程中操作当前线程的RunLoop，而不能去操作其他线程的RunLoop。<br>RunLoop对象在第一次获取RunLoop时创建，销毁则是在线程结束的时候。<br>主线程的RunLoop对象系统自动帮助我们创建好了(原理如下)，而子线程的RunLoop对象需要我们主动创建。</p>
