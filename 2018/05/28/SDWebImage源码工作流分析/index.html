@@ -88,23 +88,23 @@
 
 
 
-<meta name="description" content="本篇将了解到：  SDWebImage是如何工作的，各工具类之间是如何协调处理的 是如何异步下载图片及处理线程安全问题的 是如何异步缓存并自动管理缓存有效性的">
+<meta name="description" content="本篇将了解到：  SDWebImage是如何工作的，各工具类之间是如何协调处理的 SDWebImage是如何异步下载图片及处理线程安全问题的 SDWebImage是如何异步缓存并自动管理缓存有效性的">
 <meta name="keywords" content="iOS,SDWebImage,源码分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SDWebImage源码工作流分析">
 <meta property="og:url" content="http://yoursite.com/2018/05/28/SDWebImage源码工作流分析/index.html">
 <meta property="og:site_name" content="等风来，等花开❀~">
-<meta property="og:description" content="本篇将了解到：  SDWebImage是如何工作的，各工具类之间是如何协调处理的 是如何异步下载图片及处理线程安全问题的 是如何异步缓存并自动管理缓存有效性的">
+<meta property="og:description" content="本篇将了解到：  SDWebImage是如何工作的，各工具类之间是如何协调处理的 SDWebImage是如何异步下载图片及处理线程安全问题的 SDWebImage是如何异步缓存并自动管理缓存有效性的">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-652298.jpg">
 <meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/s_SDClassDiagram.png">
 <meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/s_SDSequenceDiagram.png">
 <meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/s_sdFlow.jpeg">
 <meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/s_s_SDDown.png">
-<meta property="og:updated_time" content="2018-06-05T08:00:41.811Z">
+<meta property="og:updated_time" content="2018-06-05T08:05:06.307Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SDWebImage源码工作流分析">
-<meta name="twitter:description" content="本篇将了解到：  SDWebImage是如何工作的，各工具类之间是如何协调处理的 是如何异步下载图片及处理线程安全问题的 是如何异步缓存并自动管理缓存有效性的">
+<meta name="twitter:description" content="本篇将了解到：  SDWebImage是如何工作的，各工具类之间是如何协调处理的 SDWebImage是如何异步下载图片及处理线程安全问题的 SDWebImage是如何异步缓存并自动管理缓存有效性的">
 <meta name="twitter:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-652298.jpg">
 
 
@@ -372,7 +372,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  5,917 字
+                  5,919 字
                 </span>
               
 
@@ -413,8 +413,8 @@
 <p><strong>本篇将了解到：</strong></p>
 <ul>
 <li>SDWebImage是如何工作的，各工具类之间是如何协调处理的</li>
-<li>是如何异步下载图片及处理线程安全问题的</li>
-<li>是如何异步缓存并自动管理缓存有效性的</li>
+<li>SDWebImage是如何异步下载图片及处理线程安全问题的</li>
+<li>SDWebImage是如何异步缓存并自动管理缓存有效性的</li>
 </ul>
 <a id="more"></a>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><ul>
@@ -586,6 +586,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/06/01/runtime系列之（1）runtime初探/" rel="prev" title="runtime系列之（1）runtime初探">
+                runtime系列之（1）runtime初探 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -665,7 +669,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -676,7 +680,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -687,7 +691,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

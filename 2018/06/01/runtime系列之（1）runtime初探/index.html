@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,runtime," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="等风来，等花开❀~" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="您将了解到：  什么是runtime 与runtime系统发生交互的三种方式 一些runtime的术语的数据结构">
+<meta name="keywords" content="iOS,runtime">
+<meta property="og:type" content="article">
+<meta property="og:title" content="runtime系列之（1）runtime初探">
+<meta property="og:url" content="http://yoursite.com/2018/06/01/runtime系列之（1）runtime初探/index.html">
+<meta property="og:site_name" content="等风来，等花开❀~">
+<meta property="og:description" content="您将了解到：  什么是runtime 与runtime系统发生交互的三种方式 一些runtime的术语的数据结构">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-652286.jpg">
+<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/r_runtimeIsaAll.png">
+<meta property="og:updated_time" content="2018-06-11T03:44:38.222Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="runtime系列之（1）runtime初探">
+<meta name="twitter:description" content="您将了解到：  什么是runtime 与runtime系统发生交互的三种方式 一些runtime的术语的数据结构">
+<meta name="twitter:image" content="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-652286.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/01/runtime系列之（1）runtime初探/"/>
+
+
+
+
+
+  <title>runtime系列之（1）runtime初探 | 等风来，等花开❀~</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">等风来，等花开❀~</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/01/runtime系列之（1）runtime初探/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ぱゐずだιονε゜">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="等风来，等花开❀~">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">runtime系列之（1）runtime初探</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-01T22:46:40+08:00">
+                2018-06-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/06/01/runtime系列之（1）runtime初探/" class="leancloud_visitors" data-flag-title="runtime系列之（1）runtime初探">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,902 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  11 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://p9u62mso1.bkt.clouddn.com/coverwallhaven-652286.jpg" alt=""></p>
+<p>您将了解到：</p>
+<ul>
+<li>什么是runtime</li>
+<li>与runtime系统发生交互的三种方式</li>
+<li>一些runtime的术语的数据结构<a id="more"></a>
+</li>
+</ul>
+<h3 id="什么是runtime"><a href="#什么是runtime" class="headerlink" title="什么是runtime"></a>什么是runtime</h3><p>我们都知道高级编程语言想要成为可执行文件需要先编译为汇编语言再汇编为机器语言，机器语言也是计算机能够识别的唯一语言，但是OC并不能直接编译为汇编语言，而是要先转写为纯C语言再进行编译和汇编的操作，从OC到C语言的过渡就是由<code>runtime</code>来实现的。</p>
+<p>Objective-C是基于C的，它为C添加了面向对象的特性。它将很多静态语言在编译和链接时期做的事放到了<code>runtime</code>运行时来处理，可以说<code>runtime</code>是我们Objective-C幕后工作者。</p>
+<ul>
+<li><p><code>runtime</code>（简称运行时），是一套纯C（C和汇编写的）的API。而OC就是运行时机制，也就是在运行时候的一些机制，其中最主要的是消息机制。</p>
+</li>
+<li><p>对于C语言，方法的调用会在编译的时候就决定好调用哪个方法。</p>
+</li>
+<li><p>OC的方法调用成为消息发送，属于动态调用过程。在编译的时候并不能决定真正调用哪个方法，只有在真正运行的时候才会根据方法的名称找到对应的方法实现来调用。</p>
+</li>
+<li><p>事实证明：在编译阶段，OC可以调用任何方法，即使这个方法并未实现，只要声明过就不会报错，只有运行的时候才会报错，这是因为OC是运行时动态调用的。而C语言调用未实现的方法就会报错。</p>
+</li>
+</ul>
+<h3 id="与runtime系统发生交互的三种方式"><a href="#与runtime系统发生交互的三种方式" class="headerlink" title="与runtime系统发生交互的三种方式"></a>与runtime系统发生交互的三种方式</h3><p><code>runtime</code>是一个共享动态库，由一系列的C函数和结构体构成。和<code>runtime</code>系统发生交互的方式有三种，一般都是用前两种：</p>
+<ol>
+<li><strong>通过Objective-C源代码</strong><ul>
+<li>多数情况我们只需要编写OC代码即可，runtime系统自动在幕后搞定一切。</li>
+</ul>
+</li>
+<li><p><strong>通过Foundation框架的NSObject类定义的方法</strong><br> Cocoa 程序中绝大部分类都是NSObject类的子类，所以都继承了NSObject的行为。(<code>NSProxy</code>类时个例外，它是个抽象超类)</p>
+<p> 一些情况下，NSObject 类仅仅定义了完成某件事情的模板，并没有提供所需要的代码。例如<code>-description</code>方法，该方法返回类内容的字符串表示，该方法主要用来调试程序。NSObject 类并不知道子类的内容，所以它只是返回类的名字和对象的地址，NSObject 的子类可以重新实现。</p>
+<p> 还有一些NSObject的方法可以从runtime系统中获取信息，允许对象进行自我检查。例如：</p>
+<ul>
+<li><code>-class</code>方法返回对象的类；</li>
+<li><code>-isKindOfClass:</code>和<code>-isMemberOfClass:</code>方法检查对象是否存在于指定的类的继承体系中(是否是其子类或者父类或者当前类的成员变量)；</li>
+<li><code>-respondsToSelector:</code>检查对象能否响应指定的消息；</li>
+<li><code>-conformsToProtocol:</code>检查对象是否实现了指定协议类的方法；</li>
+<li><code>-methodForSelector:</code>返回指定方法实现的地址；</li>
+</ul>
+</li>
+<li><p><strong>通过对runtime库函数的直接调用</strong><br> 使用时引入<code>#import &lt;objc/runtime.h&gt;</code>和<code>#import &lt;objc/message.h&gt;</code>头文件，一些基础方法都定义在这两个文件中。</p>
+</li>
+</ol>
+<h3 id="一些runtime的术语的数据结构"><a href="#一些runtime的术语的数据结构" class="headerlink" title="一些runtime的术语的数据结构"></a>一些runtime的术语的数据结构</h3><h4 id="SEL"><a href="#SEL" class="headerlink" title="SEL"></a>SEL</h4><p>它是selector在Objc中表示（swift中是Selector类）。selector是方法选择器，selector对方法名进行包装，以便找到对应的方法实现。它的数据结构是：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">objc_selector</span> *<span class="title">SEL</span>;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：<br>不同类中相同名字的方法所对应的 selector 是相同的，由于变量的类型不同，所以不会导致它们调用方法实现混乱。</p>
+</blockquote>
+<h4 id="id"><a href="#id" class="headerlink" title="id"></a>id</h4><p>id是一个参数类型，它是指向某个类的实例的指针。定义如下：</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct objc_object &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAI<span class="class">LABILITY;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/// A pointer to an<span class="built_in"> instance </span>of a class.</span><br><span class="line">typedef struct objc_object *id;</span><br></pre></td></tr></table></figure>
+<p>以上定义，看到<code>objc_object</code>结构体包含一个<code>isa</code>指针，根据<code>isa</code>指针就可以找到对象所属的类。</p>
+<blockquote>
+<p>注意：<br><code>isa</code> 指针在代码运行时并不总指向实例对象所属的类型，所以不能依靠它来确定类型，要想确定类型还是需要用对象的 <code>-class</code> 方法。</p>
+</blockquote>
+<p>PS: KVO 的实现机理就是将被观察对象的 <code>isa</code> 指针指向一个中间类而不是真实类型，详见:</p>
+<h4 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">objc_class</span> *<span class="title">Class</span>;</span></span><br></pre></td></tr></table></figure>
+<p><code>Class</code>其实是指向<code>objc_class</code>结构体的指针。<code>objc_class</code>的数据结构如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">objc_class</span> &#123;</span></span><br><span class="line">  Class isa OBJC_ISA_AVAILABILITY; <span class="comment">//isa指针指向Meta Class，因为Objc的类的本身也是一个Object，为了处理这个关系，runtime就创造了Meta Class，当给类发送[NSObject alloc]这样消息时，实际上是把这个消息发给了Class Object</span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">if</span> !__OBJC2__</span></span><br><span class="line">  Class super_class OBJC2_UNAVAILABLE; <span class="comment">// 父类</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span> *name OBJC2_UNAVAILABLE; <span class="comment">// 类名</span></span><br><span class="line">  <span class="keyword">long</span> version OBJC2_UNAVAILABLE; <span class="comment">// 类的版本信息，默认为0</span></span><br><span class="line">  <span class="keyword">long</span> info OBJC2_UNAVAILABLE; <span class="comment">// 类信息，供运行期使用的一些位标识</span></span><br><span class="line">  <span class="keyword">long</span> instance_size OBJC2_UNAVAILABLE; <span class="comment">// 该类的实例变量大小</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">objc_ivar_list</span> *<span class="title">ivars</span> <span class="title">OBJC2_UNAVAILABLE</span>;</span> <span class="comment">// 该类的成员变量链表</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">objc_method_list</span> **<span class="title">methodLists</span> <span class="title">OBJC2_UNAVAILABLE</span>;</span> <span class="comment">// 方法定义的链表</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">objc_cache</span> *<span class="title">cache</span> <span class="title">OBJC2_UNAVAILABLE</span>;</span> <span class="comment">// 方法缓存，对象接到一个消息会根据isa指针查找消息对象，这时会在method Lists中遍历，如果cache了，常用的方法调用时就能够提高调用的效率。</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">objc_protocol_list</span> *<span class="title">protocols</span> <span class="title">OBJC2_UNAVAILABLE</span>;</span> <span class="comment">// 协议链表</span></span><br><span class="line">  <span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  &#125; OBJC2_UNAVAILABLE;</span><br></pre></td></tr></table></figure>
+<p>从<code>objc_class</code>可以看到，一个运行时类中关联了它的<code>父类</code>、<code>类名</code>、<code>成员变量</code>、<code>方法</code>、<code>缓存</code>以及<code>附属的协议</code>。其中<code>objc_ivar_list</code>和<code>objc_method_list</code>分别是成员变量列表和方法列表：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 成员变量列表</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">objc_ivar_list</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> ivar_count                                           OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __LP64__</span></span><br><span class="line">    <span class="keyword">int</span> space                                                OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="comment">/* variable length structure */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_ivar</span> <span class="title">ivar_list</span>[1]                            <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法列表</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">objc_method_list</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_method_list</span> * _<span class="title">Nullable</span> <span class="title">obsolete</span>             <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> method_count                                         OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __LP64__</span></span><br><span class="line">    <span class="keyword">int</span> space                                                OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="comment">/* variable length structure */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">objc_method</span> <span class="title">method_list</span>[1]                        <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由此可见，我们可以动态修改<code>*methodList</code>的值来添加成员方法，这也是Category实现的原理，同样解释了Category不能添加属性的原因。这里可以参考下美团技术团队的文章：<a href="https://tech.meituan.com/DiveIntoCategory.html" target="_blank" rel="noopener">美团技术团队–深入理解Objective-C:Category</a></p>
+<p><code>objc_ivar_list</code>结构体用来存储成员变量的列表，而<code>objc_ivar</code>则是存储了单个成员变量的信息；同理，<code>objc_method_list</code>结构体存储着方法数组的列表，而单个方法的信息则由<code>objc_method</code>结构体存储。</p>
+<p>值得注意的是，<code>objc_class</code>中也有一个<code>isa</code>指针，这说明<code>Objc类</code>本身也是一个对象。为了处理类和对象的关系，<code>runtime</code>库创建了一种叫做<code>Meta Class（元类）</code>的东西，类对象所属的类就叫做<code>元类</code>。<code>Meta Class</code>表述了类对象本身所具备的元数据。</p>
+<p>我们所熟悉的类方法，就源自于<code>Meta Class</code>。我们可以立即为类方法就是类对象的实例方法。每个类仅有一个类对象，而每个类对象仅有一个与之相关的元类。</p>
+<p>当你发出一个类似<code>[NSObject alloc](类方法)</code>的消息时，实际上，这个消息被发送给了一个<code>类对象(Class Object)</code>，这个类对象必须是一个元类的实例，而这个元类同时也是也是一个<code>根元类(Root Meta Class)</code>的实例。所有元类的<code>isa</code>指针最终都指向<code>根元类</code>。</p>
+<p>所以当<code>[NSObject alloc]</code>这条消息发送给类对象的时候，运行时代码<code>objc_msgSend()</code>会去它的元类中查找能够响应消息的方法实现，如果找到了，就会对这个类对象执行方法调用。</p>
+<p><img src="http://p9u62mso1.bkt.clouddn.com/r_runtimeIsaAll.png" alt=""></p>
+<p>上图实线是<code>super_class</code>指针，虚线是<code>isa</code>指针。而根元类的父类是NSObject，<code>isa</code>指向了自己。而NSObject没有父类。最后<code>objc_class</code>中还有一个<code>objc_cache</code>，缓存，它的左右很重要，后面会提到。</p>
+<h4 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h4><figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">typedef struct objc_method *<span class="function"><span class="keyword">Method</span>;</span></span><br><span class="line"></span><br><span class="line">struct objc_method <span class="comment">&#123;</span></span><br><span class="line"><span class="comment">    SEL _Nonnull method_name                                 OBJC2_UNAVAILABLE;</span></span><br><span class="line"><span class="comment">    char * _Nullable method_types                            OBJC2_UNAVAILABLE;</span></span><br><span class="line"><span class="comment">    IMP _Nonnull method_imp                                  OBJC2_UNAVAILABLE;</span></span><br><span class="line"><span class="comment">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><code>objc_method</code>存储了方法名，方法类型和方法实线：</p>
+<ul>
+<li>方法名类型为<code>SEL</code></li>
+<li>方法类型<code>method_types</code>是个<code>char</code>指针，存储方法的参数类型和返回值类型</li>
+<li><code>method_imp</code>指向了方法的实现，本质是一个函数指针</li>
+</ul>
+<h4 id="Ivar"><a href="#Ivar" class="headerlink" title="Ivar"></a>Ivar</h4><p><code>Ivar</code>是表示成员变量的类型。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">objc_ivar</span> *<span class="title">Ivar</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">objc_ivar</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> * _Nullable ivar_name                               OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">char</span> * _Nullable ivar_type                               OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">int</span> ivar_offset                                          OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __LP64__</span></span><br><span class="line">    <span class="keyword">int</span> space                                                OBJC2_UNAVAILABLE;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中<code>ivar_offset</code>是基地址偏移字节</p>
+<h4 id="IMP"><a href="#IMP" class="headerlink" title="IMP"></a>IMP</h4><p><code>IMP</code>在<code>objc.h</code>中的定义是：</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef void (*<span class="type">IMP</span>)(void /* id, <span class="type">SEL</span>, ... */ );</span><br></pre></td></tr></table></figure>
+<p>它就是一个函数指针，这是由编译器生成的。当你发起一个<code>ObjC</code>消息之后，最终它会执行的那段代码，就是由这个函数指针指定的。而<code>IMP</code>这个函数指针就是指向了这个方法的实现。</p>
+<p>如果得到了执行某个实例某个方法的入口，我们可以绕开消息传递阶段，直接执行方法，这在下面的<code>Cache</code>中会提到。</p>
+<p>你会发现<code>IMP</code>指向的方法与<code>objc_msgSend</code>函数类型相同，参数都包含<code>id</code>和<code>SEL</code>类型。每个方法名都对应一个<code>SEL</code>类型的方法选择器，而每个实例对象中的<code>SEL</code>对应方法实线总是唯一的，通过一组<code>id</code>和<code>SEL</code>参数就能确定唯一的方法实线地址。</p>
+<p>而一个确定的方法也只有唯一的一组<code>id</code>和<code>SEL</code>参数。</p>
+<h4 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h4><p>Cache定义如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">objc_cache</span> *<span class="title">Cache</span>                             <span class="title">OBJC2_UNAVAILABLE</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">objc_cache</span> &#123;</span></span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> mask <span class="comment">/* total = mask + 1 */</span>                 OBJC2_UNAVAILABLE;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> occupied                                    OBJC2_UNAVAILABLE;</span><br><span class="line">    Method _Nullable buckets[<span class="number">1</span>]                              OBJC2_UNAVAILABLE;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>Cache为方法调用的性能进行优化，每当实例对象接收到一个消息时，它不会直接在isa指针指向的类的方法列表中遍历查找能够响应的方法，因为每次都要查找效率太低了，而是优先在Cache中查找。</p>
+<p>runtime系统会把被调用的方法存到Cache中，如果一个方法被调用，那么它有可能今后还会被调用，下次查找的时候就会效率更高。就像计算机组成原理中CPU绕过主存先访问Cache一样。</p>
+<h4 id="Property"><a href="#Property" class="headerlink" title="Property"></a>Property</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">objc_property</span> *<span class="title">objc_property_t</span>;</span></span><br></pre></td></tr></table></figure>
+<p>可以通过<code>class_copyPropertyList</code>和<code>protocol_copyPropertyList</code>方法获取类和协议中的属性：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">objc_property_t</span> *class_copyPropertyList(Class cls, <span class="keyword">unsigned</span> <span class="keyword">int</span> *outCount)</span><br><span class="line"><span class="keyword">objc_property_t</span> *protocol_copyPropertyList(Protocol *proto, <span class="keyword">unsigned</span> <span class="keyword">int</span> *outCount);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：返回的是属性列表，列表中每个元素都是一个<code>objc_property_t</code>指针</p>
+</blockquote>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#import <span class="meta-string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Person</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** 姓名 */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">strong</span>, <span class="keyword">nonatomic</span>) <span class="built_in">NSString</span> *name;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** age */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** weight */</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">assign</span>, <span class="keyword">nonatomic</span>) <span class="keyword">double</span> weight;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>以上是一个Person类，有三个属性。让我们用上述方法获取类的运行时属性。</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">unsigned int outCount = <span class="number">0</span><span class="comment">;</span></span><br><span class="line">    </span><br><span class="line">objc_property_t *properties = class_copyPropertyList([Person class], <span class="symbol">&amp;outCount</span>)<span class="comment">;</span></span><br><span class="line">    </span><br><span class="line">for (<span class="name">NSInteger</span> i = <span class="number">0</span><span class="comment">; i &lt; outCount; ++i) &#123;</span></span><br><span class="line">   NSString *name = @(property_getName(properties[i]));</span><br><span class="line">   NSString *attributes = @(<span class="name">property_getAttributes</span>(<span class="name">properties</span>[i]))<span class="comment">;</span></span><br><span class="line">   NSLog(@<span class="string">"%@ ------- %@"</span>, name, attributes)<span class="comment">;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印结果：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">name ------- <span class="built_in">T</span>@<span class="string">"NSString"</span>,C,<span class="built_in">N</span>,V_name</span><br><span class="line">age ------- TQ,<span class="built_in">N</span>,V_age</span><br><span class="line">weight ------- Td,<span class="built_in">N</span>,V_weight</span><br></pre></td></tr></table></figure>
+<p><code>property_getName</code>用来查找属性的名称，返回c字符串。<code>property_getAttributes</code>函数挖掘属性的真实名称和@encode类型，返回c字符串。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">objc_property_t</span> class_getProperty(Class cls, <span class="keyword">const</span> <span class="keyword">char</span> *name)</span><br><span class="line"><span class="keyword">objc_property_t</span> protocol_getProperty(Protocol *proto, <span class="keyword">const</span> <span class="keyword">char</span> *name, BOOL isRequiredProperty, BOOL isInstanceProperty)</span><br></pre></td></tr></table></figure>
+<p><code>class_getProperty</code>和<code>protocol_getProperty</code>通过给出属性名在类和协议中获得属性的引用。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>一些runtime术语讲完了，我们队结构体<code>struct objc_class</code>有了了解，下一篇，我们将学习runtime如何将面向对象的类转变为面向过程的结构体。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+        
+        <div>
+
+<div style="text-align:center;color: #ccc;font-size:14px;">~~~~~~~~~~~~~本文结束<i class="fa fa-heart"></i>感谢您的阅读~~~~~~~~~~~~~</div>
+
+</div>
+
+        
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+            <a href="/tags/runtime/" rel="tag"># runtime</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/28/SDWebImage源码工作流分析/" rel="next" title="SDWebImage源码工作流分析">
+                <i class="fa fa-chevron-left"></i> SDWebImage源码工作流分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/05/runtime系列之（2）从runtime开始理解面向对象的类到面向过程的结/" rel="prev" title="runtime系列之（2）从runtime开始理解面向对象的类到面向过程的结构体">
+                runtime系列之（2）从runtime开始理解面向对象的类到面向过程的结构体 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="ぱゐずだιονε゜" />
+            
+              <p class="site-author-name" itemprop="name">ぱゐずだιονε゜</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是runtime"><span class="nav-text">什么是runtime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与runtime系统发生交互的三种方式"><span class="nav-text">与runtime系统发生交互的三种方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些runtime的术语的数据结构"><span class="nav-text">一些runtime的术语的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SEL"><span class="nav-text">SEL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#id"><span class="nav-text">id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Class"><span class="nav-text">Class</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method"><span class="nav-text">Method</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Ivar"><span class="nav-text">Ivar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IMP"><span class="nav-text">IMP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cache"><span class="nav-text">Cache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Property"><span class="nav-text">Property</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ぱゐずだιονε゜</span>
+
+  
+</div>
+
+
+<!--
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+-->
+
+
+
+  <!-- <span class="post-meta-divider">|</span> -->
+
+
+
+  <!-- <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v</div> -->
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("NQ57m47YrUBAiPJIKI96sQk5-gzGzoHsz", "MnPaSxKcnEkivma8DHk2UGmd");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>;
+<script>
+$("body").backstretch("https://背景图.jpg");
+</script>
+
+</body>
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
