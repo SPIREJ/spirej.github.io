@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS动画,读书笔记," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="等风来，等花开❀~" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="keywords" content="iOS动画,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《iOS动画》读书笔记·内容层动画">
+<meta property="og:url" content="http://yoursite.com/2019/02/16/《iOS动画》读书笔记·前序的副本 2/index.html">
+<meta property="og:site_name" content="等风来，等花开❀~">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-99df471d98fa9d89.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-0da51098581a3821.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-c58a2b8c0b34cc91.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-2c46cf78efd79c14.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-28fe38a837ec2aba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-60b3175fb3b98bdd.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-78028cf557c7cbf8.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-6d9429bb6ed8235b.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2019-03-25T03:24:45.297Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《iOS动画》读书笔记·内容层动画">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1276164-99df471d98fa9d89.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/16/《iOS动画》读书笔记·前序的副本 2/"/>
+
+
+
+
+
+  <title>《iOS动画》读书笔记·内容层动画 | 等风来，等花开❀~</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">等风来，等花开❀~</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/16/《iOS动画》读书笔记·前序的副本 2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ぱゐずだιονε゜">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="等风来，等花开❀~">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《iOS动画》读书笔记·内容层动画</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-16T22:46:40+08:00">
+                2019-02-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/02/16/《iOS动画》读书笔记·前序的副本 2/" class="leancloud_visitors" data-flag-title="《iOS动画》读书笔记·内容层动画">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2,961 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  13 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://upload-images.jianshu.io/upload_images/1276164-99df471d98fa9d89.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="《iOS动画》读书笔记·内容层动画.jpg"></p>
+<a id="more"></a>
+<p><a href="https://www.jianshu.com/p/bc6e3e175a37" target="_blank" rel="noopener">《iOS动画》读书笔记·前序</a><br><a href="https://www.jianshu.com/p/4e95c596dfa9" target="_blank" rel="noopener">《iOS动画》读书笔记·显示层动画</a><br><a href="https://www.jianshu.com/p/3b469f7ba311" target="_blank" rel="noopener">《iOS动画》读书笔记·内容层动画</a><br><a href="https://www.jianshu.com/p/0c5be91642cd" target="_blank" rel="noopener">《iOS动画》读书笔记·转场动画</a></p>
+<h3 id="UIView和CALayer的区别："><a href="#UIView和CALayer的区别：" class="headerlink" title="UIView和CALayer的区别："></a>UIView和CALayer的区别：</h3><p> （1）UIView继承<code>UIResponder</code>，因此UIView可以处理响应事件，而CALayer继承<code>NSObject</code>，所以它只负责内容的创建、绘制。<br> （2）UIView负责对内容的管理，而CALayer负责对内容的绘制<br> （3）UIView中的位置属性只有<code>frame，bounds，center</code>，而CALayer除了这些之外还有<code>anchorPoint，position</code><br> （4）通过修改CALayer可以实现UIView无法实现的很多<strong>高级功能</strong></p>
+<h3 id="Core-Animation核心动画"><a href="#Core-Animation核心动画" class="headerlink" title="Core Animation核心动画"></a>Core Animation核心动画</h3><p> <code>Core Animation</code>为iOS核心动画，它提供了一组丰富的API可以用于制作各种高级炫酷的动画效果。<code>CoreAnimation</code>来自iOS的<code>QuartzCore.framework</code>框架，它具备以下特点：<br> （1）直接作用于CALayer图层上<br> （2）Core Animation的执行过程在后台执行，不阻塞主线程<br> （3）可用CALayer绝大多数属性绘制高级动画效果</p>
+<p> <strong><code>Core Animation</code>下各种常用动画类的继承关系图</strong></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1276164-0da51098581a3821.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Core Animation下各种常用动画类的继承关系图"></p>
+<ul>
+<li><code>@protocol CAMediaTiming</code>有很多动画公共的属性，比如常见的 <code>duration / speed / repeatCount</code>等</li>
+<li><code>CAAnimation</code> 主要用于实现动画的委托代理方法，比如动画的开始事件和结束事件</li>
+<li><code>CAPropertyAnimation</code> 为动画属性，分为<code>CABasicAnimation</code>基础动画和<code>CAKeyframeAnimation</code>关键帧动画</li>
+<li><code>CAAnimationGroup</code> 组合动画<br>-<code>CATransition</code> 转场动画</li>
+</ul>
+<h3 id="CABasicAnimation基础动画合集"><a href="#CABasicAnimation基础动画合集" class="headerlink" title="CABasicAnimation基础动画合集"></a>CABasicAnimation基础动画合集</h3><p><strong>（1）位置动画</strong><br>        <code>posion</code><br>    注意animation.toValue属性表明改变了控件的位置，所以给一个新的position的x,y坐标 animation.byValue表明在控件原来位置的基础上，沿x,y坐标分别移动了多少</p>
+<p> <strong>（2）缩放动画</strong><br>    <code>transform.scale.x / transform.scale.y</code>，scale有<code>x,y</code>两个属性表明当前UI控件的width/height的缩放系数</p>
+<p><strong>（3）旋转动画</strong><br>   <code>transform.rotation</code></p>
+<p><strong>（4）位移动画</strong><br>   <code>transform.translation.x / transform.translation.y</code> 表示在<code>x/y</code>方向上移动</p>
+<p><strong>（5）边框动画</strong><br>    <code>animation.keyPath = &quot;borderWidth&quot;</code></p>
+<p> <strong>（6）颜色渐变</strong><br>    <code>animation.keyPath = &quot;backgroundColor&quot;</code><br>   <code>animation.keyPath = &quot;borderColor&quot;</code></p>
+<p> <strong>（7）淡入淡出</strong><br>    <code>animation.keyPath = &quot;opacity&quot;</code></p>
+<p> <strong>（8）阴影渐变</strong><br>    <code>animation.keyPath = &quot;shadowOffset&quot;</code></p>
+<p>这里就不举具体的例子了，可以参考这篇→_→<a href="https://www.jianshu.com/p/fc9be72adc9f" target="_blank" rel="noopener">核心动画-Core Animation</a></p>
+<h3 id="Core-Animation"><a href="#Core-Animation" class="headerlink" title="Core Animation"></a>Core Animation</h3><p> 关键字 <code>CAKeyframeAnimation</code><br> <code>CAKeyframeAnimation</code>：是<code>CALayer</code>层下的关键帧动画类，实现类似UIView的关键帧动画效果（前面有介绍）。<code>ACKeyframeAnimation</code>是<code>CAPropertyAnimation</code>的一个子类，与<code>CABasicAnimation</code>原理类似，都是通过修改当前<code>CALayer</code>图层的<code>value</code>属性实现动画效果。不同的是<code>CABasicAnimation</code>一般只使用<code>fromeValue/toValue/byValue</code>，即只能修改一个<code>value</code>值。而<code>CAKeyframeAnimation</code>则可以修改一组<code>value</code>值来实现对动画的更精确细腻的控制。</p>
+<p> <code>CAAnimation Group</code>：组合动画，把各种动画组合起来形成各种效果</p>
+<p> <code>CAKeyframeAnimation</code>动画属性要点：<br> <code>（1）values</code><br>    数组类型，数组中的每个元素描述了一个关键帧的相关属性。比如描述关键帧位置的动画时，values描述的是位置信息；比如描述关键帧缩放动画时，values描述的是缩放比例信息<br> <code>（2）keyTimes</code><br>    关键帧在动画周期默认是匀速的。如果设置了该属性，那么每个关键帧显示的周期为<code>keyTimes*duration</code><br> <code>（3）path</code><br>    控制动画路径，通过设置<code>CGPathRef/CGMutablePathRef</code>可以让动画按照自己绘制的路径运行</p>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p>具体示例代码看这里→_→<a href="https://github.com/SPIREJ/AnimationLayerSwift" target="_blank" rel="noopener">https://github.com/SPIREJ/AnimationLayerSwift</a></p>
+<h4 id="1、CAEmitterCell粒子火焰效果"><a href="#1、CAEmitterCell粒子火焰效果" class="headerlink" title="1、CAEmitterCell粒子火焰效果"></a>1、CAEmitterCell粒子火焰效果</h4><p> 关键字：<code>CAEmitterLayer / ACEmitterCell</code></p>
+<blockquote>
+<p>粒子系统由两部分组成：<code>CAEmitterLayer</code> <code>CAEmitterCell</code><br> <code>(1)CAEmitterLayer</code>为粒子发射图层。该图层主要用于控制粒子展现范围、粒子发射位置、粒子发射形状、渲染模式等。通过CAEmitterCell构建的发射单元都受到CAEmitterLayer图层节制。<br> <code>(2)CAEmitterCell</code>粒子发射单元，控制粒子的移动速度、方向、范围等等，这些属性可以制作酷炫的粒子特效动画</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/1276164-c58a2b8c0b34cc91.gif?imageMogr2/auto-orient/strip" alt="粒子火焰效果.gif"></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmitterFireVC</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> emitterCell = <span class="type">CAEmitterCell</span>() <span class="comment">//粒子单元cell</span></span><br><span class="line">    <span class="keyword">let</span> emitterLayer = <span class="type">CAEmitterLayer</span>()<span class="comment">//粒子发射图层</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">self</span>.view.backgroundColor = <span class="type">UIColor</span>.black;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// Do any additional setup after loading the view.</span></span><br><span class="line">        <span class="keyword">self</span>.navigationItem.title = <span class="string">"粒子火焰效果"</span></span><br><span class="line">        </span><br><span class="line">        emitterCell.name = <span class="string">"fire"</span><span class="comment">//粒子单元名称</span></span><br><span class="line">        emitterCell.emissionLongitude = <span class="type">CGFloat</span>(<span class="type">Double</span>.pi)<span class="comment">//该d粒子系统在xy平面的发射角度</span></span><br><span class="line">        emitterCell.velocity = -<span class="number">1</span><span class="comment">//粒子速度1，负表示沿y反方向运动</span></span><br><span class="line">        emitterCell.velocityRange = <span class="number">50</span><span class="comment">//粒子速度范围</span></span><br><span class="line">        emitterCell.emissionRange = <span class="number">1.1</span><span class="comment">//粒子发射角度</span></span><br><span class="line">        emitterCell.yAcceleration = -<span class="number">200</span><span class="comment">//粒子y方向的加速度分量</span></span><br><span class="line">        emitterCell.scaleSpeed = <span class="number">0.3</span><span class="comment">//缩放比例，超大火苗</span></span><br><span class="line">        emitterCell.birthRate = <span class="number">500</span><span class="comment">//粒子数</span></span><br><span class="line">        emitterCell.lifetime = <span class="number">1</span><span class="comment">//粒子生命周期</span></span><br><span class="line">        <span class="comment">// 火焰颜色</span></span><br><span class="line">        emitterCell.color = <span class="type">UIColor</span>(red: <span class="number">0.8</span>, green: <span class="number">0.4</span>, blue: <span class="number">0.2</span>, alpha: <span class="number">0.1</span>).cgColor</span><br><span class="line">        <span class="comment">// 必须要设置粒子的“种子”内容</span></span><br><span class="line">        emitterCell.contents = <span class="type">UIImage</span>(named: <span class="string">"fire.png"</span>)!.cgImage</span><br><span class="line">        </span><br><span class="line">        emitterLayer.position = <span class="keyword">self</span>.view.center<span class="comment">//粒子发射位置</span></span><br><span class="line">        emitterLayer.emitterSize = <span class="type">CGSize</span>(width: <span class="number">50</span>, height: <span class="number">10</span>)<span class="comment">//当前火苗大小</span></span><br><span class="line">        <span class="comment">// 当前粒子渲染模式 和 发射源模式</span></span><br><span class="line">        emitterLayer.renderMode = .additive</span><br><span class="line">        emitterLayer.emitterMode = .outline</span><br><span class="line">        emitterLayer.emitterShape = .line</span><br><span class="line">        <span class="comment">// 粒子单元部署到粒子发射图层中</span></span><br><span class="line">        emitterLayer.emitterCells = [emitterCell]</span><br><span class="line">        <span class="keyword">self</span>.view.layer.addSublayer(emitterLayer)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 粒子速度</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">velocityChanged</span><span class="params">(<span class="number">_</span> sender: UISlider)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 重置粒子速度</span></span><br><span class="line">        emitterLayer.setValue(sender.value, forKeyPath: <span class="string">"emitterCells.fire.velocity"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 粒子数</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">birthRateChanged</span><span class="params">(<span class="number">_</span> sender: UISlider)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 重置粒子生成速度，即粒子数</span></span><br><span class="line">        emitterLayer.setValue(sender.value, forKeyPath: <span class="string">"emitterCells.fire.birthRate"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2、CAEmitterCell粒子霓虹效果"><a href="#2、CAEmitterCell粒子霓虹效果" class="headerlink" title="2、CAEmitterCell粒子霓虹效果"></a>2、CAEmitterCell粒子霓虹效果</h4><p> 关键字：<code>CAEmitterLayer / ACEmitterCell</code></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1276164-2c46cf78efd79c14.gif?imageMogr2/auto-orient/strip" alt="粒子霓虹效果.gif"></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">class EmitterNenoVC: UIViewController &#123;</span><br><span class="line"></span><br><span class="line">    override func viewDidLoad() &#123;</span><br><span class="line">        super.viewDidLoad()</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Do any additional setup after loading the view.</span></span><br><span class="line">        self<span class="selector-class">.navigationItem</span><span class="selector-class">.title</span> = <span class="string">"霓虹效果"</span></span><br><span class="line"></span><br><span class="line">        self<span class="selector-class">.view</span><span class="selector-class">.backgroundColor</span> = UIColor.black</span><br><span class="line">        </span><br><span class="line">        let emitterCell = CAEmitterCell()</span><br><span class="line">        emitterCell<span class="selector-class">.name</span> = <span class="string">"neonlight"</span></span><br><span class="line">        emitterCell<span class="selector-class">.emissionLongitude</span>  = CGFloat(Double.pi*<span class="number">2</span>)<span class="comment">// emissionLongitude:x-y 平面的 发 射方向</span></span><br><span class="line">        emitterCell<span class="selector-class">.velocity</span> = <span class="number">50</span><span class="comment">// 粒子速度</span></span><br><span class="line">        emitterCell<span class="selector-class">.velocityRange</span> = <span class="number">50</span><span class="comment">// 粒子速度范围</span></span><br><span class="line">        emitterCell<span class="selector-class">.scaleSpeed</span> = -<span class="number">0.2</span><span class="comment">// 缩放比例 超大火苗</span></span><br><span class="line">        emitterCell<span class="selector-class">.scale</span> = <span class="number">0.1</span><span class="comment">//缩放比例</span></span><br><span class="line">        <span class="comment">//R G B alpha的颜色速度渐变效果</span></span><br><span class="line">        emitterCell<span class="selector-class">.redSpeed</span> = -<span class="number">0.2</span></span><br><span class="line">        emitterCell<span class="selector-class">.greenSpeed</span> = -<span class="number">0.1</span></span><br><span class="line">        emitterCell<span class="selector-class">.blueSpeed</span> = <span class="number">0.1</span></span><br><span class="line">        emitterCell<span class="selector-class">.alphaSpeed</span> = -<span class="number">0.2</span></span><br><span class="line">        emitterCell<span class="selector-class">.birthRate</span> = <span class="number">100</span><span class="comment">//粒子生成速度</span></span><br><span class="line">        emitterCell<span class="selector-class">.lifetime</span> = <span class="number">4</span><span class="comment">//粒子生命周期</span></span><br><span class="line">        emitterCell<span class="selector-class">.color</span> = UIColor<span class="selector-class">.white</span><span class="selector-class">.cgColor</span><span class="comment">//粒子背景颜色</span></span><br><span class="line">        <span class="comment">//粒子效果内容</span></span><br><span class="line">        emitterCell<span class="selector-class">.contents</span> = UIImage(named: <span class="string">"neonlight.png"</span>)!.cgImage</span><br><span class="line">        </span><br><span class="line">        let emitterLayer = CAEmitterLayer()</span><br><span class="line">        emitterLayer<span class="selector-class">.position</span> = self<span class="selector-class">.view</span><span class="selector-class">.center</span><span class="comment">// 粒子发射位置</span></span><br><span class="line">        emitterLayer<span class="selector-class">.emitterSize</span> = CGSize(<span class="attribute">width</span>: <span class="number">2</span>, height: <span class="number">2</span>)// 控制粒子大小</span><br><span class="line">        emitterLayer<span class="selector-class">.renderMode</span> = CAEmitterLayerRenderMode.backToFront<span class="comment">//着色(渲染)模式</span></span><br><span class="line">        emitterLayer<span class="selector-class">.emitterMode</span> = CAEmitterLayerEmitterMode.<span class="attribute">outline</span>// 控制发射源模式 即形状</span><br><span class="line">        emitterLayer<span class="selector-class">.emitterShape</span> = CAEmitterLayerEmitterShape.circle<span class="comment">//形状</span></span><br><span class="line">        </span><br><span class="line">        emitterLayer<span class="selector-class">.emitterCells</span> = [emitterCell]</span><br><span class="line">        self<span class="selector-class">.view</span><span class="selector-class">.layer</span><span class="selector-class">.addSublayer</span>(emitterLayer)</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3、CAGradientLayer-颜色梯度-位置梯度"><a href="#3、CAGradientLayer-颜色梯度-位置梯度" class="headerlink" title="3、CAGradientLayer 颜色梯度/位置梯度"></a>3、CAGradientLayer 颜色梯度/位置梯度</h4><p><code>CAGradientLayer</code>可以拆解为三个主要组成部分<br> <code>CA</code>:CoreAnimation的缩写，表明使用的是iOS框架下的核心动画部分<br> <code>Gradient</code>:梯度的意思，描述当前动画的特点，实现一些梯度功能的动画效果。比如位置的梯度变化、颜色的梯度渐变等<br><code>Layer</code>:当前动画作用在Layer内容层</p>
+<ul>
+<li><strong>CALayer坐标系</strong><br><img src="https://upload-images.jianshu.io/upload_images/1276164-28fe38a837ec2aba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="frame坐标系与“梯度”坐标系对应关系"></li>
+</ul>
+<h5 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h5><ul>
+<li><strong>colors</strong><br><code>var colors: [AnyObject]?</code><br>一个内部是<code>CGColorRef</code>的数组,规定所有的梯度所显示的颜色,默认为<code>nil</code></li>
+<li><strong>locations</strong><br><code>var locations: [NSNumber]?</code><br>一个内部是<code>NSNumber</code>的可选数组,规定所有的颜色梯度的区间范围,选值只能在<code>0到1之间</code>,并且数组的数据必须单增,默认值为<code>nil</code></li>
+<li><strong>endPoint</strong><br><code>var endPoint: CGPoint</code><br>图层颜色绘制的终点坐标,也就是阶梯图层绘制的结束点,默认值是<code>(0.5,1.0)</code></li>
+<li><strong>startPoint</strong><br><code>var startPoint: CGPoint</code><br>与<code>endPoint</code>相互对应,就是绘制阶梯图层的起点坐标,绘制颜色的起点,默认值是<code>(0.5,0.0)</code></li>
+<li><strong>type</strong><br><code>var type:String</code><br>绘制类型,默认值是<code>kCAGradientLayerAxial</code>,也就是线性绘制,各个颜色阶层直接的变化是线性的</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/1276164-60b3175fb3b98bdd.gif?imageMogr2/auto-orient/strip" alt="GradientLayer颜色梯度变化.gif"></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">override func viewDidLoad() &#123;</span><br><span class="line">    super.viewDidLoad()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Do any additional setup after loading the view.</span></span><br><span class="line">    </span><br><span class="line">    self<span class="selector-class">.view</span><span class="selector-class">.backgroundColor</span> = UIColor.black</span><br><span class="line">    </span><br><span class="line">    let view = UIView(frame: CGRect(x: <span class="number">0</span>, y: <span class="number">0</span>, <span class="attribute">width</span>: <span class="number">100</span>, height: <span class="number">200</span>))</span><br><span class="line">    view<span class="selector-class">.center</span> = self<span class="selector-class">.view</span><span class="selector-class">.center</span></span><br><span class="line">    self<span class="selector-class">.view</span><span class="selector-class">.addSubview</span>(view)</span><br><span class="line">    </span><br><span class="line">    let gradientLayer:CAGradientLayer = CAGradientLayer()</span><br><span class="line">    gradientLayer<span class="selector-class">.frame</span> = view.bounds</span><br><span class="line">    gradientLayer<span class="selector-class">.startPoint</span> = CGPoint(x: <span class="number">0</span>, y: <span class="number">0</span>)</span><br><span class="line">    gradientLayer<span class="selector-class">.endPoint</span> = CGPoint(x: <span class="number">0</span>, y: <span class="number">1</span>)</span><br><span class="line">    gradientLayer<span class="selector-class">.colors</span> = [UIColor<span class="selector-class">.clear</span><span class="selector-class">.cgColor</span>,UIColor<span class="selector-class">.white</span><span class="selector-class">.cgColor</span>,UIColor<span class="selector-class">.clear</span><span class="selector-class">.cgColor</span>]</span><br><span class="line">    gradientLayer<span class="selector-class">.locations</span> = [<span class="number">0.0</span>, <span class="number">0.5</span>, <span class="number">1.0</span>]</span><br><span class="line">    view<span class="selector-class">.layer</span><span class="selector-class">.addSublayer</span>(gradientLayer)</span><br><span class="line">    </span><br><span class="line">    let gradientAnimation:CABasicAnimation = CABasicAnimation()</span><br><span class="line">    gradientAnimation<span class="selector-class">.keyPath</span> = <span class="string">"colors"</span></span><br><span class="line">    gradientAnimation<span class="selector-class">.fromValue</span> = [UIColor<span class="selector-class">.clear</span><span class="selector-class">.cgColor</span>,UIColor<span class="selector-class">.white</span><span class="selector-class">.cgColor</span>,UIColor<span class="selector-class">.clear</span><span class="selector-class">.cgColor</span>]</span><br><span class="line">    gradientAnimation<span class="selector-class">.toValue</span> = [UIColor<span class="selector-class">.blue</span><span class="selector-class">.cgColor</span>,UIColor<span class="selector-class">.red</span><span class="selector-class">.cgColor</span>,UIColor<span class="selector-class">.cyan</span><span class="selector-class">.cgColor</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//另一种方式 位置</span></span><br><span class="line">    <span class="comment">//gradientLayer.locations = [0.0, 0.05, 0.1]</span></span><br><span class="line">    <span class="comment">//gradientAnimation.keyPath = "locations"</span></span><br><span class="line">    <span class="comment">//gradientAnimation.fromValue = [0.0, 0.05, 0.1]</span></span><br><span class="line">    <span class="comment">//gradientAnimation.toValue = [0.9, 0.95, 1.0]</span></span><br><span class="line">    </span><br><span class="line">    gradientAnimation<span class="selector-class">.duration</span> = <span class="number">3.0</span></span><br><span class="line">    <span class="comment">// 动画结束后保持结束后的状态</span></span><br><span class="line">    gradientAnimation<span class="selector-class">.isRemovedOnCompletion</span> = false</span><br><span class="line">    gradientAnimation<span class="selector-class">.fillMode</span> = .forwards</span><br><span class="line">    </span><br><span class="line">    gradientLayer.add(gradientAnimation, forKey: nil)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>CAGradientLayer</code>结合<code>CoreAnimation</code>可以实现很多酷炫的效果，有兴趣的朋友可以自行研究</p>
+</blockquote>
+<h4 id="4、CAReplicatorLayer图层复制"><a href="#4、CAReplicatorLayer图层复制" class="headerlink" title="4、CAReplicatorLayer图层复制"></a>4、CAReplicatorLayer图层复制</h4><p><code>#关键字 CAReplicatorLayer</code><br> 主要用于图层的快速复制，并且复制会保持被复制图层的各种基础属性及动画</p>
+<p><strong>基本属性</strong></p>
+<ul>
+<li><p><strong>instanceCount</strong><br><code>var instanceCount: Int</code><br>拷贝图层的次数,包括其所有的子图层,默认值是1,也就是没有任何子图层被复制</p>
+<ul>
+<li><p><strong>instanceDelay</strong><br><code>var instanceDelay: CFTimeInterval</code><br>在短时间内的复制延时,一般用在动画上(支持动画的延时)</p>
+</li>
+<li><p><strong>instanceTransform</strong><br><code>var instanceTransform: CATransform3D</code><br>复制图层在被创建时产生的和上一个复制图层的位移(位移的锚点是CAReplicatorlayer的中心点)</p>
+</li>
+<li><p><strong>preservesDepth</strong><br><code>var preservesDepth: Bool</code><br>如果设置为YES,图层将保持于CATransformLayer类似的性质和相同的限制</p>
+</li>
+<li><p><strong>instanceColor</strong><br><code>var instanceColor: CGColor?</code><br>设置多个复制图层的颜色,默认位白色</p>
+</li>
+</ul>
+</li>
+<li><p><strong>instanceRedOffset</strong><br><code>var instanceRedOffset: Float</code><br>设置每个复制图层相对上一个复制图层的红色偏移量</p>
+<ul>
+<li><p><strong>instanceGreenOffset</strong><br><code>var instanceGreenOffset: Float</code><br>设置每个复制图层相对上一个复制图层的绿色偏移量</p>
+</li>
+<li><p><strong>instanceBlueOffset</strong><br><code>var instanceBlueOffset: Float</code><br>设置每个复制图层相对上一个复制图层的蓝色偏移量</p>
+</li>
+<li><p><strong>instanceAlphaOffset</strong><br><code>var instanceAlphaOffset: Float</code><br>设置每个复制图层相对上一个复制图层的透明度偏移量</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="1-图层复制-雷达效果"><a href="#1-图层复制-雷达效果" class="headerlink" title="(1) 图层复制 - 雷达效果"></a>(1) 图层复制 - 雷达效果</h5><p><img src="https://upload-images.jianshu.io/upload_images/1276164-78028cf557c7cbf8.gif?imageMogr2/auto-orient/strip" alt="图层复制 - 雷达效果.gif"></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">override func viewDidLoad() &#123;</span><br><span class="line">    super.viewDidLoad()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do any additional setup after loading the view.</span></span><br><span class="line">    self<span class="selector-class">.view</span><span class="selector-class">.backgroundColor</span> = UIColor.white</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 背景视图</span></span><br><span class="line">    let bgView = UIView(frame: CGRect(x: <span class="number">0</span>, y: <span class="number">0</span>, <span class="attribute">width</span>: kWidth, height: <span class="number">200</span>))</span><br><span class="line">    bgView<span class="selector-class">.center</span> = self<span class="selector-class">.view</span><span class="selector-class">.center</span></span><br><span class="line">    bgView<span class="selector-class">.backgroundColor</span> = UIColor.lightGray</span><br><span class="line">    self<span class="selector-class">.view</span><span class="selector-class">.addSubview</span>(bgView)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 动画原图层，就是不断变大的那个圆</span></span><br><span class="line">    let animationLayer = CAShapeLayer()</span><br><span class="line">    animationLayer<span class="selector-class">.backgroundColor</span> = UIColor<span class="selector-class">.red</span><span class="selector-class">.cgColor</span></span><br><span class="line">    animationLayer<span class="selector-class">.bounds</span> = CGRect(x: <span class="number">0</span>, y: <span class="number">0</span>, <span class="attribute">width</span>: <span class="number">20</span>, height: <span class="number">20</span>)</span><br><span class="line">    animationLayer<span class="selector-class">.cornerRadius</span> = <span class="number">10</span></span><br><span class="line">    animationLayer<span class="selector-class">.position</span> = CGPoint(x: kWidth/<span class="number">2.0</span>, y: <span class="number">100</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 动画 - 放大</span></span><br><span class="line">    let transformScaleAnim = CABasicAnimation(keyPath: <span class="string">"transform"</span>)</span><br><span class="line">    let value = NSValue.init(caTransform3D:CATransform3DMakeScale(<span class="number">10</span>, <span class="number">10</span>, <span class="number">1</span>))</span><br><span class="line">    transformScaleAnim<span class="selector-class">.toValue</span> = value</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 动画 - 透明度</span></span><br><span class="line">    let alphaAnim = CABasicAnimation(keyPath: <span class="string">"opacity"</span>)</span><br><span class="line">    alphaAnim<span class="selector-class">.toValue</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 加入到动画组</span></span><br><span class="line">    let animGroup = CAAnimationGroup()</span><br><span class="line">    animGroup<span class="selector-class">.animations</span> = [transformScaleAnim, alphaAnim]</span><br><span class="line">    animGroup<span class="selector-class">.duration</span> = <span class="number">2</span></span><br><span class="line">    animGroup<span class="selector-class">.repeatCount</span> = HUGE</span><br><span class="line">    animationLayer.add(animGroup, forKey: nil)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 复制图层</span></span><br><span class="line">    let replicatorLayer = CAReplicatorLayer()</span><br><span class="line">    replicatorLayer.addSublayer(animationLayer)</span><br><span class="line">    replicatorLayer<span class="selector-class">.instanceCount</span> = <span class="number">3</span> <span class="comment">//复制图层数</span></span><br><span class="line">    replicatorLayer<span class="selector-class">.instanceDelay</span> = <span class="number">0.3</span><span class="comment">//复制间隔时间</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 加载到视图中显示</span></span><br><span class="line">    bgView<span class="selector-class">.layer</span><span class="selector-class">.addSublayer</span>(replicatorLayer)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="2-图层复制-加载动画效果"><a href="#2-图层复制-加载动画效果" class="headerlink" title="(2) 图层复制 - 加载动画效果"></a>(2) 图层复制 - 加载动画效果</h5><p><img src="https://upload-images.jianshu.io/upload_images/1276164-6d9429bb6ed8235b.gif?imageMogr2/auto-orient/strip" alt="图层复制 - 加载动画效果.gif"></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">func ui_circle() &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 背景视图</span></span><br><span class="line">    let bgView = UIView(frame: CGRect(x: <span class="number">0</span>, y: <span class="number">0</span>, <span class="attribute">width</span>: kWidth, height: <span class="number">200</span>))</span><br><span class="line">    bgView<span class="selector-class">.center</span> = self<span class="selector-class">.view</span><span class="selector-class">.center</span></span><br><span class="line">    bgView<span class="selector-class">.backgroundColor</span> = UIColor.lightGray</span><br><span class="line">    self<span class="selector-class">.view</span><span class="selector-class">.addSubview</span>(bgView)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 动画原图层，就是不断转圈的圆</span></span><br><span class="line">    let animationLayer = CAShapeLayer()</span><br><span class="line">    animationLayer<span class="selector-class">.backgroundColor</span> = UIColor<span class="selector-class">.red</span><span class="selector-class">.cgColor</span></span><br><span class="line">    animationLayer<span class="selector-class">.bounds</span> = CGRect(x: <span class="number">0</span>, y: <span class="number">0</span>, <span class="attribute">width</span>: <span class="number">20</span>, height: <span class="number">20</span>)</span><br><span class="line">    animationLayer<span class="selector-class">.cornerRadius</span> = <span class="number">10</span></span><br><span class="line">    animationLayer<span class="selector-class">.position</span> = CGPoint(x: kWidth/<span class="number">2.0</span>, y: <span class="number">50</span>)</span><br><span class="line">    animationLayer<span class="selector-class">.transform</span> = CATransform3DMakeScale(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>)<span class="comment">//初始隐藏</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 动画 - 缩放</span></span><br><span class="line">    let transformAnim = CABasicAnimation(keyPath: <span class="string">"transform"</span>)</span><br><span class="line">    transformAnim<span class="selector-class">.duration</span> = <span class="number">2</span></span><br><span class="line">    transformAnim<span class="selector-class">.repeatCount</span> = HUGE</span><br><span class="line">    transformAnim<span class="selector-class">.fromValue</span> = NSValue.init(caTransform3D: CATransform3DMakeScale(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">    transformAnim<span class="selector-class">.toValue</span> = NSValue.init(caTransform3D: CATransform3DMakeScale(<span class="number">0.1</span>, <span class="number">0.1</span>, <span class="number">0.1</span>))</span><br><span class="line">    animationLayer.add(transformAnim, forKey: nil)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 复制图层</span></span><br><span class="line">    let replicatorLayer = CAReplicatorLayer()</span><br><span class="line">    replicatorLayer<span class="selector-class">.frame</span> = bgView.bounds</span><br><span class="line">    replicatorLayer.addSublayer(animationLayer)</span><br><span class="line">    replicatorLayer<span class="selector-class">.instanceCount</span> = <span class="number">10</span> <span class="comment">//复制图层数</span></span><br><span class="line">    replicatorLayer<span class="selector-class">.instanceDelay</span> = <span class="number">0.2</span><span class="comment">//复制间隔时间</span></span><br><span class="line">    replicatorLayer<span class="selector-class">.instanceTransform</span> = CATransform3DMakeRotation(CGFloat(Double.pi*<span class="number">2</span>/Double(<span class="number">10</span>)), <span class="number">0</span>, <span class="number">0</span>, <span class="number">1.0</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 加载到视图中显示</span></span><br><span class="line">    bgView<span class="selector-class">.layer</span><span class="selector-class">.addSublayer</span>(replicatorLayer)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整示例代码<a href="https://github.com/SPIREJ/AnimationLayerSwift" target="_blank" rel="noopener">https://github.com/SPIREJ/AnimationLayerSwift</a></p>
+<p>如果您有兴趣的话<br>上一节<a href="https://www.jianshu.com/p/4e95c596dfa9" target="_blank" rel="noopener">《iOS动画》读书笔记·显示层动画</a><br>下一节<a href="https://www.jianshu.com/p/0c5be91642cd" target="_blank" rel="noopener">《iOS动画》读书笔记·转场动画</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+        
+        <div>
+
+<div style="text-align:center;color: #ccc;font-size:14px;">~~~~~~~~~~~~~本文结束<i class="fa fa-heart"></i>感谢您的阅读~~~~~~~~~~~~~</div>
+
+</div>
+
+        
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS动画/" rel="tag"># iOS动画</a>
+          
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/15/《iOS动画》读书笔记·显示层动画/" rel="next" title="《iOS动画》读书笔记·显示层动画">
+                <i class="fa fa-chevron-left"></i> 《iOS动画》读书笔记·显示层动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/17/《iOS动画》读书笔记·前序的副本 3/" rel="prev" title="《iOS动画》读书笔记·转场动画">
+                《iOS动画》读书笔记·转场动画 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="ぱゐずだιονε゜" />
+            
+              <p class="site-author-name" itemprop="name">ぱゐずだιονε゜</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#UIView和CALayer的区别："><span class="nav-text">UIView和CALayer的区别：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Core-Animation核心动画"><span class="nav-text">Core Animation核心动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CABasicAnimation基础动画合集"><span class="nav-text">CABasicAnimation基础动画合集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Core-Animation"><span class="nav-text">Core Animation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#案例"><span class="nav-text">案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、CAEmitterCell粒子火焰效果"><span class="nav-text">1、CAEmitterCell粒子火焰效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、CAEmitterCell粒子霓虹效果"><span class="nav-text">2、CAEmitterCell粒子霓虹效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、CAGradientLayer-颜色梯度-位置梯度"><span class="nav-text">3、CAGradientLayer 颜色梯度/位置梯度</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#属性"><span class="nav-text">属性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、CAReplicatorLayer图层复制"><span class="nav-text">4、CAReplicatorLayer图层复制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-图层复制-雷达效果"><span class="nav-text">(1) 图层复制 - 雷达效果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-图层复制-加载动画效果"><span class="nav-text">(2) 图层复制 - 加载动画效果</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ぱゐずだιονε゜</span>
+
+  
+</div>
+
+
+<!--
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+-->
+
+
+
+  <!-- <span class="post-meta-divider">|</span> -->
+
+
+
+  <!-- <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v</div> -->
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("NQ57m47YrUBAiPJIKI96sQk5-gzGzoHsz", "MnPaSxKcnEkivma8DHk2UGmd");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>;
+<script>
+$("body").backstretch("https://背景图.jpg");
+</script>
+
+</body>
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>

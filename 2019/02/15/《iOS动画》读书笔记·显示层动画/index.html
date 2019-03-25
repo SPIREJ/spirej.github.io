@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS动画,读书笔记," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="等风来，等花开❀~" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="keywords" content="iOS动画,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《iOS动画》读书笔记·显示层动画">
+<meta property="og:url" content="http://yoursite.com/2019/02/15/《iOS动画》读书笔记·显示层动画/index.html">
+<meta property="og:site_name" content="等风来，等花开❀~">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-b94babab7532c2f9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-a532af031b0e2be0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-0c4889a49d547139.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-e136547f3d7bb6c1.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-2ed58af9f2e9bd73.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-d8f4c23e7844cfa6.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-cb52527b9e6f16c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2019-03-25T03:20:02.897Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《iOS动画》读书笔记·显示层动画">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1276164-b94babab7532c2f9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/15/《iOS动画》读书笔记·显示层动画/"/>
+
+
+
+
+
+  <title>《iOS动画》读书笔记·显示层动画 | 等风来，等花开❀~</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">等风来，等花开❀~</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/15/《iOS动画》读书笔记·显示层动画/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ぱゐずだιονε゜">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="等风来，等花开❀~">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《iOS动画》读书笔记·显示层动画</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-15T22:46:40+08:00">
+                2019-02-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/02/15/《iOS动画》读书笔记·显示层动画/" class="leancloud_visitors" data-flag-title="《iOS动画》读书笔记·显示层动画">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3,562 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  16 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://upload-images.jianshu.io/upload_images/1276164-b94babab7532c2f9.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="《iOS动画》读书笔记·显示层动画.jpg"></p>
+<a id="more"></a>
+<p><a href="https://www.jianshu.com/p/bc6e3e175a37" target="_blank" rel="noopener">《iOS动画》读书笔记·前序</a><br><a href="https://www.jianshu.com/p/4e95c596dfa9" target="_blank" rel="noopener">《iOS动画》读书笔记·显示层动画</a><br><a href="https://www.jianshu.com/p/3b469f7ba311" target="_blank" rel="noopener">《iOS动画》读书笔记·内容层动画</a><br><a href="https://www.jianshu.com/p/0c5be91642cd" target="_blank" rel="noopener">《iOS动画》读书笔记·转场动画</a></p>
+<h2 id="UIView常用动画合集图解"><a href="#UIView常用动画合集图解" class="headerlink" title="UIView常用动画合集图解"></a>UIView常用动画合集图解</h2><p><img src="https://upload-images.jianshu.io/upload_images/1276164-a532af031b0e2be0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="UIView常用动画合集.jpg"></p>
+<blockquote>
+<p>UIView显示层动画效果的实质还是通过修改UIView的各种属性来实现的。</p>
+</blockquote>
+<h3 id="UIView动画效果经常涉及的属性"><a href="#UIView动画效果经常涉及的属性" class="headerlink" title="UIView动画效果经常涉及的属性"></a>UIView动画效果经常涉及的属性</h3><p><code>frame</code> <code>bounds</code> <code>center</code><br><code>alpha</code> <code>backgroundColor</code> <code>transform</code></p>
+<p>这里说一下：transform</p>
+<p><code>UIView</code>有一个特别重要的属性<code>transform</code>，该属性继承自<code>CGAffineTransform</code>，“CG”实际上是<code>CoreGraphics</code>框架的缩写。可见<code>transform</code>属性是核心绘图框架与<code>UIView</code>之间的桥梁。<code>transform</code>最常用的三种动画分别是<code>缩放、旋转、位移</code>。</p>
+<h3 id="动画设置：闭包形式"><a href="#动画设置：闭包形式" class="headerlink" title="动画设置：闭包形式"></a>动画设置：闭包形式</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">UIView.animate(withDuration</span>: 0.5) &#123;</span><br><span class="line"></span><br><span class="line">    self.loginBT?.center = CGPoint(x: kScreenW/2.0, y: kScreenH/2.0)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="attribute">UIView.animate(withDuration</span>: 0.5, animations: &#123;</span><br><span class="line">    </span><br><span class="line">&#125;) &#123; (true) in</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="attribute">UIView.animate(withDuration</span>: 0.5, delay: 0.2, options: UIView.AnimationOptions.curveEaseOut, animations: &#123;</span><br><span class="line">    </span><br><span class="line">&#125;) &#123; (true) in</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="动画设置：方法形式"><a href="#动画设置：方法形式" class="headerlink" title="动画设置：方法形式"></a>动画设置：方法形式</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIView</span>.beginAnimations(<span class="literal">nil</span>, context: <span class="literal">nil</span>)<span class="comment">//动画开始</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UIView</span>.setAnimationDuration(<span class="number">0.5</span>)<span class="comment">//动画周期设置</span></span><br><span class="line">     </span><br><span class="line"><span class="built_in">UIView</span>.setAnimationCurve(<span class="built_in">UIView</span>.AnimationCurve.easeInOut)<span class="comment">//动画属性</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UIView</span>.setAnimationDelay(<span class="number">1</span>)<span class="comment">//动画延迟执行时间，比如动画启动之后，实际展示效果要等1s之后才显示出来</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UIView</span>.setAnimationsEnabled(<span class="literal">true</span>)<span class="comment">//动画是否能用</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UIView</span>.setAnimationRepeatAutoreverses(<span class="literal">true</span>)<span class="comment">//动画是否有重复返回效果</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">UIView</span>.setAnimationRepeatCount(<span class="number">5</span>)<span class="comment">//动画重复次数</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 动画具体要做的处理</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="built_in">UIView</span>.commitAnimations()<span class="comment">//动画提交</span></span><br></pre></td></tr></table></figure>
+<h3 id="动画属性设置加速、减速效果"><a href="#动画属性设置加速、减速效果" class="headerlink" title="动画属性设置加速、减速效果"></a>动画属性设置加速、减速效果</h3><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">enum</span> <span class="title">AnimationCurve</span> : <span class="title">Int</span> &#123;</span></span><br><span class="line">    <span class="keyword">case</span> easeInOut  /<span class="regexp">/动画开始和结束时呈现减速效果</span></span><br><span class="line"><span class="regexp">    </span></span><br><span class="line"><span class="regexp">    case easeIn     /</span><span class="regexp">/动画开始时呈现减速效果</span></span><br><span class="line"><span class="regexp">    </span></span><br><span class="line"><span class="regexp">    case easeOut    /</span><span class="regexp">/动画结束时呈现减速效果</span></span><br><span class="line"><span class="regexp">    </span></span><br><span class="line"><span class="regexp">    case linear     /</span><span class="regexp">/动画整个周期内速度一致、匀速运动</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="动画回调方法"><a href="#动画回调方法" class="headerlink" title="动画回调方法"></a>动画回调方法</h3><h4 id="delegate-回调方法"><a href="#delegate-回调方法" class="headerlink" title="delegate 回调方法"></a>delegate 回调方法</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">animationDidStart</span><span class="params">(<span class="number">_</span> anim: CAAnimation)</span></span></span><br><span class="line"><span class="keyword">optional</span> <span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">animationDidStop</span><span class="params">(<span class="number">_</span> anim: CAAnimation, finished flag: Bool)</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="setAnimationDidStop自定义回调方法"><a href="#setAnimationDidStop自定义回调方法" class="headerlink" title="setAnimationDidStop自定义回调方法"></a>setAnimationDidStop自定义回调方法</h4><figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">UIView.setAnimationDidStop(<span class="function"><span class="keyword">#</span><span class="title">selector</span><span class="params">(<span class="variable">self</span>.<span class="variable">animationEnd</span>)</span></span>)</span><br><span class="line">    </span><br><span class="line">@objc func animationEnd() &#123;</span><br><span class="line">	//...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="初级动画合集-实战"><a href="#初级动画合集-实战" class="headerlink" title="初级动画合集 - 实战"></a>初级动画合集 - 实战</h2><p>这部分内容比较简单，这里主要做介绍，最后提供一个简单的组合动画展示一下（效果如下）：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1276164-0c4889a49d547139.gif?imageMogr2/auto-orient/strip" alt="组合动画示例.gif"></p>
+<p>开始前，定义全局常量:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let kScreenW = UIScreen<span class="selector-class">.main</span><span class="selector-class">.bounds</span><span class="selector-class">.size</span><span class="selector-class">.width</span> <span class="comment">//屏幕宽</span></span><br><span class="line">let kScreenH = UIScreen<span class="selector-class">.main</span><span class="selector-class">.bounds</span><span class="selector-class">.size</span><span class="selector-class">.height</span><span class="comment">//屏幕高</span></span><br></pre></td></tr></table></figure>
+<h3 id="位置动画"><a href="#位置动画" class="headerlink" title="位置动画"></a>位置动画</h3><p>场景：界面上有一个按钮，页面加载完成时按钮从底部弹出。首先<code>viewDidLoad()</code>里面初始化一个<code>button</code>,然后在<code>viewDidAppear()</code>方法里使用闭包形式改变<code>button</code>的<code>frame</code>和<code>center</code>两种方式实现这个效果。</p>
+<blockquote>
+<p>viewDidAppear() 表明所有的视图已经可见</p>
+</blockquote>
+<figure class="highlight roboconf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">var loginBT:UIButton?</span><br><span class="line">    </span><br><span class="line">override func viewDidLoad() &#123;</span><br><span class="line">   <span class="attribute">super.viewDidLoad()</span></span><br><span class="line"><span class="attribute">   </span></span><br><span class="line"><span class="attribute">   // Do any additional setup after loading the view.</span></span><br><span class="line"><span class="attribute">   </span></span><br><span class="line"><span class="attribute">   self.view.backgroundColor = UIColor.white</span></span><br><span class="line"><span class="attribute">   </span></span><br><span class="line"><span class="attribute">   loginBT = UIButton.init(frame</span>: CGRect(x: 20, y: kScreenH, width: self<span class="variable">.view</span><span class="variable">.bounds</span><span class="variable">.width-</span>40</span><br><span class="line">       , height: 50))</span><br><span class="line">   loginBT?<span class="variable">.backgroundColor</span> = UIColor(red: 50/255.0, green: 185/255.0, blue: 170/255.0, alpha: 1.0)</span><br><span class="line">   loginBT?<span class="variable">.setTitle</span>("登录", for: <span class="variable">.normal</span>)</span><br><span class="line">   self<span class="variable">.view</span><span class="variable">.addSubview</span>(loginBT!)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">override func viewDidAppear(_ animated: Bool) &#123;</span><br><span class="line">   super<span class="variable">.viewDidAppear</span>(animated)</span><br><span class="line">   </span><br><span class="line">   //1. 改变frame的形式</span><br><span class="line">   UIView<span class="variable">.animate</span>(withDuration: 0.5) &#123;</span><br><span class="line">       self<span class="variable">.loginBT</span>?<span class="variable">.frame</span> = CGRect(x: self<span class="variable">.loginBT</span>!<span class="variable">.frame</span><span class="variable">.origin</span><span class="variable">.x</span>, y: kScreenH - 200, width: self<span class="variable">.loginBT</span>!<span class="variable">.frame</span><span class="variable">.size</span><span class="variable">.width</span>, height: self<span class="variable">.loginBT</span>!<span class="variable">.frame</span><span class="variable">.size</span><span class="variable">.height</span>)</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   //2. 改变center的形式</span><br><span class="line">UIView<span class="variable">.animate</span>(withDuration: 0.5) &#123;</span><br><span class="line">   self<span class="variable">.loginBT</span>?<span class="variable">.center</span> = CGPoint(x: kScreenW/2.0, y: kScreenH/2.0)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="几何形状动画"><a href="#几何形状动画" class="headerlink" title="几何形状动画"></a>几何形状动画</h3><p>设置属性<code>bounds</code> 或<code>transform(scaleX:)</code></p>
+<h3 id="位置-形状动画"><a href="#位置-形状动画" class="headerlink" title="位置 + 形状动画"></a>位置 + 形状动画</h3><figure class="highlight roboconf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func animateFrame() &#123;</span><br><span class="line">   <span class="attribute">UIView.animate(withDuration</span>: 0.5) &#123;</span><br><span class="line">       self<span class="variable">.loginBT</span>?<span class="variable">.frame</span> = CGRect(x: 50, y:  400, width: self<span class="variable">.loginBT</span>!<span class="variable">.frame</span><span class="variable">.size</span><span class="variable">.width</span>*0.7, height: self<span class="variable">.loginBT</span>!<span class="variable">.frame</span><span class="variable">.size</span><span class="variable">.height</span>*1.2)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="淡入淡出动画"><a href="#淡入淡出动画" class="headerlink" title="淡入淡出动画"></a>淡入淡出动画</h3><p>设置<code>alpha</code>透明度实现这一效果：初始时透明度设置为0，即隐藏状态，在动画执行效果中将透明度设置为1.0</p>
+<h3 id="颜色渐变动画"><a href="#颜色渐变动画" class="headerlink" title="颜色渐变动画"></a>颜色渐变动画</h3><p>设置<code>backgroundColor</code>实现这一效果：在动画执行效果中改变颜色值</p>
+<h3 id="缩放动画"><a href="#缩放动画" class="headerlink" title="缩放动画"></a>缩放动画</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">func transformScale() &#123;</span><br><span class="line">   <span class="built_in">UIView</span>.beginAnimations(<span class="literal">nil</span>, context: <span class="literal">nil</span>)</span><br><span class="line">   <span class="built_in">UIView</span>.setAnimationDuration(<span class="number">1.0</span>)</span><br><span class="line">   <span class="keyword">self</span>.loginBT?.transform = <span class="built_in">CGAffineTransform</span>(scaleX: <span class="number">0.7</span>, y: <span class="number">1.2</span>)</span><br><span class="line">   <span class="built_in">UIView</span>.commitAnimations()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="旋转动画"><a href="#旋转动画" class="headerlink" title="旋转动画"></a>旋转动画</h3><p>swift中<code>pi</code>表示一个圆360°，<code>.pi/4</code>就是旋转90°</p>
+<blockquote>
+<p>public static var pi: CGFloat { get }</p>
+</blockquote>
+<figure class="highlight roboconf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func transformAngle() &#123;</span><br><span class="line"></span><br><span class="line">   <span class="attribute">UIView.animate(withDuration</span>: 1) &#123;</span><br><span class="line">       </span><br><span class="line">       self<span class="variable">.loginBT</span>?<span class="variable">.transform</span> = CGAffineTransform(rotationAngle: <span class="variable">.pi</span>/4)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="位移动画"><a href="#位移动画" class="headerlink" title="位移动画"></a>位移动画</h3><p>设置当前view相对于<code>X,Y</code>轴偏移了多少。如 <code>CGAffineTransform(translationX: 0, y: -200)</code>，X轴方向没有偏移，Y轴方向向上偏移了200</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">transformXY</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="type">UIView</span>.animate(withDuration: <span class="number">1</span>) &#123;</span><br><span class="line">       <span class="keyword">self</span>.loginBT?.transform = <span class="type">CGAffineTransform</span>(translationX: <span class="number">0</span>, y: -<span class="number">200</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="组合动画"><a href="#组合动画" class="headerlink" title="组合动画"></a>组合动画</h3><p>想让这个view飞到屏幕外面去，在飞行过程中旋转它，改变它的大小和透明度</p>
+<figure class="highlight roboconf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func groupAnimation() &#123;</span><br><span class="line">   </span><br><span class="line">   <span class="attribute">UIView.animate(withDuration</span>: 1) &#123;</span><br><span class="line">       self<span class="variable">.loginBT</span>?<span class="variable">.frame</span> = CGRect(x: kScreenW, y: 0, width: self<span class="variable">.loginBT</span>!<span class="variable">.frame</span><span class="variable">.size</span><span class="variable">.width</span>*0.1, height: self<span class="variable">.loginBT</span>!<span class="variable">.frame</span><span class="variable">.size</span><span class="variable">.height</span>*0.1)</span><br><span class="line">       self<span class="variable">.loginBT</span>?<span class="variable">.transform</span> = CGAffineTransform(rotationAngle: <span class="variable">.pi</span>)</span><br><span class="line">       self<span class="variable">.loginBT</span>?<span class="variable">.alpha</span> = 0</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="关键帧动画"><a href="#关键帧动画" class="headerlink" title="关键帧动画"></a>关键帧动画</h2><p><code>UIView</code>初级动画中都是通过修改当前UI控件的各种属性来实现想要的动画效果，而关键帧动画只需要设置动画的几个关键的显示帧。</p>
+<h3 id="关键方法"><a href="#关键方法" class="headerlink" title="关键方法"></a>关键方法</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@available</span>(iOS <span class="number">7.0</span>, *)</span><br><span class="line">    open class func animateKeyframes(withDuration <span class="attribute">duration</span>: TimeInterval, <span class="attribute">delay</span>: TimeInterval, <span class="attribute">options</span>: UIView.KeyframeAnimationOptions = [], <span class="attribute">animations</span>: <span class="variable">@escaping</span> () -&gt; Void, <span class="attribute">completion</span>: ((Bool) -&gt; Void)? = nil)</span><br><span class="line"></span><br><span class="line">duration	<span class="comment">// 动画执行周期</span></span><br><span class="line">delay		<span class="comment">// 动画延迟执行时间</span></span><br><span class="line">options		<span class="comment">// 动画执行效果</span></span><br><span class="line">animations	<span class="comment">// 关键帧添加处</span></span><br><span class="line">completion	<span class="comment">// 动画完成回调</span></span><br></pre></td></tr></table></figure>
+<h3 id="实现实例：小飞机降落"><a href="#实现实例：小飞机降落" class="headerlink" title="实现实例：小飞机降落"></a>实现实例：小飞机降落</h3><p>1、添加一张飞机场背景图，添加一张小飞机图<br>2、为小飞机添加关键帧动画</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">func addKeyframes() &#123;</span><br><span class="line">   </span><br><span class="line">   UIView.animateKeyframes(<span class="string">withDuration:</span> <span class="number">2</span>, <span class="string">delay:</span> <span class="number">0</span>, <span class="string">options:</span> .calculationModeCubic, <span class="string">animations:</span> &#123;</span><br><span class="line">       </span><br><span class="line">       UIView.addKeyframe(<span class="string">withRelativeStartTime:</span> <span class="number">0</span>, <span class="string">relativeDuration:</span> <span class="number">1</span>/<span class="number">2</span>, <span class="string">animations:</span> &#123;</span><br><span class="line">           </span><br><span class="line">           self.imageViewPlane.frame = CGRect(<span class="string">x:</span> kScreenW<span class="number">-50</span>, <span class="string">y:</span> <span class="number">300</span>, <span class="string">width:</span> <span class="number">30</span>, <span class="string">height:</span> <span class="number">30</span>)</span><br><span class="line">       &#125;)</span><br><span class="line">       </span><br><span class="line">       UIView.addKeyframe(<span class="string">withRelativeStartTime:</span> <span class="number">1</span><span class="regexp">/2, relativeDuration: 1/</span><span class="number">2</span>, <span class="string">animations:</span> &#123;</span><br><span class="line">           self.imageViewPlane.frame = CGRect(<span class="string">x:</span> kScreenW<span class="number">-100</span>, <span class="string">y:</span> <span class="number">300</span>, <span class="string">width:</span> <span class="number">100</span>, <span class="string">height:</span> <span class="number">100</span>)</span><br><span class="line">       &#125;)</span><br><span class="line">       </span><br><span class="line">   &#125;) &#123; (finish) <span class="keyword">in</span></span><br><span class="line">       </span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="常见的效果有下面几类："><a href="#常见的效果有下面几类：" class="headerlink" title="常见的效果有下面几类："></a>常见的效果有下面几类：</h3><figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 运算模式：连续</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> calculationModeLinear: UIView.KeyframeAnimationOptions &#123; <span class="keyword">get</span> &#125; <span class="comment">// default</span></span><br><span class="line"><span class="comment">// 运算模式：离散</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> calculationModeDiscrete: UIView.KeyframeAnimationOptions &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"><span class="comment">// 运算模式：均匀执行</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> calculationModePaced: UIView.KeyframeAnimationOptions &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"><span class="comment">// 运算模式：平滑</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> calculationModeCubic: UIView.KeyframeAnimationOptions &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"><span class="comment">// 运算模式：平滑均匀</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">var</span> calculationModeCubicPaced: UIView.KeyframeAnimationOptions &#123; <span class="keyword">get</span> &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="添加关键帧方法：addKeyframe"><a href="#添加关键帧方法：addKeyframe" class="headerlink" title="添加关键帧方法：addKeyframe()"></a>添加关键帧方法：addKeyframe()</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@available</span>(iOS <span class="number">7.0</span>, *)</span><br><span class="line">open class func addKeyframe(withRelativeStartTime <span class="attribute">frameStartTime</span>: Double, relativeDuration <span class="attribute">frameDuration</span>: Double, <span class="attribute">animations</span>: <span class="variable">@escaping</span> () -&gt; Void)</span><br></pre></td></tr></table></figure>
+<p>这个方法描述了在什么位置添加一个持续时间多长的关键帧。改方法的几个参数如下：</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">withRelativeStartTime	<span class="comment">// 关键帧起始时间</span></span><br><span class="line">relativeDuration        <span class="comment">// 关键帧相对持续时间</span></span><br><span class="line">animations              <span class="comment">// 关键帧具体实现内容</span></span><br></pre></td></tr></table></figure>
+<p>示例：<br><img src="https://upload-images.jianshu.io/upload_images/1276164-e136547f3d7bb6c1.gif?imageMogr2/auto-orient/strip" alt="关键帧动画示例.gif"></p>
+<h2 id="逐帧动画"><a href="#逐帧动画" class="headerlink" title="逐帧动画"></a>逐帧动画</h2><p>逐帧动画实现的动画效果就是将图片一帧帧的逐帧渲染。这里准备了飞机飞行过程中67张静态图片。</p>
+<h3 id="基于NSTimer的逐帧动画效果"><a href="#基于NSTimer的逐帧动画效果" class="headerlink" title="基于NSTimer的逐帧动画效果"></a>基于NSTimer的逐帧动画效果</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ZhuZhenVC</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> imageView:<span class="type">UIImageView</span>?</span><br><span class="line">    <span class="keyword">var</span> timer:<span class="type">Timer</span>?</span><br><span class="line">    <span class="keyword">var</span> index = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line"></span><br><span class="line">        imageView = <span class="type">UIImageView</span>(frame: <span class="type">UIScreen</span>.main.bounds)</span><br><span class="line">        imageView?.contentMode = <span class="type">UIView</span>.<span class="type">ContentMode</span>.scaleAspectFit</span><br><span class="line">        index = <span class="number">0</span></span><br><span class="line">        <span class="keyword">self</span>.view.addSubview(<span class="keyword">self</span>.imageView!)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewWillAppear</span><span class="params">(<span class="number">_</span> animated: Bool)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewWillAppear(animated)</span><br><span class="line">        </span><br><span class="line">       	timer = <span class="type">Timer</span>.scheduledTimer(timeInterval: <span class="number">0.1</span>, target: <span class="keyword">self</span>, selector: #selector(<span class="keyword">self</span>.refushImage), userInfo: <span class="literal">nil</span>, repeats: <span class="literal">true</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidDisappear</span><span class="params">(<span class="number">_</span> animated: Bool)</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidDisappear(animated)</span><br><span class="line">        timer?.invalidate()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@objc</span> <span class="function"><span class="keyword">func</span> <span class="title">refushImage</span><span class="params">()</span></span> &#123;</span><br><span class="line">        imageView?.image = <span class="type">UIImage</span>(named: <span class="string">"<span class="subst">\(index)</span>.png"</span>)</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> index == <span class="number">67</span> &#123;</span><br><span class="line">            timer?.invalidate()</span><br><span class="line">            index = <span class="number">0</span></span><br><span class="line">            imageView?.image = <span class="type">UIImage</span>(named: <span class="string">"<span class="subst">\(index)</span>.png"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="基于CADisplayLink的逐帧动画效果"><a href="#基于CADisplayLink的逐帧动画效果" class="headerlink" title="基于CADisplayLink的逐帧动画效果"></a>基于CADisplayLink的逐帧动画效果</h3><p><strong>CADisplayLink 和 NSTimer有什么区别呢？</strong><br><code>iOS设备</code>的屏幕刷新频率默认是<code>60Hz</code>，而<code>CADisplayLink</code>可以保持和屏幕刷新率相同的频率将内容渲染到屏幕上，因此它的精度非常高。<br><code>CADisplayLink</code>使用的时候需要注册到 <code>runloop</code>中，每当刷帧频率到达的时候<code>runloop</code>就会向<code>CADisplayLink</code>指定的<code>target</code>发送一次指定的<code>selector消息</code>，相应的selector中的方法会被调用一次。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> displayLink:<span class="type">CADisplayLink</span>?</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewWillAppear</span><span class="params">(<span class="number">_</span> animated: Bool)</span></span> &#123;</span><br><span class="line">   <span class="keyword">super</span>.viewWillAppear(animated)</span><br><span class="line">   </span><br><span class="line">   displayLink = <span class="type">CADisplayLink</span>(target: <span class="keyword">self</span>, selector: #selector(refushImage))</span><br><span class="line">   displayLink?.preferredFramesPerSecond = <span class="number">1</span></span><br><span class="line">   displayLink?.add(to: <span class="type">RunLoop</span>.current, forMode: .<span class="keyword">default</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例<br><img src="https://upload-images.jianshu.io/upload_images/1276164-2ed58af9f2e9bd73.gif?imageMogr2/auto-orient/strip" alt="104.gif"></p>
+<h3 id="基于draw方法的逐帧动画效果"><a href="#基于draw方法的逐帧动画效果" class="headerlink" title="基于draw方法的逐帧动画效果"></a>基于draw方法的逐帧动画效果</h3><p>当创建一个新的view时，其自动生成一个<code>draw()</code>方法，且此方法可以被<code>重写</code>，一旦<code>draw()</code>被调用，Cocoa就会为我们创建一个<code>图形上下文</code>，在图形上下文的所有操作最终都会反映在当前的<code>UIView</code>界面上。按照这个思路，如果定期调用<code>draw()</code>方法绘制新的内容，就可以实现逐帧动画效果。</p>
+<blockquote>
+<p>总结<code>draw()</code>触发的机制：<br>(1)使用<code>addSubview</code>会触发<code>layoutSubviews</code><br>(2)使用<code>view</code>的<code>frame</code>属性会触发<code>layoutSubviews（frame更新）</code><br>(3)直接调用<code>layoutSubviews</code>方法会触发<code>layoutSubviews</code></p>
+</blockquote>
+<p>新建一个UIview类：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlackHoleView</span>: <span class="title">UIView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> blackHoleRadius:<span class="type">Float</span> = <span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">blackHoleIncrease</span><span class="params">(<span class="number">_</span> radius:Float)</span></span> &#123;</span><br><span class="line">        blackHoleRadius = radius</span><br><span class="line">        <span class="comment">// 调用setNeedsDisplay()方法实现draw()方法的调用</span></span><br><span class="line">        <span class="keyword">self</span>.setNeedsDisplay()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">draw</span><span class="params">(<span class="number">_</span> rect: CGRect)</span></span> &#123;</span><br><span class="line">        <span class="comment">// Drawing code</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> ctx = <span class="type">UIGraphicsGetCurrentContext</span>()!</span><br><span class="line">        ctx.addArc(center: <span class="type">CGPoint</span>(x: <span class="keyword">self</span>.center.x, y: <span class="keyword">self</span>.center.y),</span><br><span class="line">                   radius: <span class="type">CGFloat</span>(blackHoleRadius),</span><br><span class="line">                   startAngle: <span class="number">0</span>,</span><br><span class="line">                   endAngle: .pi*<span class="number">2</span>,</span><br><span class="line">                   clockwise: <span class="literal">false</span>)</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         public func addArc(center: CGPoint,    // 当前绘制圆形中心点的x,y坐标</span></span><br><span class="line"><span class="comment">                            radius: CGFloat,    // 当前绘制圆形半径</span></span><br><span class="line"><span class="comment">                            startAngle: CGFloat,// 当前绘制圆形开始角度</span></span><br><span class="line"><span class="comment">                            endAngle: CGFloat,  // 结束角度</span></span><br><span class="line"><span class="comment">                            clockwise: Bool)    // true顺时针绘制 false逆时针绘制</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        </span><br><span class="line">        ctx.fillPath()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在viewController里面的实现代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> index = <span class="number">0</span>    </span><br><span class="line"><span class="keyword">var</span> blackHole:<span class="type">BlackHoleView</span>?</span><br><span class="line">    </span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">   </span><br><span class="line">   blackHole = <span class="type">BlackHoleView</span>()</span><br><span class="line">   blackHole?.frame = <span class="type">UIScreen</span>.main.bounds</span><br><span class="line">   blackHole?.backgroundColor = <span class="type">UIColor</span>.cyan</span><br><span class="line">   <span class="keyword">self</span>.view.addSubview(blackHole!)</span><br><span class="line">   timer = <span class="type">Timer</span>.scheduledTimer(timeInterval: <span class="number">1.0</span>/<span class="number">10</span>, target: <span class="keyword">self</span>, selector: #selector(<span class="keyword">self</span>.refushImage), userInfo:<span class="literal">nil</span>, repeats: <span class="literal">true</span>)</span><br><span class="line">&#125;</span><br><span class="line">        </span><br><span class="line"><span class="meta">@objc</span> <span class="function"><span class="keyword">func</span> <span class="title">refushImage</span><span class="params">()</span></span> &#123;</span><br><span class="line">   blackHole?.blackHoleIncrease(<span class="type">Float</span>(index))</span><br><span class="line">   index += <span class="number">1</span></span><br><span class="line">   </span><br><span class="line">   <span class="keyword">if</span> index == <span class="number">30</span> &#123;</span><br><span class="line">       index = <span class="number">0</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例：<br><img src="https://upload-images.jianshu.io/upload_images/1276164-d8f4c23e7844cfa6.gif?imageMogr2/auto-orient/strip" alt="重写draw()方法的逐帧动画示例.gif"></p>
+<h2 id="GIF动画效果"><a href="#GIF动画效果" class="headerlink" title="GIF动画效果"></a>GIF动画效果</h2><blockquote>
+<p>GIF 在iOS中的使用场景有以下三个方面<br>(1)GIF图片分解为单帧图片<br>(2)一系列单帧图片合成GIF图片<br>(3)iOS系统上展示GIF动画效果</p>
+</blockquote>
+<h3 id="1-GIF图片分解为单帧图片"><a href="#1-GIF图片分解为单帧图片" class="headerlink" title="(1)GIF图片分解为单帧图片"></a>(1)GIF图片分解为单帧图片</h3><p><code>#关键过程   GIF - NSData - ImageIO - UIImage - Jpg/Png</code></p>
+<p><strong>整个过程划分为5个模块、4个过程，分别如下</strong><br>(1)本地读取<code>GIF</code>图片，将其转换为<code>NSData</code>数据类型<br>(2)将<code>NSData</code>作为<code>ImageIO</code>模块的输入<br>(3)获取<code>ImageIO</code>的输出数据：<code>UIImage</code><br>(4)将获取到的<code>UIImage</code>数据存储为JPG或PNG格式保存到本地</p>
+<p>整个GIF图片分解的过程中，<code>ImageIO</code>是处理过程的核心部分。它负责对GIF文件格式进行分解，并将解析之后的数据转换为一帧帧图片输出。我们不去深究GIF分解合成算法的具体实现，掌握如何使用它就OK。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">fenJieGIF</span><span class="params">()</span></span> &#123;</span><br><span class="line">   <span class="comment">// (1)本地读取GIF图片，将其转换为NSData数据类型</span></span><br><span class="line">   <span class="keyword">let</span> gifPath = <span class="type">Bundle</span>.main.path(forResource: <span class="string">"plane"</span>, ofType: <span class="string">"gif"</span>)!</span><br><span class="line">   <span class="keyword">let</span> gifData = <span class="keyword">try</span>! <span class="type">Data</span>(contentsOf: <span class="type">URL</span>(fileURLWithPath: gifPath))</span><br><span class="line">   <span class="comment">// (2)将NSData作为ImageIO模块的输入,遍历所有GIF子帧</span></span><br><span class="line">   <span class="keyword">let</span> gifDataSource:<span class="type">CGImageSource</span> = <span class="type">CGImageSourceCreateWithData</span>(gifData <span class="keyword">as</span> <span class="type">CFData</span>, <span class="literal">nil</span>)!</span><br><span class="line">   <span class="keyword">let</span> gifImageCount:<span class="type">Int</span> = <span class="type">CGImageSourceGetCount</span>(gifDataSource)</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>...gifImageCount-<span class="number">1</span> &#123;</span><br><span class="line">       <span class="comment">// CGImageSourceCreateImageAtIndex 返回GIF中某一帧图像的CGImage类型数据</span></span><br><span class="line">       <span class="keyword">let</span> imageref = <span class="type">CGImageSourceCreateImageAtIndex</span>(gifDataSource, i, <span class="literal">nil</span>)</span><br><span class="line">       <span class="comment">// UIImage 类方法，实例化UIImage实例对象</span></span><br><span class="line">       <span class="keyword">let</span> image = <span class="type">UIImage</span>(cgImage: imageref!, scale: <span class="type">UIScreen</span>.main.scale, orientation: <span class="type">UIImage</span>.<span class="type">Orientation</span>.up)</span><br><span class="line">       <span class="keyword">let</span> imageData:<span class="type">Data</span> = image.pngData()!</span><br><span class="line">       <span class="keyword">var</span> docs = <span class="type">NSSearchPathForDirectoriesInDomains</span>(.documentDirectory, .userDomainMask, <span class="literal">true</span>)</span><br><span class="line">       <span class="keyword">let</span> documentsDirectory = docs[<span class="number">0</span>] <span class="keyword">as</span> <span class="type">String</span></span><br><span class="line">       <span class="keyword">let</span> imagePath = documentsDirectory + <span class="string">"/<span class="subst">\(i)</span>"</span> + <span class="string">".png"</span></span><br><span class="line">       <span class="keyword">try</span>? imageData.write(to: <span class="type">URL</span>(fileURLWithPath: imagePath), options: .atomic)</span><br><span class="line">       <span class="built_in">print</span>(<span class="string">"<span class="subst">\(imagePath)</span>"</span>)</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终分解<code>.gif</code>图片的每帧图片可根据打印出的路径去查看。</p>
+<h3 id="2-一系列单帧图片合成GIF图片"><a href="#2-一系列单帧图片合成GIF图片" class="headerlink" title="(2)一系列单帧图片合成GIF图片"></a>(2)一系列单帧图片合成GIF图片</h3><p><strong>GIF合成分三部分：</strong><br>(1)加载待处理的序列原始数据源<br>(2)在<code>Document</code>目录下构建<code>GIF文件</code><br>(3)设置GIF文件属性，利用<code>ImageIO</code>编码<code>GIF文件</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">func heChengGIF() &#123;</span><br><span class="line">   <span class="comment">// Part1:读取67张图片</span></span><br><span class="line">   <span class="keyword">let</span> images:NSMutableArray = NSMutableArray()</span><br><span class="line">   <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0.</span>.<span class="number">.66</span> &#123;</span><br><span class="line">       <span class="keyword">let</span> imagePath = <span class="string">"\(i).png"</span></span><br><span class="line">       <span class="keyword">let</span> image:UIImage = UIImage(named: imagePath)!</span><br><span class="line">       images.add(image)</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">// Part2:在Document目录下创建gif文件</span></span><br><span class="line">   <span class="keyword">var</span> docs = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, <span class="literal">true</span>)</span><br><span class="line">   <span class="keyword">let</span> documentsDirectory = docs[<span class="number">0</span>] <span class="keyword">as</span> <span class="built_in">String</span></span><br><span class="line">   <span class="keyword">let</span> gifPath = documentsDirectory + <span class="string">"/plane.gif"</span></span><br><span class="line">   print(gifPath)</span><br><span class="line">   <span class="comment">// 文件路径由string类型转换为URL类型</span></span><br><span class="line">   <span class="keyword">let</span> url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, gifPath <span class="keyword">as</span> CFString, CFURLPathStyle.cfurlposixPathStyle, <span class="literal">false</span>)</span><br><span class="line">   <span class="keyword">let</span> destion = CGImageDestinationCreateWithURL(url!, kUTTypeGIF, images.count, nil)</span><br><span class="line">   <span class="comment">/*</span></span><br><span class="line"><span class="comment">    CGImageDestinationCreateWithURL()</span></span><br><span class="line"><span class="comment">    方法的作用是创建一个图片的目标对象，这里方便理解可以把图片目标对象比喻为一个集合体，</span></span><br><span class="line"><span class="comment">    集合体中描述了当前图片目标对象的一系列参数，如图片的URL地址、图片类型、图片帧数、配置参数等</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   </span><br><span class="line">   <span class="comment">// Part3:设置gif图片属性，利用67张png图片构建gif</span></span><br><span class="line">   <span class="keyword">let</span> cgimagePropertiesDic = [kCGImagePropertyGIFDelayTime <span class="keyword">as</span> <span class="built_in">String</span>:<span class="number">0.1</span>]<span class="comment">//设置每帧之间播放时间</span></span><br><span class="line">   <span class="keyword">let</span> cgimagePropertiesDestDic = [kCGImagePropertyGIFDictionary <span class="keyword">as</span> <span class="built_in">String</span>:cgimagePropertiesDic];</span><br><span class="line">   <span class="keyword">for</span> cgimage <span class="keyword">in</span> images&#123;</span><br><span class="line">       CGImageDestinationAddImage(destion!, (cgimage <span class="keyword">as</span> AnyObject).cgImage!!,cgimagePropertiesDestDic <span class="keyword">as</span> CFDictionary?);</span><br><span class="line">   &#125;<span class="comment">// 依次为gif图像对象添加每一帧元素</span></span><br><span class="line">   </span><br><span class="line">   <span class="keyword">let</span> gifPropertiesDic:NSMutableDictionary = NSMutableDictionary()</span><br><span class="line">   gifPropertiesDic.setValue(kCGImagePropertyColorModelRGB, <span class="attr">forKey</span>: kCGImagePropertyColorModel <span class="keyword">as</span> <span class="built_in">String</span>)<span class="comment">// 设置图像的彩色空间格式</span></span><br><span class="line">   gifPropertiesDic.setValue(<span class="number">16</span>, <span class="attr">forKey</span>: kCGImagePropertyDepth <span class="keyword">as</span> <span class="built_in">String</span>)<span class="comment">// 设置图像的颜色深度</span></span><br><span class="line">   gifPropertiesDic.setValue(<span class="number">1</span>, <span class="attr">forKey</span>: kCGImagePropertyGIFLoopCount <span class="keyword">as</span> <span class="built_in">String</span>)<span class="comment">// 设置Gif执行次数</span></span><br><span class="line">   <span class="keyword">let</span> gifDictionaryDestDic = [kCGImagePropertyGIFDictionary <span class="keyword">as</span> <span class="built_in">String</span>:gifPropertiesDic]</span><br><span class="line">   CGImageDestinationSetProperties(destion!,gifDictionaryDestDic <span class="keyword">as</span> CFDictionary?);<span class="comment">//为gif图像设置属性</span></span><br><span class="line">   CGImageDestinationFinalize(destion!);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><code>CGImageDestinationCreateWithURL()</code></strong><br>方法的作用是创建一个图片的目标对象，这里方便理解可以把图片目标对象比喻为一个集合体，<br>集合体中描述了当前图片目标对象的一系列参数，如图片的URL地址、图片类型、图片帧数、配置参数等。</p>
+<p>本示例中，将plane.gif的本地文件路径作为参数1传递给这个图片目标对象，参数2描述了图片类型为GIF图片（需要引入框架 <code>import MobileCoreServices</code>），参数3表明当前GIF图片构成的帧数，参数4暂时给空值。<br><img src="https://upload-images.jianshu.io/upload_images/1276164-cb52527b9e6f16c9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="CGImageDestination.png"></p>
+<p>最终合成的<code>.gif</code>图片可根据打印出的路径去查看。</p>
+<h3 id="3-iOS系统上展示GIF动画效果"><a href="#3-iOS系统上展示GIF动画效果" class="headerlink" title="(3)iOS系统上展示GIF动画效果"></a>(3)iOS系统上展示GIF动画效果</h3><p>iOS原生不支持直接显示GIF图片，故：<br>(1)先分解GIF图片为单帧图片<br>(2)再展示多帧图片</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">func zhanShiGIF() &#123;</span><br><span class="line">   <span class="comment">/*</span></span><br><span class="line"><span class="comment">    iOS原生不支持直接显示GIF图片，故：</span></span><br><span class="line"><span class="comment">    (1)先分解GIF图片为单帧图片</span></span><br><span class="line"><span class="comment">    (2)再展示多帧图片</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   </span><br><span class="line">   <span class="selector-tag">var</span> images:[UIImage] = []</span><br><span class="line">   <span class="keyword">for</span> <span class="selector-tag">i</span> <span class="keyword">in</span> <span class="number">0</span>...<span class="number">66</span> &#123;</span><br><span class="line">       let imagePath = <span class="string">"\(i).png"</span></span><br><span class="line">       let image:UIImage = UIImage(named: imagePath)!</span><br><span class="line">       images.append(image)</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">   let imageView = UIImageView(frame: self<span class="selector-class">.view</span><span class="selector-class">.bounds</span>)</span><br><span class="line">   imageView<span class="selector-class">.contentMode</span> = UIView<span class="selector-class">.ContentMode</span><span class="selector-class">.center</span></span><br><span class="line">   self<span class="selector-class">.view</span><span class="selector-class">.addSubview</span>(imageView)</span><br><span class="line">   imageView<span class="selector-class">.animationImages</span> = images</span><br><span class="line">   imageView<span class="selector-class">.animationDuration</span> = <span class="number">5</span></span><br><span class="line">   imageView<span class="selector-class">.animationRepeatCount</span> = <span class="number">1</span></span><br><span class="line">   imageView.startAnimating()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>如果您有兴趣的话<br>上一节<a href="https://www.jianshu.com/p/bc6e3e175a37" target="_blank" rel="noopener">《iOS动画》读书笔记·前序</a><br>下一节<a href="https://www.jianshu.com/p/3b469f7ba311" target="_blank" rel="noopener">《iOS动画》读书笔记·内容层动画</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+        
+        <div>
+
+<div style="text-align:center;color: #ccc;font-size:14px;">~~~~~~~~~~~~~本文结束<i class="fa fa-heart"></i>感谢您的阅读~~~~~~~~~~~~~</div>
+
+</div>
+
+        
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS动画/" rel="tag"># iOS动画</a>
+          
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/14/《iOS动画》读书笔记·前序/" rel="next" title="《iOS动画》读书笔记·前序">
+                <i class="fa fa-chevron-left"></i> 《iOS动画》读书笔记·前序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/16/《iOS动画》读书笔记·前序的副本 2/" rel="prev" title="《iOS动画》读书笔记·内容层动画">
+                《iOS动画》读书笔记·内容层动画 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="ぱゐずだιονε゜" />
+            
+              <p class="site-author-name" itemprop="name">ぱゐずだιονε゜</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UIView常用动画合集图解"><span class="nav-text">UIView常用动画合集图解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UIView动画效果经常涉及的属性"><span class="nav-text">UIView动画效果经常涉及的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动画设置：闭包形式"><span class="nav-text">动画设置：闭包形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动画设置：方法形式"><span class="nav-text">动画设置：方法形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动画属性设置加速、减速效果"><span class="nav-text">动画属性设置加速、减速效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动画回调方法"><span class="nav-text">动画回调方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#delegate-回调方法"><span class="nav-text">delegate 回调方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#setAnimationDidStop自定义回调方法"><span class="nav-text">setAnimationDidStop自定义回调方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初级动画合集-实战"><span class="nav-text">初级动画合集 - 实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#位置动画"><span class="nav-text">位置动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#几何形状动画"><span class="nav-text">几何形状动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位置-形状动画"><span class="nav-text">位置 + 形状动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#淡入淡出动画"><span class="nav-text">淡入淡出动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#颜色渐变动画"><span class="nav-text">颜色渐变动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缩放动画"><span class="nav-text">缩放动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#旋转动画"><span class="nav-text">旋转动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位移动画"><span class="nav-text">位移动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组合动画"><span class="nav-text">组合动画</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键帧动画"><span class="nav-text">关键帧动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关键方法"><span class="nav-text">关键方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现实例：小飞机降落"><span class="nav-text">实现实例：小飞机降落</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的效果有下面几类："><span class="nav-text">常见的效果有下面几类：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加关键帧方法：addKeyframe"><span class="nav-text">添加关键帧方法：addKeyframe()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逐帧动画"><span class="nav-text">逐帧动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于NSTimer的逐帧动画效果"><span class="nav-text">基于NSTimer的逐帧动画效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于CADisplayLink的逐帧动画效果"><span class="nav-text">基于CADisplayLink的逐帧动画效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于draw方法的逐帧动画效果"><span class="nav-text">基于draw方法的逐帧动画效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIF动画效果"><span class="nav-text">GIF动画效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-GIF图片分解为单帧图片"><span class="nav-text">(1)GIF图片分解为单帧图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-一系列单帧图片合成GIF图片"><span class="nav-text">(2)一系列单帧图片合成GIF图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-iOS系统上展示GIF动画效果"><span class="nav-text">(3)iOS系统上展示GIF动画效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-text">最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ぱゐずだιονε゜</span>
+
+  
+</div>
+
+
+<!--
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+-->
+
+
+
+  <!-- <span class="post-meta-divider">|</span> -->
+
+
+
+  <!-- <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v</div> -->
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("NQ57m47YrUBAiPJIKI96sQk5-gzGzoHsz", "MnPaSxKcnEkivma8DHk2UGmd");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>;
+<script>
+$("body").backstretch("https://背景图.jpg");
+</script>
+
+</body>
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>

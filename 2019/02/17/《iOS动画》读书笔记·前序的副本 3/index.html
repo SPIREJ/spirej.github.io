@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS动画,读书笔记," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="等风来，等花开❀~" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="keywords" content="iOS动画,读书笔记">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《iOS动画》读书笔记·转场动画">
+<meta property="og:url" content="http://yoursite.com/2019/02/17/《iOS动画》读书笔记·前序的副本 3/index.html">
+<meta property="og:site_name" content="等风来，等花开❀~">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-9b7a71161b7e8517.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-2c01456bd011ab37.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-5431ce29400ce9b0.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-953751a8fa977906.gif?imageMogr2/auto-orient/strip">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1276164-9bc0fb24775488b7.gif?imageMogr2/auto-orient/strip">
+<meta property="og:updated_time" content="2019-03-25T03:28:45.053Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《iOS动画》读书笔记·转场动画">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1276164-9b7a71161b7e8517.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/17/《iOS动画》读书笔记·前序的副本 3/"/>
+
+
+
+
+
+  <title>《iOS动画》读书笔记·转场动画 | 等风来，等花开❀~</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">等风来，等花开❀~</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/17/《iOS动画》读书笔记·前序的副本 3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ぱゐずだιονε゜">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="等风来，等花开❀~">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《iOS动画》读书笔记·转场动画</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-17T22:46:40+08:00">
+                2019-02-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/iOS技术开发/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS技术开发</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/02/17/《iOS动画》读书笔记·前序的副本 3/" class="leancloud_visitors" data-flag-title="《iOS动画》读书笔记·转场动画">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,232 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5 min
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://upload-images.jianshu.io/upload_images/1276164-9b7a71161b7e8517.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="《iOS动画》读书笔记·转场动画.jpg"></p>
+<a id="more"></a>
+<p><a href="https://www.jianshu.com/p/bc6e3e175a37" target="_blank" rel="noopener">《iOS动画》读书笔记·前序</a><br><a href="https://www.jianshu.com/p/4e95c596dfa9" target="_blank" rel="noopener">《iOS动画》读书笔记·显示层动画</a><br><a href="https://www.jianshu.com/p/3b469f7ba311" target="_blank" rel="noopener">《iOS动画》读书笔记·内容层动画</a><br><a href="https://www.jianshu.com/p/0c5be91642cd" target="_blank" rel="noopener">《iOS动画》读书笔记·转场动画</a></p>
+<h2 id="转场动画"><a href="#转场动画" class="headerlink" title="转场动画"></a>转场动画</h2><p>转场动画主要用于不同视图场景之间的切换。</p>
+<h2 id="CoreAnimation-CATransition转场动画"><a href="#CoreAnimation-CATransition转场动画" class="headerlink" title="CoreAnimation:CATransition转场动画"></a>CoreAnimation:CATransition转场动画</h2><h3 id="CATransition理论初识"><a href="#CATransition理论初识" class="headerlink" title="CATransition理论初识"></a>CATransition理论初识</h3><p><code>CATransition</code>同<code>CoreAnimation</code>核心动画中<code>CABasicAnimation</code>等相关类的使用方法类似。主要分为以下三个步骤：<br>(1) 实例化<code>CATransition</code>，并设置相应的转场动画<code>key</code><br>(2) 设置合适的转场动画属性，如动画周期、过度方向、动画保持状态等<br>(3) 将动画效果添加到相应的视图的<code>Layer</code>图层中</p>
+<p>在第一步设置动画效果时需<strong>注意</strong>，iOS提供了大量的酷炫动画效果。不过总体上来说可以分为公有API和私有API，私有APP制作的APP有被拒的风险，所以在使用时需要尤为注意。</p>
+<p><strong>公有API:</strong></p>
+<ul>
+<li><code>fade</code>   淡入淡出效果，可用 <code>CATransitionType.fade</code> 表示</li>
+<li><code>push</code>   推送效果，可用 <code>CATransitionType.push</code> 表示</li>
+<li><code>reveal</code> 揭开效果，可用 <code>CATransitionType.reveal</code> 表示</li>
+<li><code>movein</code> 移动效果，可用 <code>CATransitionType.movein</code> 表示</li>
+</ul>
+<p><strong>私有API:</strong></p>
+<ul>
+<li><code>pageCurl</code>                   向上翻一页</li>
+<li><code>pageUnCurl</code>                 向下翻一页</li>
+<li><code>rippleEffect</code>               滴水效果</li>
+<li><code>suckEffect</code>                 收缩效果，如一块布被抽走</li>
+<li><code>cube</code>                       立方体效果</li>
+<li><code>oglFlip</code>                    上下翻转效果</li>
+<li><code>cameraIrisHollowOpen</code>       相机打开</li>
+<li><code>cameraIrisHollowClose</code>      相机关闭</li>
+</ul>
+<h3 id="动画效果简单示例"><a href="#动画效果简单示例" class="headerlink" title="动画效果简单示例"></a>动画效果简单示例</h3><p><strong>1、先来看一下示例的动画效果</strong><br><img src="https://upload-images.jianshu.io/upload_images/1276164-2c01456bd011ab37.gif?imageMogr2/auto-orient/strip" alt="转场动画示例.gif"></p>
+<p><strong>2、代码实现部分</strong><br>具体代码点击这里👉<a href="https://github.com/SPIREJ/AnimationTransitionSwift" target="_blank" rel="noopener">https://github.com/SPIREJ/AnimationTransitionSwift</a><br>注：相应的button是在storyboard里面画的</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> UIKit</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> kScreenW = <span class="type">UIScreen</span>.main.bounds.size.width</span><br><span class="line"><span class="keyword">let</span> kScreenH = <span class="type">UIScreen</span>.main.bounds.size.height</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> imageView:<span class="type">UIImageView</span>?</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> str:<span class="type">String</span> = <span class="string">"aaa.jpg"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        </span><br><span class="line">        imageView = <span class="type">UIImageView</span>(frame: <span class="type">CGRect</span>(x: <span class="number">20</span>, y: <span class="number">0</span>, width: kScreenW-<span class="number">40</span>, height: <span class="number">200</span>))</span><br><span class="line">        imageView?.center = <span class="keyword">self</span>.view.center</span><br><span class="line">        imageView?.image = <span class="type">UIImage</span>(named: <span class="string">"aaa.jpg"</span>)</span><br><span class="line">        <span class="keyword">self</span>.view.addSubview(imageView!)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 淡入淡出效果，可用 CATransitionType.fade 表示</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_fade</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"fade"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 推送效果，可用 CATransitionType.push 表示</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_push</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"push"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 揭开效果，可用 CATransitionType.reveal 表示</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_reveal</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"reveal"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 移动效果，可用 CATransitionType.movein 表示</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_movein</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"movein"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 向上翻页效果</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_pageCurl</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"pageCurl"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 向下翻页效果</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_pageUnCurl</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"pageUnCurl"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 立方体翻转效果</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_cube</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"cube"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 翻转效果</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_oglFlip</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"oglFlip"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 收缩效果</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_suckEffect</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"suckEffect"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 水滴波纹效果</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_rippleEffect</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"rippleEffect"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相机打开效果</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_cameraIrisHollowOpen</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"cameraIrisHollowOpen"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 相机关闭效果</span></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">animation_cameraIrisHollowClose</span><span class="params">(<span class="number">_</span> sender: UIButton)</span></span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.animationType(<span class="string">"cameraIrisHollowClose"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">animationType</span><span class="params">(<span class="number">_</span> animationType:String)</span></span> &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> str == <span class="string">"aaa.jpg"</span> &#123;</span><br><span class="line">            str = <span class="string">"bbb.jpg"</span></span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            str = <span class="string">"aaa.jpg"</span></span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        imageView?.image = <span class="type">UIImage</span>(named: str)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> animation:<span class="type">CATransition</span> = <span class="type">CATransition</span>.<span class="keyword">init</span>()</span><br><span class="line">        animation.duration = <span class="number">1</span></span><br><span class="line">        animation.type = <span class="type">CATransitionType</span>(rawValue: animationType)</span><br><span class="line">        imageView?.layer.add(animation, forKey: <span class="literal">nil</span>)</span><br><span class="line">        </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>可以把动画添加到不同的<code>UIView</code>上，将看到不一样的效果。比如这里把动画添加到控制器view上：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self<span class="selector-class">.view</span><span class="selector-class">.layer</span><span class="selector-class">.add</span>(<span class="attribute">animation</span>, forKey: nil)</span><br></pre></td></tr></table></figure>
+<p>看到如下面的效果：<br><img src="https://upload-images.jianshu.io/upload_images/1276164-5431ce29400ce9b0.gif?imageMogr2/auto-orient/strip" alt="加载到不同视图上的效果.gif"></p>
+<h2 id="视图过渡动画"><a href="#视图过渡动画" class="headerlink" title="视图过渡动画"></a>视图过渡动画</h2><p>在使用视图控制器的时候，除了<code>Push</code>和<code>Pop</code>两种操作外，iOS还提供了一套视图控制器过渡动画API，可以允许用户自定义视图过渡动画。</p>
+<p>要想自定义视图控制器的过渡动画，首先需要了解以下两个协议：<br>（1）<code>UINavigationControllerDelegate</code><br>（2）<code>UIViewControllerAnimatedTransitioning</code></p>
+<p><code>UINavigationControllerDelegate</code>是视图控制器使用的委托代理协议，该协议可以代理视图的以下功能：<br>（1）拦截导航栏视图控制器<br>（2）拦截视图控制器<code>目标viewController</code>和<code>源viewController</code></p>
+<p>在过渡动画中使用第二个功能，即拦截视图控制器<code>目标viewController</code>和<code>源viewController</code>。该功能的回调方法如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">navigationController</span><span class="params">(<span class="number">_</span> navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController)</span></span> -&gt; <span class="type">UIViewControllerAnimatedTransitioning</span>?</span><br></pre></td></tr></table></figure>
+<p><code>fromVC</code> : 表明该视图控制器在跳转过程中来自哪个视图控制器<br><code>toVC</code> : 表明该视图控制器在跳转过程中最终跳转到何处去</p>
+<p>实际上以上的所有操作都借助于<code>UIViewControllerAnimatedTransitioning</code>协议，将所有动画效果最终封装成一个对象返回给试图控制，它有两个非常重要的回调方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回动画执行周期</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">transitionDuration</span><span class="params">(using transitionContext: UIViewControllerContextTransitioning?)</span></span> -&gt; <span class="type">TimeInterval</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 构建转场动画内容，该方法可以通过transitionContext获取当前的fromVC和toVC，拿到这两个视图控制器后就可以设置当前视图控制器的各种动画效果</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">animateTransition</span><span class="params">(using transitionContext: UIViewControllerContextTransitioning)</span></span></span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/1276164-953751a8fa977906.gif?imageMogr2/auto-orient/strip" alt="视图过渡动画pop.gif"></p>
+<p>具体可以看代码<a href="https://github.com/SPIREJ/AnimationTransitionSwift" target="_blank" rel="noopener">https://github.com/SPIREJ/AnimationTransitionSwift</a></p>
+<p>###视图过渡动画之侧滑</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1276164-9bc0fb24775488b7.gif?imageMogr2/auto-orient/strip" alt="视图过渡动画侧滑.gif"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <div>
+        
+        <div>
+
+<div style="text-align:center;color: #ccc;font-size:14px;">~~~~~~~~~~~~~本文结束<i class="fa fa-heart"></i>感谢您的阅读~~~~~~~~~~~~~</div>
+
+</div>
+
+        
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS动画/" rel="tag"># iOS动画</a>
+          
+            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/16/《iOS动画》读书笔记·前序的副本 2/" rel="next" title="《iOS动画》读书笔记·内容层动画">
+                <i class="fa fa-chevron-left"></i> 《iOS动画》读书笔记·内容层动画
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="ぱゐずだιονε゜" />
+            
+              <p class="site-author-name" itemprop="name">ぱゐずだιονε゜</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#转场动画"><span class="nav-text">转场动画</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CoreAnimation-CATransition转场动画"><span class="nav-text">CoreAnimation:CATransition转场动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CATransition理论初识"><span class="nav-text">CATransition理论初识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动画效果简单示例"><span class="nav-text">动画效果简单示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图过渡动画"><span class="nav-text">视图过渡动画</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="heart">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ぱゐずだιονε゜</span>
+
+  
+</div>
+
+
+<!--
+<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+-->
+
+
+
+  <!-- <span class="post-meta-divider">|</span> -->
+
+
+
+  <!-- <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v</div> -->
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v="></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v="></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v="></script>
+<script type="text/javascript" src="/js/src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("NQ57m47YrUBAiPJIKI96sQk5-gzGzoHsz", "MnPaSxKcnEkivma8DHk2UGmd");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>;
+<script>
+$("body").backstretch("https://背景图.jpg");
+</script>
+
+</body>
+</html>
+
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
