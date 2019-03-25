@@ -88,20 +88,20 @@
 
 
 
-<meta name="description" content="weakweak不论是用作property修饰符还是用来修饰一个变量的声明其作用是一样的，就是不增加新对象的引用计数，被释放时也不会减少新对象的引用计数，同时在新对象被销毁时，weak修饰的属性或变量均会被设置为nil，这样可以防止野指针错误，本文要讲解的也正是这个特性，runtime如何将weak修饰的变量的对象在销毁时自动置为nil的。 weak实现原理的概括runtime维护了一个weak">
+<meta name="description" content="weakweak不论是用作property修饰符还是用来修饰一个变量的声明其作用是一样的，就是不增加新对象的引用计数，被释放时也不会减少新对象的引用计数，同时在新对象被销毁时，weak修饰的属性或变量均会被设置为nil，这样可以防止野指针错误，本文要讲解的也正是这个特性，runtime如何将weak修饰的变量的对象在销毁时自动置为nil的。">
 <meta name="keywords" content="iOS,runtime">
 <meta property="og:type" content="article">
 <meta property="og:title" content="runtime系列之（5）关于weak的思考">
 <meta property="og:url" content="http://yoursite.com/2018/06/10/runtime系列之（5）关于weak的思考/index.html">
 <meta property="og:site_name" content="等风来，等花开❀~">
-<meta property="og:description" content="weakweak不论是用作property修饰符还是用来修饰一个变量的声明其作用是一样的，就是不增加新对象的引用计数，被释放时也不会减少新对象的引用计数，同时在新对象被销毁时，weak修饰的属性或变量均会被设置为nil，这样可以防止野指针错误，本文要讲解的也正是这个特性，runtime如何将weak修饰的变量的对象在销毁时自动置为nil的。 weak实现原理的概括runtime维护了一个weak">
+<meta property="og:description" content="weakweak不论是用作property修饰符还是用来修饰一个变量的声明其作用是一样的，就是不增加新对象的引用计数，被释放时也不会减少新对象的引用计数，同时在新对象被销毁时，weak修饰的属性或变量均会被设置为nil，这样可以防止野指针错误，本文要讲解的也正是这个特性，runtime如何将weak修饰的变量的对象在销毁时自动置为nil的。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/r_weak02.png">
 <meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/r_weak01.png">
-<meta property="og:updated_time" content="2019-03-25T06:53:22.125Z">
+<meta property="og:updated_time" content="2019-03-25T07:03:39.635Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="runtime系列之（5）关于weak的思考">
-<meta name="twitter:description" content="weakweak不论是用作property修饰符还是用来修饰一个变量的声明其作用是一样的，就是不增加新对象的引用计数，被释放时也不会减少新对象的引用计数，同时在新对象被销毁时，weak修饰的属性或变量均会被设置为nil，这样可以防止野指针错误，本文要讲解的也正是这个特性，runtime如何将weak修饰的变量的对象在销毁时自动置为nil的。 weak实现原理的概括runtime维护了一个weak">
+<meta name="twitter:description" content="weakweak不论是用作property修饰符还是用来修饰一个变量的声明其作用是一样的，就是不增加新对象的引用计数，被释放时也不会减少新对象的引用计数，同时在新对象被销毁时，weak修饰的属性或变量均会被设置为nil，这样可以防止野指针错误，本文要讲解的也正是这个特性，runtime如何将weak修饰的变量的对象在销毁时自动置为nil的。">
 <meta name="twitter:image" content="http://p9u62mso1.bkt.clouddn.com/r_weak02.png">
 
 
@@ -406,8 +406,8 @@
       
 
       
-        <a id="more"></a>
-<h2 id="weak"><a href="#weak" class="headerlink" title="weak"></a>weak</h2><p>weak不论是用作property修饰符还是用来修饰一个变量的声明其作用是一样的，就是不增加新对象的引用计数，被释放时也不会减少新对象的引用计数，同时在新对象被销毁时，weak修饰的属性或变量均会被设置为nil，这样可以防止野指针错误，本文要讲解的也正是这个特性，runtime如何将weak修饰的变量的对象在销毁时自动置为nil的。</p>
+        <h2 id="weak"><a href="#weak" class="headerlink" title="weak"></a>weak</h2><p>weak不论是用作property修饰符还是用来修饰一个变量的声明其作用是一样的，就是不增加新对象的引用计数，被释放时也不会减少新对象的引用计数，同时在新对象被销毁时，weak修饰的属性或变量均会被设置为nil，这样可以防止野指针错误，本文要讲解的也正是这个特性，runtime如何将weak修饰的变量的对象在销毁时自动置为nil的。</p>
+<a id="more"></a>
 <h2 id="weak实现原理的概括"><a href="#weak实现原理的概括" class="headerlink" title="weak实现原理的概括"></a>weak实现原理的概括</h2><p>runtime维护了一个weak表，用于存储指向某个对象的所有weak指针。weak表其实是一个hash表，key是所指对象的地址，value是weak指针的地址（这个地址的值是所指对象的地址）数组。</p>
 <p><strong>weak的实现原理可以概括为以下3步：</strong></p>
 <p>1、初始化时：runtime会调用objc_initWeak函数，初始化一个新的weak指针指向对象的地址。</p>
