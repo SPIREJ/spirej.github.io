@@ -96,13 +96,13 @@
 <meta property="og:site_name" content="等风来，等花开❀~">
 <meta property="og:description" content="您将了解到了runtime是如何通过objc_msgSend在运行时把方法和方法实现进行动态绑定的；也将了解到runtime下动态方法解析和消息转发的机制是怎样的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/r_runtimeMsg.gif">
-<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/s_msgSend.png">
-<meta property="og:updated_time" content="2019-03-25T06:53:04.712Z">
+<meta property="og:image" content="http://spirej.zzming.cn/r_runtimeMsg.gif">
+<meta property="og:image" content="http://spirej.zzming.cn/s_msgSend.png">
+<meta property="og:updated_time" content="2019-04-26T03:14:21.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="runtime系列之（3）深入理解OC的消息和消息转发机制">
 <meta name="twitter:description" content="您将了解到了runtime是如何通过objc_msgSend在运行时把方法和方法实现进行动态绑定的；也将了解到runtime下动态方法解析和消息转发的机制是怎样的。">
-<meta name="twitter:image" content="http://p9u62mso1.bkt.clouddn.com/r_runtimeMsg.gif">
+<meta name="twitter:image" content="http://spirej.zzming.cn/r_runtimeMsg.gif">
 
 
 
@@ -423,7 +423,7 @@
 <blockquote>
 <p>注意：objc_msgSend方法看起来好像返回了数据，其实objc_msgSend从不返回数据，而是你的方法在运行时方法实现被调用后才会返回数据。下面详细叙述消息发送的步骤（如下图）:</p>
 </blockquote>
-<p>消息框架：<br><img src="http://p9u62mso1.bkt.clouddn.com/r_runtimeMsg.gif" alt="消息框架"></p>
+<p>消息框架：<br><img src="http://spirej.zzming.cn/r_runtimeMsg.gif" alt="消息框架"></p>
 <p>这样就能解释<code>objc_msgSend</code>工作原理了，当对象收到消息时，为了匹配消息的接收者和选择子:</p>
 <ol>
 <li>消息函数首先根据对象的<code>isa</code>指针找到该对象所对应的类的方法列表<code>objc_method_list</code>，并从方法列表中寻找该消息对应的方法选标。如果能找到就可以直接跳转到相关的具体实现中去调用。</li>
@@ -447,7 +447,7 @@
 <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这句话并不能获取父类的类型，只能获取当前类的类型名</span></span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, <span class="built_in">NSStringFromClass</span>([<span class="keyword">super</span> <span class="keyword">class</span>]));</span><br></pre></td></tr></table></figure>
 <h2 id="消息转发"><a href="#消息转发" class="headerlink" title="消息转发"></a>消息转发</h2><p><strong>消息转发机制基本分为三个步骤：</strong><br>1、动态方法解析<br>2、备用接收者<br>3、完整转发</p>
 <p>整个消息转发流程如下图所示：</p>
-<p><img src="http://p9u62mso1.bkt.clouddn.com/s_msgSend.png" alt=""></p>
+<p><img src="http://spirej.zzming.cn/s_msgSend.png" alt=""></p>
 <h3 id="1、所属类动态方法解析"><a href="#1、所属类动态方法解析" class="headerlink" title="1、所属类动态方法解析"></a>1、所属类动态方法解析</h3><p>首先，如果沿着继承树没有搜索到相关方法则会向接受者所属的类进行一次请求，调用所属类的类方法 <code>+resolveInstanceMethod:(实例方法)</code> 或者 <code>+resolveClassMethod:(类方法)</code>。在这个方法中，我们有机会为该未知消息新增一个”处理方法“。不过使用该方法的前提是我们已经实现了该”处理方法”，只需要在运行时通过<code>class_addMethod</code>函数动态添加到类里面就可以了。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ (<span class="selector-tag">BOOL</span>)<span class="selector-tag">resolveInstanceMethod</span><span class="selector-pseudo">:(SEL)sel</span>;</span><br><span class="line">+ (<span class="selector-tag">BOOL</span>)<span class="selector-tag">resolveClassMethod</span><span class="selector-pseudo">:(SEL)sel</span>;</span><br></pre></td></tr></table></figure>
 <p>举个例子：</p>

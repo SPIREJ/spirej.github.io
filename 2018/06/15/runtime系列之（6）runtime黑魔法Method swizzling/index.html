@@ -96,13 +96,13 @@
 <meta property="og:site_name" content="等风来，等花开❀~">
 <meta property="og:description" content="您将了解到：  Method swizzling原理 Method swizzling应用 Method swizzling类簇">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/r_method%20swizzling01.png">
-<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/r_method%20swizzling02.png">
-<meta property="og:updated_time" content="2019-03-25T06:53:29.433Z">
+<meta property="og:image" content="http://spirej.zzming.cn/r_method%20swizzling01.png">
+<meta property="og:image" content="http://spirej.zzming.cn/r_method%20swizzling02.png">
+<meta property="og:updated_time" content="2019-04-26T03:11:29.017Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="runtime系列之（6）runtime黑魔法Method swizzling">
 <meta name="twitter:description" content="您将了解到：  Method swizzling原理 Method swizzling应用 Method swizzling类簇">
-<meta name="twitter:image" content="http://p9u62mso1.bkt.clouddn.com/r_method%20swizzling01.png">
+<meta name="twitter:image" content="http://spirej.zzming.cn/r_method%20swizzling01.png">
 
 
 
@@ -422,7 +422,7 @@
 <p><strong>Method swizzling</strong><br>可以使用苹果的“黑魔法”<code>Method swizzling</code>。<code>Method swizzling</code>本质上就是对<code>IMP</code>和<code>SEL</code>进行交换。</p>
 <h2 id="Method-swizzling原理"><a href="#Method-swizzling原理" class="headerlink" title="Method swizzling原理"></a>Method swizzling原理</h2><p>在Objective-C中调用一个方法，其实是向一个对象发送消息，查找消息的唯一依据是<code>selector</code>的名字。利用Objective-C的动态特性，可以实现在运行时偷换<code>selector</code>对应的方法实现。如何实现，就是接下来要说的Objective-C的运行时最具争议的黑魔法：<code>method swizzling</code>。</p>
 <p><code>Method swizzling</code>用于改变一个已经存在的<code>selector</code>的实现。这项技术使得在运行时通过改变<code>selector</code>在类的消息分发列表中的映射从而改变方法的调用成为可能。</p>
-<p>通过两张图片来了解一下<code>Method swizzling</code>的实现原理：<br><img src="http://p9u62mso1.bkt.clouddn.com/r_method%20swizzling01.png" alt="交换前"><br><img src="http://p9u62mso1.bkt.clouddn.com/r_method%20swizzling02.png" alt="交换后"></p>
+<p>通过两张图片来了解一下<code>Method swizzling</code>的实现原理：<br><img src="http://spirej.zzming.cn/r_method%20swizzling01.png" alt="交换前"><br><img src="http://spirej.zzming.cn/r_method%20swizzling02.png" alt="交换后"></p>
 <p><code>method swizzling</code>没有作用前，图一中的<code>selector</code>原本对应着<code>IPM2</code>，但是为了实现特定也无需求，我们在图二中添加了<code>selector2</code>和<code>IMP3</code>，并且让<code>selector2</code>指向了<code>IMP3</code>，而<code>selector3</code>则指向了<code>IMP2</code>，这样就实现了“方法互换”。</p>
 <p>在OC语言的runtime特性中，调用一个对象的方法就是给这个对象发送消息。是通过查找接收消息对象的方法列表，从方法列表中查找对应的<code>SEL</code>，这个<code>SEL</code>对应着一个<code>IMP</code>(一个IMP可以对应多个SEL)，通过这个<code>IMP</code>找到对应的方法调用。</p>
 <p>在每个类中都有一个<code>Dispatch Table</code>，这个<code>Dispatch Table</code>本质是将类中的<code>SEL</code>和<code>IMP</code>(可以理解为函数指针)进行对应。而我们的<code>Method Swizzling</code>就是对这个table进行了操作，让<code>SEL</code>对应另一个<code>IMP</code>。</p>

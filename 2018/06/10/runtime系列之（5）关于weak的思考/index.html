@@ -96,13 +96,13 @@
 <meta property="og:site_name" content="等风来，等花开❀~">
 <meta property="og:description" content="weakweak不论是用作property修饰符还是用来修饰一个变量的声明其作用是一样的，就是不增加新对象的引用计数，被释放时也不会减少新对象的引用计数，同时在新对象被销毁时，weak修饰的属性或变量均会被设置为nil，这样可以防止野指针错误，本文要讲解的也正是这个特性，runtime如何将weak修饰的变量的对象在销毁时自动置为nil的。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/r_weak02.png">
-<meta property="og:image" content="http://p9u62mso1.bkt.clouddn.com/r_weak01.png">
-<meta property="og:updated_time" content="2019-03-25T07:03:39.635Z">
+<meta property="og:image" content="http://spirej.zzming.cn/r_weak02.png">
+<meta property="og:image" content="http://spirej.zzming.cn/r_weak01.png">
+<meta property="og:updated_time" content="2019-04-26T03:12:20.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="runtime系列之（5）关于weak的思考">
 <meta name="twitter:description" content="weakweak不论是用作property修饰符还是用来修饰一个变量的声明其作用是一样的，就是不增加新对象的引用计数，被释放时也不会减少新对象的引用计数，同时在新对象被销毁时，weak修饰的属性或变量均会被设置为nil，这样可以防止野指针错误，本文要讲解的也正是这个特性，runtime如何将weak修饰的变量的对象在销毁时自动置为nil的。">
-<meta name="twitter:image" content="http://p9u62mso1.bkt.clouddn.com/r_weak02.png">
+<meta name="twitter:image" content="http://spirej.zzming.cn/r_weak02.png">
 
 
 
@@ -447,14 +447,14 @@
 <p>max_hash_displacement：hash 元素上限阀值。</p>
 <p>其实 out_of_line 的值通常情况下是等于零的，所以弱引用表总是一个 objc_objective 指针二维数组。一维 objc_objective 指针可构成一张弱引用散列表，通过第三纬度实现了多张散列表，并且表数量为 WEAK_INLINE_COUNT 。</p>
 <p>总结一下 StripedMap[] ： StripedMap 是一个模板类，在这个类中有一个 array 成员，用来存储 PaddedT 对象，并且其中对于 [] 符的重载定义中，会返回这个 PaddedT 的 value 成员，这个 value 就是我们传入的 T 泛型成员，也就是 SideTable 对象。在 array 的下标中，这里使用了 indexForPointer 方法通过位运算计算下标，实现了静态的 Hash Table。而在 weak_table 中，其成员 weak_entry 会将传入对象的地址加以封装起来，并且其中也有访问全局弱引用表的入口。</p>
-<p><img src="http://p9u62mso1.bkt.clouddn.com/r_weak02.png" alt=""></p>
+<p><img src="http://spirej.zzming.cn/r_weak02.png" alt=""></p>
 <p><strong><em>旧对象解除注册操作 weak_unregister_no_lock</em></strong></p>
 <p>该方法主要作用是将旧对象在 weak_table 中接触 weak 指针的对应绑定。根据函数名，称之为解除注册操作。从源码中，可以知道其功能就是从 weak_table 中接触 weak 指针的绑定。而其中的遍历查询，就是针对于 weak_entry 中的多张弱引用散列表。</p>
 <p><strong><em>新对象添加注册操作 weak_register_no_lock</em></strong></p>
 <p>这一步与上一步相反，通过 weak_register_no_lock 函数把心的对象进行注册操作，完成与对应的弱引用表进行绑定操作。</p>
 <p><strong><em>初始化弱引用对象流程一览</em></strong></p>
 <p>弱引用的初始化，从上文的分析中可以看出，主要的操作部分就在弱引用表的取键、查询散列、创建弱引用表等操作，可以总结出如下的流程图：</p>
-<p><img src="http://p9u62mso1.bkt.clouddn.com/r_weak01.png" alt=""></p>
+<p><img src="http://spirej.zzming.cn/r_weak01.png" alt=""></p>
 <p>这个图中省略了很多情况的判断，但是当声明一个 weak 会调用上图中的这些方法。当然， storeWeak 方法不仅仅用在 weak 的声明中，在 class 内部的操作中也会常常通过该方法来对 weak 对象进行操作。</p>
 <p><strong>3、释放时，调用clearDeallocating函数。clearDeallocating函数首先根据对象地址获取所有weak指针地址的数组，然后遍历这个数组把其中的数据设为nil，最后把这个entry从weak表中删除，最后清理对象的记录。</strong></p>
 <p><strong><em>当weak引用指向的对象被释放时，又是如何去处理weak指针的呢？当释放对象时，其基本流程如下：</em></strong></p>
